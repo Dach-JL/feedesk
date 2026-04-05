@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Class {
+  id        String     @id @default(cuid())
+  name      String
+  students  Student[]
+  feePlans  FeePlan[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Student {
+  id        String    @id @default(cuid())
+  name      String
+  email     String?
+  classId   String
+  class     Class     @relation(fields: [classId], references: [id])
+  payments  Payment[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model FeePlan {
+  id            String    @id @default(cuid())
+  name          String
+  amount        Float
+  dueDate       DateTime
+  classId       String?
+  class         Class?    @relation(fields: [classId], references: [id])
+  payments      Payment[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Payment {
+  id          String   @id @default(cuid())
+  amount      Float
+  paymentDate DateTime @default(now())
+  status      String   @default("COMPLETED") // PENDING, COMPLETED, FAILED
+  studentId   String
+  student     Student  @relation(fields: [studentId], references: [id])
+  feePlanId   String
+  feePlan     FeePlan  @relation(fields: [feePlanId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
