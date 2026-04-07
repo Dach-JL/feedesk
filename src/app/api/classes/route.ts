@@ -20,7 +20,7 @@ export async function GET() {
     });
     
     return NextResponse.json(classes);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Failed to fetch classes" }, { status: 500 });
   }
 }
@@ -44,7 +44,7 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json(newClass, { status: 201 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Failed to create class" }, { status: 500 });
   }
 }

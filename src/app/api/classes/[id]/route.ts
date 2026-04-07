@@ -23,7 +23,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     });
 
     return NextResponse.json(updatedClass);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Failed to update class" }, { status: 500 });
   }
 }
@@ -40,7 +40,7 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
     });
 
     return NextResponse.json({ message: "Class deleted successfully" });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Failed to delete class. It may have associated students or payments attached." }, { status: 500 });
   }
 }
