@@ -18,8 +18,14 @@ export default function Sidebar() {
         <Link href="/dashboard/students" className="flex items-center px-4 py-3 text-sm font-medium rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800/50 transition-colors">
           Students
         </Link>
+        <Link href="/dashboard/fee-plans" className="flex items-center px-4 py-3 text-sm font-medium rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800/50 transition-colors">
+          Fee Plans
+        </Link>
         <Link href="/dashboard/payments" className="flex items-center px-4 py-3 text-sm font-medium rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800/50 transition-colors">
           Payments
+        </Link>
+        <Link href="/dashboard/receipts" className="flex items-center px-4 py-3 text-sm font-medium rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800/50 transition-colors">
+          Receipts History
         </Link>
       </nav>
       <div className="p-4 border-t border-zinc-800/80">
