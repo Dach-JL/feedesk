@@ -19,7 +19,8 @@ model Class {
 model Student {
   id        String    @id @default(cuid())
   name      String
-  email     String?
+  email     String?   @unique
+  password  String?
   classId   String
   class     Class     @relation(fields: [classId], references: [id])
   payments  Payment[]
