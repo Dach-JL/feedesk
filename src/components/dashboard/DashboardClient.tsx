@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { DollarSign, Users, AlertCircle, ArrowUpRight, Loader2, CheckCircle2 } from "lucide-react";
+import { DollarSign, Users, AlertCircle, ArrowUpRight, Loader2, CheckCircle2, TrendingUp } from "lucide-react";
 import Link from "next/link";
 
 type UnpaidStudent = {
@@ -43,81 +43,123 @@ export default function DashboardClient() {
 
   const totalOutstanding = metrics.unpaidStudents.reduce((sum, s) => sum + s.outstandingDues, 0);
 
+  const cards = [
+    {
+      label: "Total Revenue",
+      value: `$${metrics.revenue.total.toFixed(2)}`,
+      icon: DollarSign,
+      badge: `+$${metrics.revenue.today.toFixed(2)} today`,
+      badgeColor: "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10",
+      accentColor: "from-indigo-500 to-blue-600",
+      iconBg: "bg-indigo-50 dark:bg-indigo-500/10",
+      iconColor: "text-indigo-600 dark:text-indigo-400",
+    },
+    {
+      label: "Enrolled Students",
+      value: metrics.counters.students.toString(),
+      icon: Users,
+      badge: `${metrics.counters.classes} classes`,
+      badgeColor: "text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-500/10",
+      accentColor: "from-purple-500 to-pink-600",
+      iconBg: "bg-purple-50 dark:bg-purple-500/10",
+      iconColor: "text-purple-600 dark:text-purple-400",
+    },
+    {
+      label: "Outstanding Debt",
+      value: `$${totalOutstanding.toFixed(2)}`,
+      icon: AlertCircle,
+      badge: `${metrics.unpaidStudents.length} unpaid`,
+      badgeColor: "text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-500/10",
+      accentColor: "from-rose-500 to-orange-600",
+      iconBg: "bg-rose-50 dark:bg-rose-500/10",
+      iconColor: "text-rose-600 dark:text-rose-400",
+    },
+  ];
+
   return (
-    <div className="space-y-8 fade-in animate-in slide-in-from-bottom-4 duration-500">
+    <div className="space-y-8 animate-slide-up">
       
-      {/* High-level metrics cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Revenue Card */}
-        <div className="bg-white dark:bg-zinc-900 rounded-3xl shadow-sm border border-zinc-200/50 dark:border-zinc-800 p-8 flex flex-col justify-center relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
-          <div className="text-zinc-500 dark:text-zinc-400 text-sm font-semibold mb-2 uppercase tracking-wider flex items-center"><DollarSign className="w-4 h-4 mr-1"/>Total Revenue</div>
-          <div className="text-4xl font-extrabold text-zinc-900 dark:text-white">${metrics.revenue.total.toFixed(2)}</div>
-          <div className="text-sm text-emerald-500 font-medium mt-3 flex items-center bg-emerald-500/10 w-fit px-2.5 py-1 rounded-full">
-            <ArrowUpRight className="w-4 h-4 mr-1" />
-            +${metrics.revenue.today.toFixed(2)} Today ({metrics.revenue.recentTransactions} log(s))
-          </div>
-        </div>
-
-        {/* Counter Card */}
-        <div className="bg-white dark:bg-zinc-900 rounded-3xl shadow-sm border border-zinc-200/50 dark:border-zinc-800 p-8 flex flex-col justify-center relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
-          <div className="text-zinc-500 dark:text-zinc-400 text-sm font-semibold mb-2 uppercase tracking-wider flex items-center"><Users className="w-4 h-4 mr-1"/>Active Directory</div>
-          <div className="text-4xl font-extrabold text-zinc-900 dark:text-white">{metrics.counters.students}</div>
-          <div className="text-sm text-zinc-500 dark:text-zinc-400 font-medium mt-3">
-            Enrolled across {metrics.counters.classes} official classes
-          </div>
-        </div>
-
-        {/* Risk Card */}
-        <div className="bg-white dark:bg-zinc-900 rounded-3xl shadow-sm border border-zinc-200/50 dark:border-zinc-800 p-8 flex flex-col justify-center relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-rose-500/10 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
-          <div className="text-zinc-500 dark:text-zinc-400 text-sm font-semibold mb-2 uppercase tracking-wider flex items-center"><AlertCircle className="w-4 h-4 mr-1"/>Unpaid Debt</div>
-          <div className="text-4xl font-extrabold text-rose-600 dark:text-rose-500">${totalOutstanding.toFixed(2)}</div>
-          <div className="text-sm text-rose-600 font-medium mt-3 flex items-center bg-rose-500/10 w-fit px-2.5 py-1 rounded-full">
-            <AlertCircle className="w-4 h-4 mr-1" />
-            {metrics.unpaidStudents.length} accounts missing payments
-          </div>
-        </div>
+      {/* Metric Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {cards.map((card) => {
+          const Icon = card.icon;
+          return (
+            <div
+              key={card.label}
+              className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 p-6 relative overflow-hidden group hover:shadow-md hover:border-zinc-300/60 dark:hover:border-zinc-700/60 transition-all duration-300"
+            >
+              {/* Subtle accent bar */}
+              <div className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${card.accentColor} opacity-60`} />
+              
+              <div className="flex items-start justify-between mb-4">
+                <div className={`w-10 h-10 rounded-xl ${card.iconBg} flex items-center justify-center`}>
+                  <Icon className={`w-5 h-5 ${card.iconColor}`} />
+                </div>
+                <div className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold ${card.badgeColor}`}>
+                  <TrendingUp className="w-3 h-3" />
+                  {card.badge}
+                </div>
+              </div>
+              
+              <div className="text-sm font-medium text-zinc-500 dark:text-zinc-400 mb-1">{card.label}</div>
+              <div className="text-3xl font-black tracking-tight text-zinc-900 dark:text-white">{card.value}</div>
+            </div>
+          );
+        })}
       </div>
 
       {/* Unpaid Action Report */}
-      <div className="mt-8 bg-white dark:bg-zinc-900 rounded-3xl shadow-sm border border-zinc-200/50 dark:border-zinc-800 p-8">
-        <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-bold text-zinc-900 dark:text-white flex items-center gap-2">
-            <AlertCircle className="text-rose-500 h-5 w-5" />
-            Action Required: Unpaid Students Report
-          </h3>
-          <Link href="/dashboard/payments" className="text-sm font-medium text-indigo-600 hover:text-indigo-800 dark:text-indigo-400">
-            Process Payments &rarr;
+      <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 overflow-hidden">
+        <div className="flex items-center justify-between p-6 border-b border-zinc-200/60 dark:border-zinc-800/60">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-rose-50 dark:bg-rose-500/10 flex items-center justify-center">
+              <AlertCircle className="w-[18px] h-[18px] text-rose-600 dark:text-rose-400" />
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-zinc-900 dark:text-white">Unpaid Students Report</h3>
+              <p className="text-xs text-zinc-500 mt-0.5">Accounts requiring immediate attention</p>
+            </div>
+          </div>
+          <Link 
+            href="/dashboard/payments" 
+            className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 rounded-lg hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-colors"
+          >
+            Process Payments
+            <ArrowUpRight className="w-3.5 h-3.5" />
           </Link>
         </div>
         
         {metrics.unpaidStudents.length === 0 ? (
-          <div className="text-center py-12 text-zinc-500 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-950/50 rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 flex flex-col items-center">
-            <CheckCircle2 className="h-10 w-10 text-emerald-500 mb-3 opacity-50" />
-            Great news! All students have cleared their active fee plans.
+          <div className="p-12 text-center">
+            <CheckCircle2 className="h-12 w-12 text-emerald-500/40 mx-auto mb-3" />
+            <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
+              All students have cleared their active fee plans.
+            </p>
           </div>
         ) : (
-          <div className="overflow-x-auto relative">
-            <table className="w-full text-sm text-left">
-              <thead className="text-xs text-zinc-500 uppercase bg-zinc-50/50 dark:bg-zinc-900/50 rounded-md">
-                <tr>
-                  <th className="px-6 py-3 font-semibold rounded-tl-lg">Student Name</th>
-                  <th className="px-6 py-3 font-semibold">Class Group</th>
-                  <th className="px-6 py-3 font-semibold text-right">Owed</th>
-                  <th className="px-6 py-3 font-semibold text-right">Paid</th>
-                  <th className="px-6 py-3 font-semibold text-right rounded-tr-lg">Debt</th>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/50 dark:bg-zinc-900/50">
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider">Student</th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider">Class</th>
+                  <th className="px-6 py-3 text-right text-xs font-semibold text-zinc-500 uppercase tracking-wider">Owed</th>
+                  <th className="px-6 py-3 text-right text-xs font-semibold text-zinc-500 uppercase tracking-wider">Paid</th>
+                  <th className="px-6 py-3 text-right text-xs font-semibold text-zinc-500 uppercase tracking-wider">Balance</th>
                 </tr>
               </thead>
               <tbody>
                 {metrics.unpaidStudents.map(student => (
-                  <tr key={student.id} className="border-b border-zinc-100 dark:border-zinc-800/60 transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/30">
+                  <tr key={student.id} className="border-b border-zinc-100 dark:border-zinc-800/40 hover:bg-zinc-50/50 dark:hover:bg-zinc-800/20 transition-colors">
                     <td className="px-6 py-4 font-medium text-zinc-900 dark:text-zinc-100">{student.name}</td>
-                    <td className="px-6 py-4 text-zinc-500 dark:text-zinc-400">{student.className}</td>
-                    <td className="px-6 py-4 text-right text-zinc-500">${student.totalOwed.toFixed(2)}</td>
-                    <td className="px-6 py-4 text-right text-zinc-500">${student.totalPaid.toFixed(2)}</td>
-                    <td className="px-6 py-4 text-right font-bold text-rose-600">${student.outstandingDues.toFixed(2)}</td>
+                    <td className="px-6 py-4">
+                      <span className="inline-flex px-2 py-0.5 rounded-md text-xs font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">
+                        {student.className}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-right text-zinc-500 tabular-nums">${student.totalOwed.toFixed(2)}</td>
+                    <td className="px-6 py-4 text-right text-emerald-600 dark:text-emerald-400 tabular-nums">${student.totalPaid.toFixed(2)}</td>
+                    <td className="px-6 py-4 text-right font-bold text-rose-600 dark:text-rose-400 tabular-nums">${student.outstandingDues.toFixed(2)}</td>
                   </tr>
                 ))}
               </tbody>
