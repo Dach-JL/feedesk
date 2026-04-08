@@ -14,7 +14,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     const { name, amount, dueDate, classId } = body;
 
     // Build the update object dynamically
-    const dataToUpdate: any = {};
+    const dataToUpdate: Record<string, string | number | Date | null> = {};
     if (name && name.trim() !== "") dataToUpdate.name = name.trim();
     if (typeof amount === 'number' && amount > 0) dataToUpdate.amount = amount;
     if (dueDate) dataToUpdate.dueDate = new Date(dueDate);

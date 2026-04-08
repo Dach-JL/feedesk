@@ -13,7 +13,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     const body = await req.json();
     const { name, email, classId } = body;
 
-    const dataToUpdate: any = {};
+    const dataToUpdate: Record<string, string | null> = {};
     if (name && name.trim() !== "") dataToUpdate.name = name.trim();
     if (email !== undefined) dataToUpdate.email = email && email.trim() !== "" ? email.trim() : null;
     if (classId) dataToUpdate.classId = classId;

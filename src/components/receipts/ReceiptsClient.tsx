@@ -31,22 +31,22 @@ export default function ReceiptsClient() {
 
   const handleDownloadReceipt = (payment: PaymentData) => {
     const doc = new jsPDF();
-    
+
     // Header
     doc.setFontSize(22);
     doc.setTextColor(30, 58, 138); // Blue 900
     doc.text("Official FeeDesk Receipt", 14, 22);
-    
+
     // Sub Header
     doc.setFontSize(10);
     doc.setTextColor(100, 116, 139); // Slate 500
     doc.text(`Receipt ID: ${payment.id.toUpperCase()}`, 14, 30);
     doc.text(`Date Issued: ${new Date().toLocaleDateString()}`, 14, 35);
-    
+
     // Draw line
     doc.setDrawColor(226, 232, 240); // Slate 200
     doc.line(14, 40, 196, 40);
-    
+
     // Content Data
     const tableData = [
       ["Student Name:", payment.student.name],
@@ -66,16 +66,16 @@ export default function ReceiptsClient() {
     });
 
     // Total Block
-    const finalY = (doc as any).lastAutoTable.finalY || 100;
-    
+    const finalY = (doc as jsPDF & { lastAutoTable: { finalY: number } }).lastAutoTable.finalY || 100;
+
     doc.setDrawColor(226, 232, 240);
     doc.setLineWidth(0.5);
     doc.line(14, finalY + 10, 196, finalY + 10);
-    
+
     doc.setFontSize(14);
     doc.setTextColor(15, 23, 42); // Slate 900
     doc.text("Total Paid:", 130, finalY + 22);
-    
+
     doc.setFontSize(20);
     doc.setTextColor(16, 185, 129); // Emerald 500
     doc.text(`$${payment.amount.toFixed(2)}`, 165, finalY + 23);
@@ -90,7 +90,7 @@ export default function ReceiptsClient() {
   };
 
   const filteredPayments = payments.filter((p) =>
-    p.student.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    p.student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     p.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
     p.feePlan.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -175,7 +175,7 @@ export default function ReceiptsClient() {
                       </span>
                     </td>
                     <td className="p-4 align-middle text-right">
-                      <button 
+                      <button
                         onClick={() => handleDownloadReceipt(p)}
                         className="inline-flex items-center justify-center rounded-md text-xs font-medium bg-white dark:bg-zinc-950 text-zinc-700 dark:text-zinc-300 border border-zinc-300 dark:border-zinc-700 shadow-sm hover:bg-zinc-50 dark:hover:bg-zinc-800 h-8 px-3 transition-colors"
                       >
