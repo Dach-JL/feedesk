@@ -1,4 +1,8 @@
+"use client"
+
 import Link from "next/link"
+import { signOut } from "next-auth/react"
+import { LogOut } from "lucide-react"
 
 export default function Sidebar() {
   return (
@@ -29,13 +33,19 @@ export default function Sidebar() {
         </Link>
       </nav>
       <div className="p-4 border-t border-zinc-800/80">
-        <div className="flex items-center gap-3 px-2 py-2 hover:bg-zinc-800/50 rounded-lg cursor-pointer transition-colors">
-          <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 shadow-inner flex items-center justify-center text-sm font-bold text-white uppercase transform hover:scale-105 transition-transform">
+        <div className="flex items-center gap-3 px-2 py-2">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 shadow-inner flex items-center justify-center text-sm font-bold text-white uppercase">
             AD
           </div>
-          <div>
+          <div className="flex-1">
             <p className="text-sm font-semibold text-zinc-200">System Admin</p>
-            <p className="text-xs text-zinc-500 hover:text-zinc-300">Sign out</p>
+            <button
+              onClick={() => signOut({ callbackUrl: "/login" })}
+              className="flex items-center gap-1 text-xs text-zinc-500 hover:text-red-400 transition-colors mt-0.5"
+            >
+              <LogOut className="w-3 h-3" />
+              Sign out
+            </button>
           </div>
         </div>
       </div>
