@@ -13,8 +13,12 @@ export async function GET() {
     const payments = await prisma.payment.findMany({
       orderBy: { paymentDate: 'desc' },
       include: {
-        student: true,
-        feePlan: true,
+        studentFeeAssignment: {
+          include: {
+            student: true,
+            feePlan: true,
+          }
+        }
       }
     });
     
@@ -32,25 +36,28 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { amount, studentId, feePlanId } = body;
+    const { amount, studentFeeAssignmentId } = body;
 
     if (typeof amount !== 'number' || amount <= 0) {
       return NextResponse.json({ error: "A valid strict positive amount is required" }, { status: 400 });
     }
-    if (!studentId || !feePlanId) {
-      return NextResponse.json({ error: "Student ID and Fee Plan ID are required to log a transaction" }, { status: 400 });
+    if (!studentFeeAssignmentId) {
+      return NextResponse.json({ error: "Student Fee Assignment ID is required to log a transaction" }, { status: 400 });
     }
 
     const newPayment = await prisma.payment.create({
       data: {
         amount: Number(amount),
-        studentId,
-        feePlanId,
+        studentFeeAssignmentId,
         status: "COMPLETED"
       },
       include: {
-        student: true,
-        feePlan: true
+        studentFeeAssignment: {
+          include: {
+            student: true,
+            feePlan: true
+          }
+        }
       }
     });
 

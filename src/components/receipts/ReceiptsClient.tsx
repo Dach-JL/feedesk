@@ -6,8 +6,14 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
 type PaymentData = {
-  id: string; amount: number; paymentDate: string; status: string;
-  feePlan: { name: string }; student: { name: string; classId: string };
+  id: string; 
+  amount: number; 
+  paymentDate: string; 
+  status: string;
+  studentFeeAssignment: {
+    student: { name: string; classId: string };
+    feePlan: { name: string };
+  };
 };
 
 export default function ReceiptsClient() {
@@ -32,9 +38,9 @@ export default function ReceiptsClient() {
     autoTable(doc, {
       startY: 45,
       body: [
-        ["Student Name:", payment.student.name],
+        ["Student Name:", payment.studentFeeAssignment.student.name],
         ["Transaction Date:", new Date(payment.paymentDate).toLocaleString()],
-        ["Fee Plan:", payment.feePlan.name],
+        ["Fee Plan:", payment.studentFeeAssignment.feePlan.name],
         ["Payment Status:", payment.status],
       ],
       theme: 'plain',
@@ -48,13 +54,13 @@ export default function ReceiptsClient() {
     doc.setFontSize(20); doc.setTextColor(16, 185, 129); doc.text(`$${payment.amount.toFixed(2)}`, 165, finalY + 23);
     doc.setFontSize(10); doc.setTextColor(148, 163, 184);
     doc.text("Thank you for your payment. This is an automatically generated receipt.", 14, 280);
-    doc.save(`Receipt_${payment.student.name.replace(/\s+/g, '_')}_${new Date(payment.paymentDate).toISOString().split('T')[0]}.pdf`);
+    doc.save(`Receipt_${payment.studentFeeAssignment.student.name.replace(/\s+/g, '_')}_${new Date(payment.paymentDate).toISOString().split('T')[0]}.pdf`);
   };
 
   const filteredPayments = payments.filter((p) =>
-    p.student.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    p.studentFeeAssignment.student.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
     p.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    p.feePlan.name.toLowerCase().includes(searchTerm.toLowerCase())
+    p.studentFeeAssignment.feePlan.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -103,13 +109,13 @@ export default function ReceiptsClient() {
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         <div className="w-7 h-7 rounded-lg bg-fuchsia-50 dark:bg-fuchsia-500/10 flex items-center justify-center flex-shrink-0">
-                          <span className="text-[10px] font-bold text-fuchsia-600 dark:text-fuchsia-400 uppercase">{p.student.name.charAt(0)}</span>
+                          <span className="text-[10px] font-bold text-fuchsia-600 dark:text-fuchsia-400 uppercase">{p.studentFeeAssignment.student.name.charAt(0)}</span>
                         </div>
-                        <span className="font-medium text-zinc-900 dark:text-zinc-100">{p.student.name}</span>
+                        <span className="font-medium text-zinc-900 dark:text-zinc-100">{p.studentFeeAssignment.student.name}</span>
                       </div>
                     </td>
                     <td className="px-6 py-4 text-zinc-500">
-                      <span className="flex items-center gap-1.5"><FileText className="w-3.5 h-3.5 opacity-50" />{p.feePlan.name}</span>
+                      <span className="flex items-center gap-1.5"><FileText className="w-3.5 h-3.5 opacity-50" />{p.studentFeeAssignment.feePlan.name}</span>
                     </td>
                     <td className="px-6 py-4 font-bold tabular-nums text-emerald-600 dark:text-emerald-400">${p.amount.toFixed(2)}</td>
                     <td className="px-6 py-4">

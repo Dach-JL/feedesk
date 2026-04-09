@@ -28,7 +28,15 @@ export default function LoginPage() {
       setError("Invalid email or password")
       setLoading(false)
     } else {
-      router.push("/dashboard")
+      // Fetch session manually to determine role for dynamic routing
+      const sessionRes = await fetch("/api/auth/session")
+      const sessionData = await sessionRes.json()
+      
+      if (sessionData?.user?.role === "student") {
+        router.push("/student")
+      } else {
+        router.push("/dashboard")
+      }
     }
   }
 

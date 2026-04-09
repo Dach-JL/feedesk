@@ -17,38 +17,61 @@ model Class {
 }
 
 model Student {
-  id        String    @id @default(cuid())
-  name      String
-  email     String?   @unique
-  password  String?
-  classId   String
-  class     Class     @relation(fields: [classId], references: [id])
-  payments  Payment[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id          String                 @id @default(cuid())
+  name        String
+  email       String?                @unique
+  password    String?
+  classId     String
+  class       Class                  @relation(fields: [classId], references: [id])
+  assignments StudentFeeAssignment[]
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime               @updatedAt
 }
 
 model FeePlan {
-  id            String    @id @default(cuid())
-  name          String
-  amount        Float
-  dueDate       DateTime
-  classId       String?
-  class         Class?    @relation(fields: [classId], references: [id])
-  payments      Payment[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id          String                 @id @default(cuid())
+  name        String
+  amount      Float
+  dueDate     DateTime
+  classId     String?
+  class       Class?                 @relation(fields: [classId], references: [id])
+  assignments StudentFeeAssignment[]
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime               @updatedAt
+}
+
+model StudentFeeAssignment {
+  id          String         @id @default(cuid())
+  studentId   String
+  student     Student        @relation(fields: [studentId], references: [id])
+  feePlanId   String
+  feePlan     FeePlan        @relation(fields: [feePlanId], references: [id])
+  status      String         @default("PENDING") // PENDING, PAID
+  payments    Payment[]
+  proofs      PaymentProof[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+model PaymentProof {
+  id                     String               @id @default(cuid())
+  studentFeeAssignmentId String
+  studentFeeAssignment   StudentFeeAssignment @relation(fields: [studentFeeAssignmentId], references: [id])
+  screenshotUrl          String
+  note                   String?
+  status                 String               @default("PENDING") // PENDING, APPROVED, REJECTED
+  reviewedBy             String?
+  createdAt              DateTime             @default(now())
+  updatedAt              DateTime             @updatedAt
 }
 
 model Payment {
-  id          String   @id @default(cuid())
-  amount      Float
-  paymentDate DateTime @default(now())
-  status      String   @default("COMPLETED") // PENDING, COMPLETED, FAILED
-  studentId   String
-  student     Student  @relation(fields: [studentId], references: [id])
-  feePlanId   String
-  feePlan     FeePlan  @relation(fields: [feePlanId], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                     String               @id @default(cuid())
+  amount                 Float
+  paymentDate            DateTime             @default(now())
+  status                 String               @default("COMPLETED") // PENDING, COMPLETED, FAILED
+  studentFeeAssignmentId String
+  studentFeeAssignment   StudentFeeAssignment @relation(fields: [studentFeeAssignmentId], references: [id])
+  createdAt              DateTime             @default(now())
+  updatedAt              DateTime             @updatedAt
 }

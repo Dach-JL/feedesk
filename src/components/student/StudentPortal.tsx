@@ -7,10 +7,16 @@ import autoTable from "jspdf-autotable"
 
 type PortalData = {
   profile: { name: string; email: string; classId: string; class: { name: string } }
-  feePlans: { id: string; name: string; amount: number; dueDate: string }[]
-  payments: { id: string; amount: number; paymentDate: string; status: string; feePlan: { name: string } }[]
+  assignments: {
+    id: string;
+    status: string;
+    feePlan: { id: string; name: string; amount: number; dueDate: string };
+    payments: { id: string; amount: number; paymentDate: string; status: string }[];
+  }[]
   metrics: { totalOwed: number; totalPaid: number; outstandingDues: number }
 }
+
+type FlattenedPayment = PortalData["assignments"][0]["payments"][0] & { feePlan: { name: string } };
 
 export default function StudentPortal() {
   const [data, setData] = useState<PortalData | null>(null)
@@ -28,7 +34,7 @@ export default function StudentPortal() {
       .finally(() => setLoading(false))
   }, [])
 
-  const handleDownloadReceipt = (payment: PortalData["payments"][0]) => {
+  const handleDownloadReceipt = (payment: FlattenedPayment) => {
     if (!data) return
 
     const doc = new jsPDF()
@@ -173,7 +179,7 @@ export default function StudentPortal() {
               </tr>
             </thead>
             <tbody>
-              {data.payments.length === 0 ? (
+              {data.assignments.flatMap(a => a.payments).length === 0 ? (
                 <tr>
                   <td colSpan={5} className="p-12 text-center">
                     <Receipt className="w-10 h-10 text-zinc-300 dark:text-zinc-700 mx-auto mb-3" />
@@ -181,7 +187,7 @@ export default function StudentPortal() {
                   </td>
                 </tr>
               ) : (
-                data.payments.map((p) => (
+                data.assignments.flatMap(a => a.payments.map(p => ({ ...p, feePlan: a.feePlan }))).map((p) => (
                   <tr key={p.id} className="border-b border-zinc-100 dark:border-zinc-800/40 hover:bg-zinc-50/50 dark:hover:bg-zinc-800/20 transition-colors">
                     <td className="px-6 py-4 text-zinc-500">
                       {new Date(p.paymentDate).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}

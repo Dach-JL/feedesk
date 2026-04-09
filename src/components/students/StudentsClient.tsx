@@ -17,7 +17,7 @@ export default function StudentsClient() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [formData, setFormData] = useState({ name: "", email: "", classId: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", classId: "", password: "student123" });
 
   const fetchData = async () => {
     setLoading(true);
@@ -33,8 +33,8 @@ export default function StudentsClient() {
   useEffect(() => { fetchData(); }, []);
 
   const handleOpenModal = (s?: StudentData) => {
-    if (s) { setEditingId(s.id); setFormData({ name: s.name, email: s.email || "", classId: s.classId }); } 
-    else { setEditingId(null); setFormData({ name: "", email: "", classId: classes.length > 0 ? classes[0].id : "" }); }
+    if (s) { setEditingId(s.id); setFormData({ name: s.name, email: s.email || "", classId: s.classId, password: "" }); } 
+    else { setEditingId(null); setFormData({ name: "", email: "", classId: classes.length > 0 ? classes[0].id : "", password: "student123" }); }
     setIsModalOpen(true);
   };
   const handleCloseModal = () => { setIsModalOpen(false); setEditingId(null); };
@@ -177,6 +177,11 @@ export default function StudentsClient() {
                   <option value="" disabled>Select class</option>
                   {classes.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                 </select>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Password {editingId && <span className="text-zinc-400 font-normal">(Leave blank to keep unchanged)</span>} {!editingId && <span className="text-rose-500">*</span>}</label>
+                <input type="text" required={!editingId} value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })} placeholder="student123"
+                  className="flex h-11 w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
               </div>
               <div className="pt-4 flex justify-end gap-3">
                 <button type="button" onClick={handleCloseModal} className="px-4 py-2.5 text-sm font-medium text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-800 rounded-xl hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">Cancel</button>

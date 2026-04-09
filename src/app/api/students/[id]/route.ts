@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
+import bcrypt from "bcryptjs";
 
 export async function PATCH(req: Request, { params }: { params: { id: string } }) {
   try {
@@ -11,12 +12,16 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     }
 
     const body = await req.json();
-    const { name, email, classId } = body;
+    const { name, email, classId, password } = body;
 
     const dataToUpdate: Record<string, string | null> = {};
     if (name && name.trim() !== "") dataToUpdate.name = name.trim();
     if (email !== undefined) dataToUpdate.email = email && email.trim() !== "" ? email.trim() : null;
     if (classId) dataToUpdate.classId = classId;
+    
+    if (password && password.trim() !== "") {
+      dataToUpdate.password = await bcrypt.hash(password.trim(), 10);
+    }
 
     const updatedStudent = await prisma.student.update({
       where: { id: params.id },

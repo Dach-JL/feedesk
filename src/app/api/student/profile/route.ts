@@ -13,52 +13,43 @@ export async function GET() {
 
     const studentId = session.user.studentId;
 
-    // 1. Fetch Student & Class
-    const student = await prisma.student.findUnique({
+    // 1. Fetch Student, Class, Assignments & associated Payments
+    const studentData = await prisma.student.findUnique({
       where: { id: studentId },
-      include: { class: true },
+      include: { 
+        class: true,
+        assignments: {
+          include: {
+            feePlan: true,
+            payments: {
+              orderBy: { paymentDate: "desc" }
+            }
+          }
+        }
+      },
     });
 
-    if (!student) {
+    if (!studentData) {
       return NextResponse.json({ error: "Student not found" }, { status: 404 });
     }
 
-    // 2. Fetch Applicable Fee Plans (Global OR attached to their specific class)
-    const feePlans = await prisma.feePlan.findMany({
-      where: {
-        OR: [
-          { classId: null },
-          { classId: student.classId },
-        ],
-      },
-      include: {
-        class: true,
-      },
-      orderBy: { dueDate: "asc" },
-    });
+    // 2. Extract and Flatten data for the frontend
+    const assignments = studentData.assignments;
+    const allPayments = assignments.flatMap(a => a.payments);
+    const feePlans = assignments.map(a => a.feePlan);
 
-    // 3. Fetch Student's Payment History
-    const payments = await prisma.payment.findMany({
-      where: { studentId },
-      include: {
-        feePlan: true,
-      },
-      orderBy: { paymentDate: "desc" },
-    });
-
-    // 4. Compute Financial Metrics
+    // 3. Compute Financial Metrics
     const totalOwed = feePlans.reduce((sum, plan) => sum + plan.amount, 0);
-    const totalPaid = payments.reduce((sum, payment) => sum + payment.amount, 0);
+    const totalPaid = allPayments.reduce((sum, payment) => sum + payment.amount, 0);
     const outstandingDues = totalOwed - totalPaid;
 
     // Avoid sending password hash back to the client
-    const safeStudentProfile = { ...student } as Partial<typeof student>;
-    delete safeStudentProfile.password;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...safeProfile } = studentData;
 
     const payload = {
-      profile: safeStudentProfile,
-      feePlans,
-      payments,
+      profile: safeProfile,
+      assignments,
       metrics: {
         totalOwed,
         totalPaid,

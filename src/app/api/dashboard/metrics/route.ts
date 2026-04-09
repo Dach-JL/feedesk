@@ -46,17 +46,27 @@ export async function GET() {
     const allStudents = await prisma.student.findMany({
       include: {
         class: true,
-        payments: true,
+        assignments: {
+          include: {
+            payments: true,
+          }
+        },
       },
     });
 
     const feePlans = await prisma.feePlan.findMany();
 
-    const unpaidStudentsList = allStudents.map((student: typeof allStudents[number]) => {
+    const unpaidStudentsList = allStudents.map((student: any) => {
       // Find fee plans applicable to this student (mapped to their class or global)
-      const applicablePlans = feePlans.filter((p: typeof feePlans[number]) => !p.classId || p.classId === student.classId);
-      const totalOwed = applicablePlans.reduce((sum: number, p: typeof feePlans[number]) => sum + p.amount, 0);
-      const totalPaid = student.payments.reduce((sum: number, p: typeof student.payments[number]) => sum + p.amount, 0);
+      const applicablePlans = feePlans.filter((p: any) => !p.classId || p.classId === student.classId);
+      const totalOwed = applicablePlans.reduce((sum: number, p: any) => sum + p.amount, 0);
+      
+      // Calculate total paid across all assignments
+      const totalPaid = student.assignments.reduce((sum: number, assignment: any) => {
+        const assignmentPayments = assignment.payments.reduce((pSum: number, p: any) => pSum + p.amount, 0);
+        return sum + assignmentPayments;
+      }, 0);
+      
       const outstandingDues = totalOwed - totalPaid;
 
       return {

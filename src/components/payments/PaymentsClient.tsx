@@ -5,44 +5,55 @@ import { DollarSign, Calculator, Loader2, ArrowRight, CheckCircle2, Wallet } fro
 
 type FeePlanData = { id: string; name: string; amount: number; classId: string | null; };
 type PaymentData = { id: string; amount: number; paymentDate: string; feePlanId: string; studentId: string; };
-type StudentData = { id: string; name: string; classId: string; class?: { name: string }; };
+type StudentData = { 
+  id: string; 
+  name: string; 
+  classId: string; 
+  class?: { name: string }; 
+  assignments: {
+    id: string;
+    status: string;
+    feePlan: FeePlanData;
+    payments: PaymentData[];
+  }[];
+};
 
 export default function PaymentsClient() {
   const [students, setStudents] = useState<StudentData[]>([]);
   const [feePlans, setFeePlans] = useState<FeePlanData[]>([]);
-  const [payments, setPayments] = useState<PaymentData[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedStudentId, setSelectedStudentId] = useState<string>("");
-  const [selectedFeePlanId, setSelectedFeePlanId] = useState<string>("");
+  const [selectedAssignmentId, setSelectedAssignmentId] = useState<string>("");
   const [paymentAmount, setPaymentAmount] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const fetchData = async () => {
     try {
-      const [stuRes, planRes, payRes] = await Promise.all([fetch("/api/students"), fetch("/api/fee-plans"), fetch("/api/payments")]);
+      const [stuRes, planRes] = await Promise.all([
+        fetch("/api/students"), 
+        fetch("/api/fee-plans")
+      ]);
       setStudents(await stuRes.json());
       setFeePlans(await planRes.json());
-      setPayments(await payRes.json());
     } catch (err) { console.error(err); } finally { setLoading(false); }
   };
 
   useEffect(() => { fetchData(); }, []);
 
   const selectedStudent = students.find(s => s.id === selectedStudentId);
-  const applicableFeePlans = selectedStudent ? feePlans.filter(fp => fp.classId === null || fp.classId === selectedStudent.classId) : [];
-  const studentPayments = selectedStudent ? payments.filter(p => p.studentId === selectedStudent.id) : [];
-  const totalOwed = applicableFeePlans.reduce((sum, plan) => sum + plan.amount, 0);
+  const studentPayments = selectedStudent ? selectedStudent.assignments.flatMap(a => a.payments) : [];
+  const totalOwed = selectedStudent ? selectedStudent.assignments.reduce((sum, a) => sum + a.feePlan.amount, 0) : 0;
   const totalPaid = studentPayments.reduce((sum, payment) => sum + payment.amount, 0);
   const outstandingDues = totalOwed - totalPaid;
 
   const handleTransaction = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedStudentId || !selectedFeePlanId || !paymentAmount) return;
+    if (!selectedStudentId || !selectedAssignmentId || !paymentAmount) return;
     setIsSubmitting(true);
     try {
       const res = await fetch("/api/payments", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ studentId: selectedStudentId, feePlanId: selectedFeePlanId, amount: parseFloat(paymentAmount) }),
+        body: JSON.stringify({ studentFeeAssignmentId: selectedAssignmentId, amount: parseFloat(paymentAmount) }),
       });
       if (res.ok) { setPaymentAmount(""); fetchData(); } else alert("Transaction failed.");
     } catch (err) { console.error(err); } finally { setIsSubmitting(false); }
@@ -60,7 +71,7 @@ export default function PaymentsClient() {
               Locate Student
             </h3>
             {loading ? <div className="h-12 bg-zinc-100 dark:bg-zinc-800 animate-pulse rounded-xl" /> : (
-              <select value={selectedStudentId} onChange={(e) => { setSelectedStudentId(e.target.value); setSelectedFeePlanId(""); }}
+              <select value={selectedStudentId} onChange={(e) => { setSelectedStudentId(e.target.value); setSelectedAssignmentId(""); }}
                 className="flex h-12 w-full rounded-xl border-2 border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all">
                 <option value="">-- Select Student --</option>
                 {students.map(s => <option key={s.id} value={s.id}>{s.name} {s.class ? `(${s.class.name})` : ""}</option>)}
@@ -77,15 +88,15 @@ export default function PaymentsClient() {
             <form onSubmit={handleTransaction} className="space-y-5">
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Fee Plan</label>
-                <select required value={selectedFeePlanId} onChange={(e) => {
-                  setSelectedFeePlanId(e.target.value);
-                  const plan = applicableFeePlans.find(p => p.id === e.target.value);
-                  if (plan) setPaymentAmount(plan.amount.toString());
+                <select required value={selectedAssignmentId} onChange={(e) => {
+                  setSelectedAssignmentId(e.target.value);
+                  const assignment = selectedStudent?.assignments.find(a => a.id === e.target.value);
+                  if (assignment) setPaymentAmount(assignment.feePlan.amount.toString());
                 }} className="flex h-11 w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent">
-                  <option value="" disabled>Select fee plan</option>
-                  {applicableFeePlans.map(plan => {
-                    const paid = studentPayments.filter(p => p.feePlanId === plan.id).reduce((s, p) => s + p.amount, 0);
-                    return <option key={plan.id} value={plan.id}>{plan.name} - ${plan.amount.toFixed(2)} (Paid: ${paid.toFixed(2)})</option>;
+                  <option value="" disabled>Select assigned fee</option>
+                  {selectedStudent?.assignments.map(assignment => {
+                    const paid = assignment.payments.reduce((s, p) => s + p.amount, 0);
+                    return <option key={assignment.id} value={assignment.id}>{assignment.feePlan.name} - ${assignment.feePlan.amount.toFixed(2)} (Paid: ${paid.toFixed(2)})</option>;
                   })}
                 </select>
               </div>
@@ -97,7 +108,7 @@ export default function PaymentsClient() {
                     className="flex h-12 w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 px-4 pl-11 text-lg font-bold focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
                 </div>
               </div>
-              <button type="submit" disabled={isSubmitting || !selectedStudentId || !selectedFeePlanId || !paymentAmount}
+              <button type="submit" disabled={isSubmitting || !selectedStudentId || !selectedAssignmentId || !paymentAmount}
                 className="w-full h-12 inline-flex items-center justify-center gap-2 rounded-xl text-base font-bold bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg shadow-amber-500/20 hover:shadow-amber-500/30 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.01] active:scale-[0.99] transition-all">
                 {isSubmitting ? <Loader2 className="h-5 w-5 animate-spin" /> : <><CheckCircle2 className="h-5 w-5" /> Process Payment <ArrowRight className="h-5 w-5" /></>}
               </button>

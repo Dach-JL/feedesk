@@ -34,12 +34,21 @@ async function main() {
   })
   console.log(`Created fee plan with id: ${feePlan.id}`)
 
+  // Create an Assignment
+  const assignment = await prisma.studentFeeAssignment.create({
+    data: {
+      studentId: student.id,
+      feePlanId: feePlan.id,
+      status: 'PAID', // It's paid because we create a complete payment
+    },
+  })
+  console.log(`Created student fee assignment with id: ${assignment.id}`)
+
   // Create a Payment
   const payment = await prisma.payment.create({
     data: {
       amount: 250.0,
-      studentId: student.id,
-      feePlanId: feePlan.id,
+      studentFeeAssignmentId: assignment.id,
       status: 'COMPLETED',
     },
   })

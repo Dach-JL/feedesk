@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
+import bcrypt from "bcryptjs";
 
 export async function GET() {
   try {
@@ -13,7 +14,13 @@ export async function GET() {
     const students = await prisma.student.findMany({
       orderBy: { createdAt: 'desc' },
       include: {
-        class: true, // Fetch the associated Class name!
+        class: true,
+        assignments: {
+          include: {
+            feePlan: true,
+            payments: true
+          }
+        }
       }
     });
     
@@ -31,7 +38,7 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { name, email, classId } = body;
+    const { name, email, classId, password } = body;
 
     if (!name || name.trim() === "") {
       return NextResponse.json({ error: "Student name is required" }, { status: 400 });
@@ -40,10 +47,16 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "A class assignment is strongly required" }, { status: 400 });
     }
 
+    let hashedPassword = null;
+    if (password && password.trim() !== "") {
+      hashedPassword = await bcrypt.hash(password.trim(), 10);
+    }
+
     const newStudent = await prisma.student.create({
       data: { 
         name: name.trim(),
         email: email && email.trim() !== "" ? email.trim() : null,
+        password: hashedPassword,
         classId: classId
       },
       include: {
