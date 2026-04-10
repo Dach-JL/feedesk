@@ -20,7 +20,6 @@ type StudentData = {
 
 export default function PaymentsClient() {
   const [students, setStudents] = useState<StudentData[]>([]);
-  const [feePlans, setFeePlans] = useState<FeePlanData[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedStudentId, setSelectedStudentId] = useState<string>("");
   const [selectedAssignmentId, setSelectedAssignmentId] = useState<string>("");
@@ -29,12 +28,10 @@ export default function PaymentsClient() {
 
   const fetchData = async () => {
     try {
-      const [stuRes, planRes] = await Promise.all([
+      const [stuRes] = await Promise.all([
         fetch("/api/students"), 
-        fetch("/api/fee-plans")
       ]);
       setStudents(await stuRes.json());
-      setFeePlans(await planRes.json());
     } catch (err) { console.error(err); } finally { setLoading(false); }
   };
 

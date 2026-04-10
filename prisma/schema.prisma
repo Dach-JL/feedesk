@@ -58,7 +58,8 @@ model PaymentProof {
   studentFeeAssignmentId String
   studentFeeAssignment   StudentFeeAssignment @relation(fields: [studentFeeAssignmentId], references: [id])
   screenshotUrl          String
-  note                   String?
+  note                   String?              // student's optional upload note
+  rejectionReason        String?              // admin's rejection message
   status                 String               @default("PENDING") // PENDING, APPROVED, REJECTED
   reviewedBy             String?
   createdAt              DateTime             @default(now())
