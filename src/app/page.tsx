@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { 
-  Users, GraduationCap, CreditCard, Receipt, BarChart3, Shield, 
+  Users, GraduationCap, Receipt, BarChart3, Shield, 
   ArrowRight, CheckCircle2, Zap, Globe, Clock, Lock 
 } from "lucide-react"
 
