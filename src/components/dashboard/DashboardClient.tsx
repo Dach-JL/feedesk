@@ -102,7 +102,7 @@ export default function DashboardClient() {
               </div>
               
               <div className="text-sm font-medium text-zinc-500 dark:text-zinc-400 mb-1">{card.label}</div>
-              <div className="text-3xl font-black tracking-tight text-zinc-900 dark:text-white">{card.value}</div>
+              <div className="text-2xl sm:text-3xl font-black tracking-tight text-zinc-900 dark:text-white">{card.value}</div>
             </div>
           );
         })}

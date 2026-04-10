@@ -127,7 +127,7 @@ export default function Home() {
           </div>
 
           {/* Headline */}
-          <h1 className="animate-slide-up-delay-1 text-5xl sm:text-6xl md:text-7xl font-black tracking-tight text-zinc-900 dark:text-white leading-[1.1]">
+          <h1 className="animate-slide-up-delay-1 text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-zinc-900 dark:text-white leading-[1.1]">
             Fee management
             <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 animate-gradient">
