@@ -258,7 +258,7 @@ export default function VerificationsClient() {
                       </div>
                       <div>
                         <p className="text-sm font-black text-zinc-900 dark:text-white leading-tight">{selectedProof.studentFeeAssignment.student.name}</p>
-                        <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider">{selectedProof.studentFeeAssignment.student.class.name}</p>
+                        <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider">{selectedProof.studentFeeAssignment.student.class?.name || "Unassigned Class"}</p>
                       </div>
                    </div>
                    <div className="grid grid-cols-2 gap-4 pt-4 border-t border-zinc-200/60 dark:border-zinc-800/60">

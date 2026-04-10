@@ -16,7 +16,11 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
       include: {
         studentFeeAssignment: {
           include: {
-            student: true,
+            student: {
+              include: {
+                class: true
+              }
+            },
             feePlan: true,
           }
         }
