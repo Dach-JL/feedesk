@@ -23,6 +23,17 @@ export async function GET() {
             feePlan: true,
             payments: {
               orderBy: { paymentDate: "desc" }
+            },
+            proofs: {
+              select: {
+                id: true,
+                status: true,
+                note: true,
+                rejectionReason: true,
+                createdAt: true
+              },
+              orderBy: { createdAt: "desc" },
+              take: 1
             }
           }
         }
