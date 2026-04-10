@@ -44,19 +44,40 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "A valid due date is required" }, { status: 400 });
     }
 
-    const newFeePlan = await prisma.feePlan.create({
-      data: { 
-        name: name.trim(),
-        amount: Number(amount),
-        dueDate: new Date(dueDate),
-        classId: classId || null
-      },
-      include: {
-        class: true
+    const result = await prisma.$transaction(async (tx) => {
+      const newFeePlan = await tx.feePlan.create({
+        data: { 
+          name: name.trim(),
+          amount: Number(amount),
+          dueDate: new Date(dueDate),
+          classId: classId || null
+        },
+        include: {
+          class: true
+        }
+      });
+
+      // If a class is specified, automatically assign this fee plan to all students in that class
+      if (classId) {
+        const students = await tx.student.findMany({
+          where: { classId: classId }
+        });
+
+        if (students.length > 0) {
+          await tx.studentFeeAssignment.createMany({
+            data: students.map(student => ({
+              studentId: student.id,
+              feePlanId: newFeePlan.id,
+              status: "PENDING"
+            }))
+          });
+        }
       }
+
+      return newFeePlan;
     });
 
-    return NextResponse.json(newFeePlan, { status: 201 });
+    return NextResponse.json(result, { status: 201 });
   } catch {
     return NextResponse.json({ error: "Failed to create fee plan" }, { status: 500 });
   }

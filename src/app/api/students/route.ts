@@ -52,19 +52,39 @@ export async function POST(req: Request) {
       hashedPassword = await bcrypt.hash(password.trim(), 10);
     }
 
-    const newStudent = await prisma.student.create({
-      data: { 
-        name: name.trim(),
-        email: email && email.trim() !== "" ? email.trim() : null,
-        password: hashedPassword,
-        classId: classId
-      },
-      include: {
-        class: true
+    const result = await prisma.$transaction(async (tx) => {
+      const newStudent = await tx.student.create({
+        data: { 
+          name: name.trim(),
+          email: email && email.trim() !== "" ? email.trim() : null,
+          password: hashedPassword,
+          classId: classId
+        },
+        include: {
+          class: true
+        }
+      });
+
+      // Fetch all fee plans already existing for this class
+      const classFeePlans = await tx.feePlan.findMany({
+        where: { classId: classId }
+      });
+
+      // Automatically assign all existing class fees to this new student
+      if (classFeePlans.length > 0) {
+        await tx.studentFeeAssignment.createMany({
+          data: classFeePlans.map(plan => ({
+            studentId: newStudent.id,
+            feePlanId: plan.id,
+            status: "PENDING"
+          }))
+        });
       }
+
+      return newStudent;
     });
 
-    return NextResponse.json(newStudent, { status: 201 });
+    return NextResponse.json(result, { status: 201 });
   } catch {
     return NextResponse.json({ error: "Failed to register student" }, { status: 500 });
   }
