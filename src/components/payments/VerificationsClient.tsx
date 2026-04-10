@@ -98,10 +98,7 @@ export default function VerificationsClient() {
   };
 
   const handleReject = async () => {
-    if (!selectedProof || !rejectionReason.trim()) {
-      alert("Please provide a reason for rejection.");
-      return;
-    }
+    if (!selectedProof) return;
 
     setIsSubmitting(true);
     try {
@@ -120,8 +117,9 @@ export default function VerificationsClient() {
         const data = await res.json();
         alert(data.error || "Rejection failed");
       }
-    } catch {
-      alert("An error occurred");
+    } catch (err: unknown) {
+      console.error("Rejection error:", err);
+      alert(err instanceof Error ? err.message : "An error occurred during rejection");
     } finally {
       setIsSubmitting(false);
     }
@@ -287,7 +285,7 @@ export default function VerificationsClient() {
               <div className="pt-8 grid grid-cols-2 gap-4">
                 <button 
                   onClick={handleReject}
-                  disabled={isSubmitting || !rejectionReason.trim()}
+                  disabled={isSubmitting}
                   className="flex items-center justify-center gap-2 h-14 rounded-2xl border-2 border-rose-500/20 text-rose-500 font-black text-sm hover:bg-rose-500/10 transition-all disabled:opacity-40"
                 >
                   {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <XCircle className="w-5 h-5" />}
