@@ -6,6 +6,36 @@ import {
 
 const features = [
   {
+    icon: Shield,
+    title: "Student Portal",
+    description: "Secure, role-based access for students to check balances, view payment history, and report digital transactions.",
+    color: "from-indigo-500 to-purple-600",
+    bgLight: "bg-indigo-50",
+    bgDark: "dark:bg-indigo-950/30",
+    borderColor: "border-indigo-200 dark:border-indigo-800/50",
+    iconColor: "text-indigo-600 dark:text-indigo-400",
+  },
+  {
+    icon: Zap,
+    title: "Digital Proofs",
+    description: "Support for Telebirr and CBE receipts. Students upload screenshots that admins can verify with a single click.",
+    color: "from-emerald-500 to-teal-600",
+    bgLight: "bg-emerald-50",
+    bgDark: "dark:bg-emerald-950/30",
+    borderColor: "border-emerald-200 dark:border-emerald-800/50",
+    iconColor: "text-emerald-600 dark:text-emerald-400",
+  },
+  {
+    icon: Lock,
+    title: "Verified Receipts",
+    description: "Receipts are automatically unlocked and ready for download only after admin verification, ensuring financial integrity.",
+    color: "from-amber-500 to-orange-600",
+    bgLight: "bg-amber-50",
+    bgDark: "dark:bg-amber-950/30",
+    borderColor: "border-amber-200 dark:border-amber-800/50",
+    iconColor: "text-amber-600 dark:text-amber-400",
+  },
+  {
     icon: GraduationCap,
     title: "Class Management",
     description: "Organize classes and courses effortlessly. Track enrollment counts and manage academic structures from one central hub.",
@@ -24,36 +54,6 @@ const features = [
     bgDark: "dark:bg-blue-950/30",
     borderColor: "border-blue-200 dark:border-blue-800/50",
     iconColor: "text-blue-600 dark:text-blue-400",
-  },
-  {
-    icon: CreditCard,
-    title: "Fee Plans & Billing",
-    description: "Design flexible fee structures — term-based, monthly, or global. Map them to specific classes or apply institution-wide.",
-    color: "from-emerald-500 to-teal-600",
-    bgLight: "bg-emerald-50",
-    bgDark: "dark:bg-emerald-950/30",
-    borderColor: "border-emerald-200 dark:border-emerald-800/50",
-    iconColor: "text-emerald-600 dark:text-emerald-400",
-  },
-  {
-    icon: Zap,
-    title: "Payment Processing",
-    description: "Process payments with a smart cashier interface that auto-calculates outstanding dues and tracks real-time balances.",
-    color: "from-amber-500 to-orange-600",
-    bgLight: "bg-amber-50",
-    bgDark: "dark:bg-amber-950/30",
-    borderColor: "border-amber-200 dark:border-amber-800/50",
-    iconColor: "text-amber-600 dark:text-amber-400",
-  },
-  {
-    icon: Receipt,
-    title: "PDF Receipt Export",
-    description: "Generate branded, professional PDF receipts instantly for any transaction. Download directly — no external service needed.",
-    color: "from-fuchsia-500 to-pink-600",
-    bgLight: "bg-fuchsia-50",
-    bgDark: "dark:bg-fuchsia-950/30",
-    borderColor: "border-fuchsia-200 dark:border-fuchsia-800/50",
-    iconColor: "text-fuchsia-600 dark:text-fuchsia-400",
   },
   {
     icon: BarChart3,
@@ -75,10 +75,10 @@ const stats = [
 ]
 
 const benefits = [
-  { icon: Globe, text: "Cloud-hosted — access from anywhere" },
-  { icon: Shield, text: "Secure role-based authentication" },
-  { icon: Clock, text: "Real-time financial calculations" },
-  { icon: Lock, text: "End-to-end encrypted data" },
+  { icon: Shield, text: "Dual-role student/admin access" },
+  { icon: Globe, text: "Telebirr & CBE digital proof support" },
+  { icon: Clock, text: "Real-time verification workflow" },
+  { icon: Lock, text: "Automated receipt security unlock" },
 ]
 
 export default function Home() {
