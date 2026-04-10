@@ -327,9 +327,9 @@ export default function Home() {
 
           <div className="space-y-12">
             {[
-              { step: "01", title: "Set up your classes", desc: "Create your academic structure — add classes, courses, and organizational groups." },
-              { step: "02", title: "Enroll students & define fees", desc: "Add students to classes and create flexible fee plans — termly, monthly, or custom." },
-              { step: "03", title: "Collect, track & export", desc: "Process payments, monitor outstanding dues in real-time, and export PDF receipts instantly." },
+              { step: "01", title: "Set up your institutional structure", desc: "Create classes and enroll students. Use our smart templates to register existing students via admin dashboard." },
+              { step: "02", title: "Students report payments", desc: "Students log into their secure portal to view outstanding fees and upload digital proofs from Telebirr or CBE." },
+              { step: "03", title: "Verify, track & unlock", desc: "Admins review proofs in a single click. Verified payments automatically update balances and unlock professional PDF receipts." },
             ].map((item, i) => (
               <div key={item.step} className="flex items-start gap-6 md:gap-8 group">
                 <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-black text-lg flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform">
