@@ -390,7 +390,7 @@ export default function StudentPortal() {
               <p className="text-zinc-500 mt-2">Submit a screenshot of your Telebirr or CBE receipt for verification.</p>
             </div>
             
-            <form onSubmit={handleUpload} className="p-8 space-y-6 overflow-y-auto flex-1 custom-scrollbar min-h-0">
+            <form onSubmit={handleUpload} className="p-6 lg:p-8 space-y-6 overflow-y-auto flex-1 custom-scrollbar min-h-0">
               {uploadError && (
                 <div className="bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 p-4 rounded-xl text-rose-600 dark:text-rose-400 text-sm font-medium flex gap-2 items-center">
                   <AlertCircle className="w-4 h-4 shrink-0" /> {uploadError}
@@ -402,13 +402,15 @@ export default function StudentPortal() {
                 <div 
                   className={`mt-1 flex justify-center px-6 pt-10 pb-10 border-2 border-dashed rounded-2xl transition-all ${screenshot ? "border-emerald-500 bg-emerald-50/30 dark:bg-emerald-500/5" : "border-zinc-300 dark:border-zinc-800 hover:border-indigo-400"}`}
                 >
-                  <div className="space-y-2 text-center">
+                  <div className="space-y-4 text-center">
                     {!screenshot ? (
                       <>
-                        <FileText className="mx-auto h-12 w-12 text-zinc-400" />
-                        <div className="flex text-sm text-zinc-600 dark:text-zinc-400">
-                          <label className="relative cursor-pointer bg-white dark:bg-zinc-800 rounded-md font-bold text-indigo-600 hover:text-indigo-500 focus-within:outline-none px-2 py-1">
-                            <span>Browse files</span>
+                        <div className="w-16 h-16 rounded-full bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center mx-auto ring-4 ring-zinc-50 dark:ring-zinc-800/50">
+                          <FileText className="h-8 w-8 text-zinc-400" />
+                        </div>
+                        <div className="flex flex-col items-center text-sm text-zinc-600 dark:text-zinc-400">
+                          <label className="relative cursor-pointer bg-black dark:bg-white px-4 py-2 rounded-xl font-bold text-white dark:text-black hover:opacity-90 transition-all focus-within:outline-none">
+                            <span>Browse Device</span>
                             <input 
                               type="file" 
                               className="sr-only" 
@@ -427,23 +429,22 @@ export default function StudentPortal() {
                               }}
                             />
                           </label>
-                          <p className="pl-1 pt-1">or drag and drop</p>
+                          <p className="mt-3 text-xs opacity-60 italic">PNG, JPG, up to 2MB</p>
                         </div>
-                        <p className="text-xs text-zinc-500 italic">PNG, JPG, up to 2MB</p>
                       </>
                     ) : (
-                      <div className="relative group">
+                      <div className="relative group mx-auto">
                         <Image 
                           src={screenshot} 
                           alt="Preview" 
-                          width={200}
-                          height={200}
+                          width={240}
+                          height={240}
                           unoptimized
-                          className="max-h-48 rounded-lg shadow-md object-contain" 
+                          className="max-h-56 rounded-xl shadow-xl object-contain border-4 border-white dark:border-zinc-800" 
                         />
                         <button 
                           onClick={() => setScreenshot(null)}
-                          className="absolute -top-2 -right-2 bg-rose-500 text-white rounded-full p-1 shadow-lg hover:scale-110 transition-transform"
+                          className="absolute -top-3 -right-3 bg-rose-500 text-white rounded-full p-2 shadow-xl hover:scale-110 active:scale-95 transition-all"
                         >
                           <X className="w-4 h-4" />
                         </button>
@@ -459,25 +460,25 @@ export default function StudentPortal() {
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
                   placeholder="e.g. Reference number or transaction time..."
-                  className="w-full bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-all h-24"
+                  className="w-full bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-all h-28 resize-none"
                 />
               </div>
 
-              <div className="flex gap-3 pt-4 pb-2">
+              <div className="flex flex-col sm:flex-row gap-3 pt-6 pb-2">
                 <button 
                   type="button"
                   onClick={() => setIsUploadModalOpen(false)}
-                  className="flex-1 px-6 py-4 rounded-xl text-sm font-bold text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                  className="flex-1 px-6 py-4 rounded-2xl text-sm font-bold text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors order-2 sm:order-1"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit"
                   disabled={isSubmitting || !screenshot}
-                  className="flex-[2] bg-zinc-900 dark:bg-white text-white dark:text-black rounded-xl px-6 py-4 text-sm font-black hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="flex-[2] bg-indigo-600 text-white rounded-2xl px-6 py-4 text-sm font-black hover:bg-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/20 order-1 sm:order-2"
                 >
                   {isSubmitting ? (
-                    <><Loader2 className="w-4 h-4 animate-spin" /> Uploading...</>
+                    <><Loader2 className="w-5 h-5 animate-spin" /> Uploading...</>
                   ) : (
                     "Submit Verification"
                   )}
