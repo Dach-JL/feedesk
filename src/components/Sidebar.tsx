@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation"
 import { signOut } from "next-auth/react"
 import { 
   LayoutDashboard, GraduationCap, Users, CreditCard, 
-  Landmark, History, LogOut, ChevronRight 
+  Landmark, History, LogOut, ChevronRight, ShieldCheck 
 } from "lucide-react"
 
 const navItems = [
@@ -14,6 +14,7 @@ const navItems = [
   { href: "/dashboard/students", label: "Students", icon: Users },
   { href: "/dashboard/fee-plans", label: "Fee Plans", icon: CreditCard },
   { href: "/dashboard/payments", label: "Payments", icon: Landmark },
+  { href: "/dashboard/verifications", label: "Verifications", icon: ShieldCheck },
   { href: "/dashboard/receipts", label: "Receipts", icon: History },
 ]
 
