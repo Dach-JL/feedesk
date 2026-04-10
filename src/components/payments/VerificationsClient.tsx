@@ -210,7 +210,7 @@ export default function VerificationsClient() {
       {/* Lightbox / Review Modal */}
       {selectedProof && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 lg:p-10 bg-zinc-950/90 backdrop-blur-xl animate-in fade-in duration-300">
-          <div className="bg-white dark:bg-zinc-900 rounded-[2.5rem] shadow-2xl w-full max-w-6xl h-full max-h-[90vh] overflow-hidden flex flex-col lg:flex-row animate-in zoom-in-95 duration-300 border border-white/10">
+          <div className="bg-white dark:bg-zinc-900 rounded-[2.5rem] shadow-2xl w-full max-w-6xl h-auto max-h-[85vh] overflow-hidden flex flex-col lg:flex-row animate-in zoom-in-95 duration-300 border border-white/10">
             
             {/* Image Preview Area */}
             <div className="flex-1 bg-black/20 dark:bg-black/40 p-4 lg:p-8 flex items-center justify-center relative overflow-hidden group">
@@ -239,7 +239,7 @@ export default function VerificationsClient() {
             </div>
 
             {/* Review Sidebar */}
-            <div className="w-full lg:w-[420px] bg-white dark:bg-zinc-900 p-8 flex flex-col border-l border-zinc-100 dark:border-zinc-800">
+            <div className="w-full lg:w-[420px] bg-white dark:bg-zinc-900 p-8 flex flex-col border-l border-zinc-100 dark:border-zinc-800 h-full overflow-hidden">
               <div className="flex items-center justify-between mb-8">
                 <h3 className="text-xl font-black text-zinc-900 dark:text-white uppercase tracking-tight">Review Details</h3>
                 <button 
@@ -250,7 +250,7 @@ export default function VerificationsClient() {
                 </button>
               </div>
 
-              <div className="space-y-6 flex-1 overflow-y-auto pr-2 custom-scrollbar">
+              <div className="space-y-6 flex-1 overflow-y-auto pr-2 custom-scrollbar min-h-0">
                 <div className="bg-zinc-50 dark:bg-zinc-800/40 p-5 rounded-2xl space-y-4 border border-zinc-100 dark:border-zinc-800">
                    <div className="flex items-center gap-4">
                       <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-black">

@@ -1,7 +1,8 @@
 "use client"
 
 import React, { useEffect, useState } from "react"
-import { DollarSign, AlertCircle, Loader2, Download, Receipt, BookOpen, CheckCircle2, FileText, Wallet } from "lucide-react"
+import Image from "next/image"
+import { DollarSign, AlertCircle, Loader2, Download, Receipt, BookOpen, CheckCircle2, FileText, Wallet, X } from "lucide-react"
 import jsPDF from "jspdf"
 import autoTable from "jspdf-autotable"
 
@@ -27,7 +28,7 @@ export default function StudentPortal() {
   // Upload Modal State
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false)
   const [uploadingAssignmentId, setUploadingAssignmentId] = useState<string | null>(null)
-  const [screenshot, setScreenshot] = useState<File | null>(null)
+  const [screenshot, setScreenshot] = useState<string | null>(null)
   const [note, setNote] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [uploadError, setUploadError] = useState("")
@@ -59,28 +60,26 @@ export default function StudentPortal() {
     setUploadError("")
 
     try {
-      const reader = new FileReader()
-      reader.readAsDataURL(screenshot)
-      reader.onload = async () => {
-        const base64 = (reader.result as string).split(",")[1]
-        const mimeType = screenshot.type
+      // Extract base64 and mimeType from the data URL
+      const mimeType = screenshot.split(";")[0].split(":")[1]
+      const base64 = screenshot.split(",")[1]
 
-        const res = await fetch("/api/student/upload-proof", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            studentFeeAssignmentId: uploadingAssignmentId,
-            screenshotBase64: base64,
-            mimeType,
-            note
-          })
+      const res = await fetch("/api/student/upload-proof", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          studentFeeAssignmentId: uploadingAssignmentId,
+          screenshotBase64: base64,
+          mimeType,
+          note
         })
+      })
 
-        const result = await res.json()
+      const result = await res.json()
 
-        if (!res.ok) {
-          setUploadError(result.error || "Failed to upload proof")
-        } else {
+      if (!res.ok) {
+        setUploadError(result.error || "Failed to upload proof")
+      } else {
           // Success
           setIsUploadModalOpen(false)
           setScreenshot(null)
@@ -89,12 +88,11 @@ export default function StudentPortal() {
           refreshData()
         }
         setIsSubmitting(false)
+      } catch (err) {
+        console.error(err)
+        setUploadError("An unexpected error occurred.")
+        setIsSubmitting(false)
       }
-    } catch (err) {
-      console.error(err)
-      setUploadError("An unexpected error occurred.")
-      setIsSubmitting(false)
-    }
   }
 
   const handleDownloadReceipt = (payment: FlattenedPayment) => {
@@ -314,13 +312,13 @@ export default function StudentPortal() {
       {/* Upload Modal */}
       {isUploadModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-zinc-950/80 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white dark:bg-zinc-900 rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden border border-zinc-200/60 dark:border-zinc-800/60 animate-in zoom-in-95 duration-300">
+          <div className="bg-white dark:bg-zinc-900 rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden border border-zinc-200/60 dark:border-zinc-800/60 animate-in zoom-in-95 duration-300 max-h-[85vh] flex flex-col">
             <div className="p-8 border-b border-zinc-100 dark:border-zinc-800/60">
               <h2 className="text-2xl font-black text-zinc-900 dark:text-white">Upload Payment Proof</h2>
               <p className="text-zinc-500 mt-2">Submit a screenshot of your Telebirr or CBE receipt for verification.</p>
             </div>
             
-            <form onSubmit={handleUpload} className="p-8 space-y-6">
+            <form onSubmit={handleUpload} className="p-8 space-y-6 overflow-y-auto flex-1 custom-scrollbar min-h-0">
               {uploadError && (
                 <div className="bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 p-4 rounded-xl text-rose-600 dark:text-rose-400 text-sm font-medium flex gap-2 items-center">
                   <AlertCircle className="w-4 h-4 shrink-0" /> {uploadError}
@@ -349,25 +347,33 @@ export default function StudentPortal() {
                                   setUploadError("Image too large. Max size is 2MB.")
                                   return
                                 }
-                                setScreenshot(file || null)
-                                setUploadError("")
+                                if (file) {
+                                  const reader = new FileReader();
+                                  reader.onloadend = () => setScreenshot(reader.result as string);
+                                  reader.readAsDataURL(file);
+                                }
                               }}
                             />
                           </label>
-                          <p className="pl-1 py-1">or drag and drop</p>
+                          <p className="pl-1 pt-1">or drag and drop</p>
                         </div>
-                        <p className="text-xs text-zinc-500 font-medium">PNG, JPG up to 2MB</p>
+                        <p className="text-xs text-zinc-500 italic">PNG, JPG, up to 2MB</p>
                       </>
                     ) : (
-                      <div className="flex flex-col items-center">
-                        <CheckCircle2 className="h-12 w-12 text-emerald-500" />
-                        <p className="text-sm font-bold text-emerald-600 mt-2">{screenshot.name}</p>
+                      <div className="relative group">
+                        <Image 
+                          src={screenshot} 
+                          alt="Preview" 
+                          width={200}
+                          height={200}
+                          unoptimized
+                          className="max-h-48 rounded-lg shadow-md object-contain" 
+                        />
                         <button 
-                          type="button" 
                           onClick={() => setScreenshot(null)}
-                          className="text-xs text-rose-500 font-bold mt-2 hover:underline"
+                          className="absolute -top-2 -right-2 bg-rose-500 text-white rounded-full p-1 shadow-lg hover:scale-110 transition-transform"
                         >
-                          Remove and change
+                          <X className="w-4 h-4" />
                         </button>
                       </div>
                     )}
@@ -376,7 +382,7 @@ export default function StudentPortal() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-bold text-zinc-700 dark:text-zinc-300">Note (Optional)</label>
+                <label className="text-sm font-bold text-zinc-700 dark:text-zinc-300">Notes (Optional)</label>
                 <textarea 
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
@@ -385,7 +391,7 @@ export default function StudentPortal() {
                 />
               </div>
 
-              <div className="flex gap-3 pt-4">
+              <div className="flex gap-3 pt-4 pb-2">
                 <button 
                   type="button"
                   onClick={() => setIsUploadModalOpen(false)}
