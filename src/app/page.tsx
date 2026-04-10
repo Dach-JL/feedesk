@@ -176,8 +176,8 @@ export default function Home() {
               {/* Mini Sidebar */}
               <div className="hidden md:flex flex-col w-44 gap-2 flex-shrink-0">
                 <div className="text-lg font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500 mb-4">FeeDesk</div>
-                {["Overview", "Classes", "Students", "Fee Plans", "Payments", "Receipts"].map((item, i) => (
-                  <div key={item} className={`px-3 py-2 rounded-lg text-xs font-medium ${i === 0 ? 'bg-zinc-800 text-white' : 'text-zinc-500'}`}>
+                {["Overview", "Classes", "Students", "Verifications", "Payments", "Receipts"].map((item, i) => (
+                  <div key={item} className={`px-3 py-2 rounded-lg text-xs font-medium ${i === 3 ? 'bg-indigo-500/10 text-indigo-400' : i === 0 ? 'bg-zinc-800 text-white' : 'text-zinc-500 hover:text-zinc-300 transition-colors cursor-default'}`}>
                     {item}
                   </div>
                 ))}
@@ -220,6 +220,32 @@ export default function Home() {
               </div>
             </div>
           </div>
+          {/* Floating UI Element - Mobile Verification Notification */}
+          <div className="absolute -top-12 -right-12 hidden lg:block animate-float-delayed">
+            <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl p-4 border border-zinc-200 dark:border-zinc-800 flex items-center gap-4 max-w-[240px]">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+                <Receipt className="w-5 h-5 text-emerald-500" />
+              </div>
+              <div>
+                <div className="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Payment Verified</div>
+                <div className="text-xs font-bold text-zinc-900 dark:text-white">Receipt unlocked for #Student_01</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Floating UI Element - Student Upload */}
+          <div className="absolute top-1/2 -left-20 hidden lg:block animate-float">
+            <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl p-4 border border-zinc-200 dark:border-zinc-800 flex items-center gap-4 max-w-[240px]">
+              <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center flex-shrink-0">
+                <Shield className="w-5 h-5 text-indigo-500" />
+              </div>
+              <div>
+                <div className="text-[10px] font-black text-indigo-500 uppercase tracking-widest">Student Portal</div>
+                <div className="text-xs font-bold text-zinc-900 dark:text-white">New Telebirr proof uploaded</div>
+              </div>
+            </div>
+          </div>
+
           {/* Glow underneath */}
           <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-3/4 h-20 bg-gradient-to-r from-indigo-500/20 via-purple-500/20 to-pink-500/20 blur-3xl rounded-full" />
         </div>
