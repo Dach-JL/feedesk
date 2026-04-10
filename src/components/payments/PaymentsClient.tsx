@@ -60,9 +60,9 @@ export default function PaymentsClient() {
     <div className="space-y-6 animate-slide-up">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left: Cashier Form */}
-        <div className="lg:col-span-2 space-y-5">
+        <div className="lg:col-span-2 space-y-4 md:space-y-6">
           {/* Step 1 */}
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 p-6">
+          <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 p-4 sm:p-6">
             <h3 className="text-base font-bold mb-4 flex items-center gap-2 text-zinc-900 dark:text-zinc-100">
               <div className="w-6 h-6 rounded-lg bg-amber-50 dark:bg-amber-500/10 flex items-center justify-center text-xs font-black text-amber-600 dark:text-amber-400">1</div>
               Locate Student

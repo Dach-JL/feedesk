@@ -130,7 +130,51 @@ export default function ClassesClient() {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+        {/* Mobile View: Cards */}
+        <div className="grid grid-cols-1 gap-4 p-4 md:hidden">
+          {loading ? (
+            Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl p-4 animate-pulse border border-zinc-100 dark:border-zinc-800/40">
+                <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-1/2 mb-3" />
+                <div className="h-3 bg-zinc-100 dark:bg-zinc-900 rounded w-1/4" />
+              </div>
+            ))
+          ) : filteredClasses.length === 0 ? (
+            <div className="text-center py-8">
+              <GraduationCap className="w-10 h-10 text-zinc-300 dark:text-zinc-700 mx-auto mb-3" />
+              <p className="text-sm text-zinc-500">No classes found.</p>
+            </div>
+          ) : (
+            filteredClasses.map((c) => (
+              <div key={c.id} className="bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl p-4 border border-zinc-100 dark:border-zinc-800/40 space-y-3">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center">
+                      <GraduationCap className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-zinc-900 dark:text-zinc-100">{c.name}</div>
+                      <div className="text-xs text-zinc-500">Created {new Date(c.createdAt).toLocaleDateString()}</div>
+                    </div>
+                  </div>
+                  <div className="flex gap-1">
+                    <button onClick={() => handleOpenModal(c)} className="p-2 text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400"><Edit className="h-4 w-4" /></button>
+                    <button onClick={() => handleDelete(c.id)} className="p-2 text-zinc-400 hover:text-rose-600 dark:hover:text-rose-400"><Trash2 className="h-4 w-4" /></button>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between pt-2 border-t border-zinc-200/40 dark:border-zinc-800/40">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">
+                    <Users className="w-3 h-3" />
+                    {c._count.students} Students
+                  </span>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        {/* Desktop View: Table */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-zinc-200/60 dark:border-zinc-800/60">

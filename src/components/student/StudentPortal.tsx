@@ -230,7 +230,79 @@ export default function StudentPortal() {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+        {/* Mobile View: Assigned Fees Cards */}
+        <div className="grid grid-cols-1 gap-4 p-4 md:hidden">
+          {data.assignments.length === 0 ? (
+            <div className="text-center py-8 text-zinc-500 italic">No assigned fees found.</div>
+          ) : (
+            data.assignments.map((assignment) => {
+              const latestProof = assignment.proofs[0]
+              const isPaid = assignment.status === "PAID"
+              const hasPendingProof = latestProof?.status === "PENDING"
+              const isRejected = latestProof?.status === "REJECTED"
+
+              return (
+                <div key={assignment.id} className="bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl p-4 border border-zinc-100 dark:border-zinc-800/40 space-y-4">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <div className="font-bold text-zinc-900 dark:text-zinc-100 text-base">{assignment.feePlan.name}</div>
+                      <div className="text-xs text-zinc-500 mt-0.5">Due {new Date(assignment.feePlan.dueDate).toLocaleDateString()}</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-lg font-black text-zinc-900 dark:text-white tabular-nums">${assignment.feePlan.amount.toFixed(2)}</div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-3 border-t border-zinc-200/40 dark:border-zinc-800/40">
+                    <div>
+                      {isPaid ? (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-[10px] font-bold uppercase">
+                          <CheckCircle2 className="w-3 h-3" /> Paid
+                        </span>
+                      ) : hasPendingProof ? (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 text-[10px] font-bold uppercase">
+                          <Loader2 className="w-3 h-3 animate-spin" /> Pending
+                        </span>
+                      ) : isRejected ? (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-rose-50 dark:bg-rose-500/10 text-rose-700 dark:text-rose-400 text-[10px] font-bold uppercase">
+                          <AlertCircle className="w-3 h-3" /> Rejected
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 text-[10px] font-bold uppercase">
+                          Payment Düe
+                        </span>
+                      )}
+                    </div>
+
+                    {!isPaid && !hasPendingProof && (
+                      <button
+                        onClick={() => {
+                          setUploadingAssignmentId(assignment.id)
+                          setIsUploadModalOpen(true)
+                        }}
+                        className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-lg shadow-indigo-500/10"
+                      >
+                        <Download className="w-3 h-3 rotate-180" /> Upload Proof
+                      </button>
+                    )}
+                  </div>
+                  
+                  {isRejected && latestProof.rejectionReason && (
+                    <div className="mt-2 p-3 bg-rose-50 dark:bg-rose-500/5 rounded-xl border border-rose-100 dark:border-rose-500/10">
+                      <p className="text-[10px] text-rose-600 dark:text-rose-400 leading-tight">
+                        <span className="font-bold uppercase tracking-tighter mr-1">Reason:</span>
+                        {latestProof.rejectionReason}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )
+            })
+          )}
+        </div>
+
+        {/* Desktop View: Table */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/50 dark:bg-zinc-900/50">
@@ -426,7 +498,46 @@ export default function StudentPortal() {
           <p className="text-sm text-zinc-500 mt-1">Review your past transactions and download official receipts for your records.</p>
         </div>
 
-        <div className="overflow-x-auto">
+        {/* Mobile View: History Cards */}
+        <div className="grid grid-cols-1 gap-4 p-4 md:hidden">
+          {data.assignments.flatMap(a => a.payments).length === 0 ? (
+            <div className="text-center py-8">
+              <Receipt className="w-10 h-10 text-zinc-300 dark:text-zinc-700 mx-auto mb-3" />
+              <p className="text-sm text-zinc-500">No payment history found.</p>
+            </div>
+          ) : (
+            data.assignments.flatMap(a => a.payments.map(p => ({ ...p, feePlan: a.feePlan }))).map((p) => (
+              <div key={p.id} className="bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl p-4 border border-zinc-100 dark:border-zinc-800/40 space-y-3">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <div className="flex items-center gap-1.5 font-bold text-zinc-900 dark:text-zinc-100">
+                      <FileText className="w-3.5 h-3.5 text-indigo-400" />
+                      {p.feePlan.name}
+                    </div>
+                    <div className="text-[11px] text-zinc-500 mt-0.5">{new Date(p.paymentDate).toLocaleDateString()}</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-base font-black text-emerald-600 dark:text-emerald-400 tabular-nums">${p.amount.toFixed(2)}</div>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between pt-2 border-t border-zinc-200/40 dark:border-zinc-800/40">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 uppercase tracking-tighter">
+                    <CheckCircle2 className="w-3 h-3" />{p.status}
+                  </span>
+                  <button 
+                    onClick={() => handleDownloadReceipt(p)}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10"
+                  >
+                    <Download className="h-3 w-3" /> Receipt
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        {/* Desktop View: Table */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/50 dark:bg-zinc-900/50">
