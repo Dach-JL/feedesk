@@ -147,7 +147,123 @@ export default function VerificationsClient() {
 
   return (
     <div className="space-y-6 animate-slide-up">
-      {/* List content unchanged... */}
+      <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200/60 dark:border-zinc-800/60 overflow-hidden shadow-sm">
+        <div className="p-6 border-b border-zinc-100 dark:border-zinc-800/60 flex items-center justify-between">
+            <h2 className="text-lg font-bold text-zinc-900 dark:text-white flex items-center gap-2">
+                <Clock className="w-5 h-5 text-indigo-500" />
+                Pending Verifications
+            </h2>
+            <span className="px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-xs font-bold uppercase tracking-wider">
+                {proofs.length} Waiting
+            </span>
+        </div>
+
+        {/* Mobile View: Cards */}
+        <div className="grid grid-cols-1 gap-4 p-4 md:hidden">
+          {proofs.length === 0 ? (
+            <div className="text-center py-12">
+              <CheckCircle2 className="w-12 h-12 text-zinc-300 dark:text-zinc-700 mx-auto mb-4" />
+              <p className="text-sm text-zinc-500 font-medium">All caught up! No pending verifications.</p>
+            </div>
+          ) : (
+            proofs.map((proof) => (
+              <div key={proof.id} className="bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl p-5 border border-zinc-100 dark:border-zinc-800/40 space-y-4">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center">
+                      <User className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-zinc-900 dark:text-zinc-100 leading-tight">{proof.studentFeeAssignment.student.name}</div>
+                      <div className="text-[11px] text-zinc-500 font-medium uppercase tracking-wider mt-0.5">{proof.studentFeeAssignment.student.class.name}</div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-sm font-black text-indigo-600 dark:text-indigo-400 tabular-nums">${proof.studentFeeAssignment.feePlan.amount.toFixed(2)}</div>
+                    <div className="text-[10px] text-zinc-400 font-bold mt-0.5">{new Date(proof.createdAt).toLocaleDateString()}</div>
+                  </div>
+                </div>
+
+                <div className="pt-3 border-t border-zinc-200/40 dark:border-zinc-800/40 flex items-center justify-between">
+                    <div className="text-[11px] font-bold text-zinc-500 uppercase flex items-center gap-1.5">
+                        <CreditCard className="w-3.5 h-3.5" />
+                        {proof.studentFeeAssignment.feePlan.name}
+                    </div>
+                    <button 
+                      onClick={() => handleViewProof(proof.id)}
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 hover:opacity-90 transition-all shadow-lg shadow-zinc-500/10"
+                    >
+                      <Eye className="w-3.5 h-3.5" /> Review
+                    </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        {/* Desktop View: Table */}
+        <div className="hidden md:block overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-zinc-100 dark:border-zinc-800/60 bg-zinc-50/50 dark:bg-zinc-900/50">
+                <th className="h-12 px-6 text-left text-[11px] font-black text-zinc-500 uppercase tracking-widest">Submitted Date</th>
+                <th className="h-12 px-6 text-left text-[11px] font-black text-zinc-500 uppercase tracking-widest">Student</th>
+                <th className="h-12 px-6 text-left text-[11px] font-black text-zinc-500 uppercase tracking-widest">Fee Plan</th>
+                <th className="h-12 px-6 text-left text-[11px] font-black text-zinc-500 uppercase tracking-widest">Amount</th>
+                <th className="h-12 px-6 text-right text-[11px] font-black text-zinc-500 uppercase tracking-widest">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {proofs.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="p-16 text-center">
+                    <CheckCircle2 className="w-12 h-12 text-zinc-200 dark:text-zinc-800 mx-auto mb-4" />
+                    <p className="text-sm text-zinc-500 font-medium">No pending verifications at the moment.</p>
+                  </td>
+                </tr>
+              ) : (
+                proofs.map((proof) => (
+                  <tr key={proof.id} className="border-b border-zinc-50 dark:border-zinc-800/40 hover:bg-zinc-50/50 dark:hover:bg-zinc-800/20 transition-colors group">
+                    <td className="px-6 py-5 text-zinc-500 font-medium text-xs">
+                        {new Date(proof.createdAt).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                    </td>
+                    <td className="px-6 py-5">
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500/10 to-purple-500/10 flex items-center justify-center border border-indigo-100/50 dark:border-indigo-500/10 flex-shrink-0">
+                          <span className="text-xs font-black text-indigo-600 dark:text-indigo-400 uppercase">{proof.studentFeeAssignment.student.name.charAt(0)}</span>
+                        </div>
+                        <div className="min-w-0">
+                            <p className="font-bold text-zinc-900 dark:text-white leading-tight truncate">{proof.studentFeeAssignment.student.name}</p>
+                            <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider mt-0.5">{proof.studentFeeAssignment.student.class.name}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-5">
+                      <span className="inline-flex items-center gap-1.5 font-bold text-zinc-700 dark:text-zinc-300">
+                        <FileText className="w-3.5 h-3.5 text-zinc-400" />
+                        {proof.studentFeeAssignment.feePlan.name}
+                      </span>
+                    </td>
+                    <td className="px-6 py-5">
+                        <span className="text-sm font-black text-emerald-600 dark:text-emerald-400 tabular-nums">
+                            ${proof.studentFeeAssignment.feePlan.amount.toFixed(2)}
+                        </span>
+                    </td>
+                    <td className="px-6 py-5 text-right">
+                      <button 
+                        onClick={() => handleViewProof(proof.id)}
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-900 transition-all shadow-lg shadow-zinc-500/5 hover:scale-[1.02] active:scale-[0.98]"
+                      >
+                        <Eye className="w-3.5 h-3.5" /> Review Proof
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
       
       {/* Lightbox / Review Modal */}
       {selectedProof && (
