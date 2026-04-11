@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Bell, Check, ExternalLink } from "lucide-react";
+import { Bell, Check, ExternalLink, Info, CheckCircle2, AlertCircle, AlertTriangle, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -19,6 +19,13 @@ interface Notification {
   isRead: boolean;
   createdAt: string;
 }
+
+const typeConfig: Record<string, { icon: any; color: string; bgColor: string }> = {
+  SUCCESS: { icon: CheckCircle2, color: "text-emerald-500", bgColor: "bg-emerald-500/10" },
+  ERROR: { icon: AlertCircle, color: "text-rose-500", bgColor: "bg-rose-500/10" },
+  WARNING: { icon: AlertTriangle, color: "text-amber-500", bgColor: "bg-amber-500/10" },
+  INFO: { icon: Info, color: "text-indigo-500", bgColor: "bg-indigo-500/10" },
+};
 
 export default function NotificationCenter() {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,7 +50,6 @@ export default function NotificationCenter() {
 
   useEffect(() => {
     fetchNotifications();
-    // Poll every 60 seconds
     const interval = setInterval(fetchNotifications, 60000);
     return () => clearInterval(interval);
   }, []);
@@ -58,7 +64,8 @@ export default function NotificationCenter() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const markAsRead = async (id: string) => {
+  const markAsRead = async (id: string, e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
     try {
       const res = await fetch("/api/notifications", {
         method: "PATCH",
@@ -143,14 +150,15 @@ export default function NotificationCenter() {
               <button
                 onClick={markAllAsRead}
                 disabled={isLoading}
-                className="text-xs text-indigo-500 hover:text-indigo-600 font-medium disabled:opacity-50"
+                className="text-xs text-indigo-500 hover:text-indigo-600 font-medium disabled:opacity-50 flex items-center gap-1"
               >
+                <Check className="w-3 h-3" />
                 Mark all as read
               </button>
             )}
           </div>
 
-          <div className="max-h-[400px] overflow-y-auto">
+          <div className="max-h-[400px] overflow-y-auto custom-scrollbar">
             {notifications.length === 0 ? (
               <div className="p-8 text-center">
                 <div className="w-12 h-12 bg-zinc-100 dark:bg-zinc-800 rounded-full flex items-center justify-center mx-auto mb-3">
@@ -160,37 +168,64 @@ export default function NotificationCenter() {
               </div>
             ) : (
               <div className="divide-y divide-zinc-100 dark:divide-zinc-800">
-                {notifications.map((notification) => (
-                  <div
-                    key={notification.id}
-                    onClick={() => handleNotificationClick(notification)}
-                    className={cn(
-                      "p-4 hover:bg-zinc-50 dark:hover:bg-white/[0.02] cursor-pointer transition-colors relative group",
-                      !notification.isRead && "bg-indigo-50/30 dark:bg-indigo-500/5"
-                    )}
-                  >
-                    {!notification.isRead && (
-                      <div className="absolute left-1 top-1/2 -translate-y-1/2 w-1 h-8 bg-indigo-500 rounded-full" />
-                    )}
-                    <div className="flex justify-between gap-2 mb-1">
-                      <span className="font-semibold text-sm text-zinc-900 dark:text-zinc-100">
-                        {notification.title}
-                      </span>
-                      <span className="text-[10px] text-zinc-500 whitespace-nowrap">
-                        {formatTime(notification.createdAt)}
-                      </span>
-                    </div>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-400 line-clamp-2 leading-relaxed">
-                      {notification.message}
-                    </p>
-                    {notification.link && (
-                      <div className="mt-2 flex items-center text-[10px] font-medium text-indigo-500 group-hover:underline">
-                        View details
-                        <ExternalLink className="w-2.5 h-2.5 ml-1" />
+                {notifications.map((notification) => {
+                  const config = typeConfig[notification.type] || typeConfig.INFO;
+                  const Icon = config.icon;
+
+                  return (
+                    <div
+                      key={notification.id}
+                      onClick={() => handleNotificationClick(notification)}
+                      className={cn(
+                        "p-4 hover:bg-zinc-50 dark:hover:bg-white/[0.02] cursor-pointer transition-colors relative group",
+                        !notification.isRead && "bg-indigo-50/30 dark:bg-indigo-500/5"
+                      )}
+                    >
+                      {!notification.isRead && (
+                        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-10 bg-indigo-500 rounded-r-lg" />
+                      )}
+                      
+                      <div className="flex gap-3">
+                        <div className={cn("shrink-0 w-8 h-8 rounded-full flex items-center justify-center", config.bgColor)}>
+                          <Icon className={cn("w-4 h-4", config.color)} />
+                        </div>
+                        
+                        <div className="flex-1 min-w-0">
+                          <div className="flex justify-between gap-2 mb-0.5">
+                            <span className="font-semibold text-sm text-zinc-900 dark:text-zinc-100 truncate">
+                              {notification.title}
+                            </span>
+                            <span className="text-[10px] text-zinc-500 whitespace-nowrap mt-0.5">
+                              {formatTime(notification.createdAt)}
+                            </span>
+                          </div>
+                          <p className="text-sm text-zinc-600 dark:text-zinc-400 line-clamp-2 leading-snug mb-2">
+                            {notification.message}
+                          </p>
+                          
+                          <div className="flex items-center justify-between">
+                            {notification.link ? (
+                              <div className="flex items-center text-[10px] font-medium text-indigo-500 group-hover:underline">
+                                View details
+                                <ExternalLink className="w-2.5 h-2.5 ml-1" />
+                              </div>
+                            ) : <div></div>}
+                            
+                            {!notification.isRead && (
+                              <button
+                                onClick={(e) => markAsRead(notification.id, e)}
+                                title="Mark as read"
+                                className="opacity-0 group-hover:opacity-100 p-1 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-md transition-all text-zinc-400 hover:text-indigo-500"
+                              >
+                                <Check className="w-3.5 h-3.5" />
+                              </button>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                    )}
-                  </div>
-                ))}
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>
@@ -205,6 +240,25 @@ export default function NotificationCenter() {
           </div>
         </div>
       )}
+      
+      <style jsx global>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #e4e4e7;
+          border-radius: 10px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #27272a;
+        }
+      `}</style>
+    </div>
+  );
+}
     </div>
   );
 }
