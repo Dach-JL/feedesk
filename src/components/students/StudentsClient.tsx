@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Plus, Search, Edit, Trash2, X, Loader2, Mail, UserCircle } from "lucide-react";
+import { Plus, Search, Edit, Trash2, X, Loader2, Mail, UserCircle, ChevronLeft, ChevronRight } from "lucide-react";
 
 type ClassData = { id: string; name: string; };
 type StudentData = {
@@ -14,23 +14,61 @@ export default function StudentsClient() {
   const [classes, setClasses] = useState<ClassData[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  
+  // Pagination State
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const limit = 50;
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState({ name: "", email: "", classId: "", password: "student123" });
 
+  // Debounce search term
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchTerm);
+      setPage(1); // Reset to first page on new search
+    }, 500);
+    return () => clearTimeout(handler);
+  }, [searchTerm]);
+
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [stuRes, classRes] = await Promise.all([fetch("/api/students"), fetch("/api/classes")]);
+      const queryParams = new URLSearchParams({
+        page: page.toString(),
+        limit: limit.toString(),
+        search: debouncedSearch
+      });
+
+      const [stuRes, classRes] = await Promise.all([
+        fetch(`/api/students?${queryParams.toString()}`), 
+        fetch("/api/classes")
+      ]);
+      
       const stuData = await stuRes.json();
       const classData = await classRes.json();
-      if (Array.isArray(stuData)) setStudents(stuData);
+      
+      if (stuData.students) {
+        setStudents(stuData.students);
+        setTotalPages(stuData.totalPages);
+        setTotalCount(stuData.totalCount);
+      }
       if (Array.isArray(classData)) setClasses(classData);
-    } catch (err) { console.error(err); } finally { setLoading(false); }
+    } catch (err) { 
+      console.error(err); 
+    } finally { 
+      setLoading(false); 
+    }
   };
 
-  useEffect(() => { fetchData(); }, []);
+  useEffect(() => { 
+    fetchData(); 
+  }, [page, debouncedSearch]);
 
   const handleOpenModal = (s?: StudentData) => {
     if (s) { setEditingId(s.id); setFormData({ name: s.name, email: s.email || "", classId: s.classId, password: "" }); } 
@@ -59,12 +97,6 @@ export default function StudentsClient() {
     } catch (error) { console.error(error); }
   };
 
-  const filteredStudents = students.filter((s) =>
-    s.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    (s.email && s.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    (s.class?.name.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
-
   return (
     <div className="space-y-6 animate-slide-up">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -92,13 +124,13 @@ export default function StudentsClient() {
                 <div className="h-3 bg-zinc-100 dark:bg-zinc-900 rounded w-3/4" />
               </div>
             ))
-          ) : filteredStudents.length === 0 ? (
+          ) : students.length === 0 ? (
             <div className="text-center py-8">
               <UserCircle className="w-10 h-10 text-zinc-300 dark:text-zinc-700 mx-auto mb-3" />
               <p className="text-sm text-zinc-500">No students found.</p>
             </div>
           ) : (
-            filteredStudents.map((s) => (
+            students.map((s) => (
               <div key={s.id} className="bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl p-4 border border-zinc-100 dark:border-zinc-800/40 space-y-3">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
@@ -147,7 +179,7 @@ export default function StudentsClient() {
                     <td className="p-4 px-6"><div className="h-4 bg-zinc-100 dark:bg-zinc-800 rounded-lg w-16 ml-auto" /></td>
                   </tr>
                 ))
-              ) : filteredStudents.length === 0 ? (
+              ) : students.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="p-12 text-center">
                     <UserCircle className="w-10 h-10 text-zinc-300 dark:text-zinc-700 mx-auto mb-3" />
@@ -155,7 +187,7 @@ export default function StudentsClient() {
                   </td>
                 </tr>
               ) : (
-                filteredStudents.map((s) => (
+                students.map((s) => (
                   <tr key={s.id} className="border-b border-zinc-100 dark:border-zinc-800/40 hover:bg-zinc-50/50 dark:hover:bg-zinc-800/20 transition-colors group">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
@@ -187,6 +219,56 @@ export default function StudentsClient() {
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* Pagination Footer */}
+        <div className="px-6 py-4 border-t border-zinc-200/60 dark:border-zinc-800/60 flex flex-col sm:flex-row items-center justify-between gap-4 bg-zinc-50/30 dark:bg-zinc-900/30">
+          <div className="text-xs text-zinc-500 font-medium">
+            Showing <span className="text-zinc-900 dark:text-zinc-200">{students.length > 0 ? (page - 1) * limit + 1 : 0}</span> to <span className="text-zinc-900 dark:text-zinc-200">{(page - 1) * limit + students.length}</span> of <span className="text-zinc-900 dark:text-zinc-200">{totalCount}</span> students
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setPage(p => Math.max(1, p - 1))}
+              disabled={page === 1 || loading}
+              className="p-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-white dark:hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            
+            <div className="flex items-center gap-1">
+              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                // Show pages around current page
+                let pageNum = page;
+                if (totalPages <= 5) pageNum = i + 1;
+                else if (page <= 3) pageNum = i + 1;
+                else if (page >= totalPages - 2) pageNum = totalPages - 4 + i;
+                else pageNum = page - 2 + i;
+
+                return (
+                  <button
+                    key={pageNum}
+                    onClick={() => setPage(pageNum)}
+                    className={`min-w-[32px] h-8 px-2 rounded-lg text-xs font-semibold transition-colors ${
+                      page === pageNum
+                        ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
+                        : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                    }`}
+                  >
+                    {pageNum}
+                  </button>
+                );
+              })}
+            </div>
+
+            <button
+              onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+              disabled={page === totalPages || loading}
+              className="p-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-white dark:hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       </div>
 

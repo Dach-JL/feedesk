@@ -4,28 +4,50 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import bcrypt from "bcryptjs";
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
     const session = await getServerSession(authOptions);
     if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const students = await prisma.student.findMany({
-      orderBy: { createdAt: 'desc' },
-      include: {
-        class: true,
-        assignments: {
-          include: {
-            feePlan: true,
-            payments: true
-          }
-        }
-      }
+    const { searchParams } = new URL(req.url);
+    const page = parseInt(searchParams.get("page") || "1");
+    const limit = parseInt(searchParams.get("limit") || "50");
+    const search = searchParams.get("search") || "";
+    const skip = (page - 1) * limit;
+
+    const where: any = {};
+    if (search) {
+      where.OR = [
+        { name: { contains: search, mode: "insensitive" } },
+        { email: { contains: search, mode: "insensitive" } },
+        { class: { name: { contains: search, mode: "insensitive" } } },
+      ];
+    }
+
+    const [students, totalCount] = await Promise.all([
+      prisma.student.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy: { createdAt: "desc" },
+        include: {
+          class: true,
+        },
+      }),
+      prisma.student.count({ where }),
+    ]);
+
+    return NextResponse.json({
+      students,
+      totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      page,
+      limit,
     });
-    
-    return NextResponse.json(students);
-  } catch {
+  } catch (error) {
+    console.error("[STUDENTS_GET_ERROR]", error);
     return NextResponse.json({ error: "Failed to fetch students" }, { status: 500 });
   }
 }
