@@ -167,31 +167,31 @@ export default function VerificationsClient() {
             </div>
           ) : (
             proofs.map((proof) => (
-              <div key={proof.id} className="bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl p-5 border border-zinc-100 dark:border-zinc-800/40 space-y-4">
+              <div key={proof.id} className="bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl p-4 border border-zinc-100 dark:border-zinc-800/40 space-y-3">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center">
-                      <User className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+                    <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center shrink-0">
+                      <User className="w-4.5 h-4.5 text-indigo-600 dark:text-indigo-400" />
                     </div>
-                    <div>
-                      <div className="font-bold text-zinc-900 dark:text-zinc-100 leading-tight">{proof.studentFeeAssignment.student.name}</div>
-                      <div className="text-[11px] text-zinc-500 font-medium uppercase tracking-wider mt-0.5">{proof.studentFeeAssignment.student.class.name}</div>
+                    <div className="min-w-0">
+                      <div className="font-bold text-zinc-900 dark:text-zinc-100 leading-tight truncate">{proof.studentFeeAssignment.student.name}</div>
+                      <div className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider mt-0.5">{proof.studentFeeAssignment.student.class.name}</div>
                     </div>
                   </div>
-                  <div className="text-right">
+                  <div className="text-right shrink-0">
                     <div className="text-sm font-black text-indigo-600 dark:text-indigo-400 tabular-nums">${proof.studentFeeAssignment.feePlan.amount.toFixed(2)}</div>
                     <div className="text-[10px] text-zinc-400 font-bold mt-0.5">{new Date(proof.createdAt).toLocaleDateString()}</div>
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-zinc-200/40 dark:border-zinc-800/40 flex items-center justify-between">
-                    <div className="text-[11px] font-bold text-zinc-500 uppercase flex items-center gap-1.5">
-                        <CreditCard className="w-3.5 h-3.5" />
-                        {proof.studentFeeAssignment.feePlan.name}
+                <div className="pt-3 border-t border-zinc-200/40 dark:border-zinc-800/40 flex items-center justify-between gap-3">
+                    <div className="text-[10px] font-bold text-zinc-500 uppercase flex items-center gap-1.5 truncate">
+                        <CreditCard className="w-3.5 h-3.5 shrink-0" />
+                        <span className="truncate">{proof.studentFeeAssignment.feePlan.name}</span>
                     </div>
                     <button 
                       onClick={() => handleViewProof(proof.id)}
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 hover:opacity-90 transition-all shadow-lg shadow-zinc-500/10"
+                      className="shrink-0 inline-flex items-center gap-2 px-3 py-2 rounded-xl text-[11px] font-black bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 hover:opacity-90 transition-all shadow-md"
                     >
                       <Eye className="w-3.5 h-3.5" /> Review
                     </button>
@@ -267,38 +267,40 @@ export default function VerificationsClient() {
       
       {/* Lightbox / Review Modal */}
       {selectedProof && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-0 lg:p-10 bg-zinc-950/90 backdrop-blur-xl animate-in fade-in duration-300">
-          <div className="bg-white dark:bg-zinc-900 shadow-2xl w-full h-full lg:h-auto lg:max-h-[85vh] lg:max-w-6xl lg:rounded-[2.5rem] overflow-hidden flex flex-col lg:flex-row animate-in zoom-in-95 duration-300 border-none lg:border lg:border-white/10 relative">
+        <div className="fixed inset-0 z-[100] flex items-end lg:items-center justify-center p-0 lg:p-6 bg-zinc-950/90 backdrop-blur-xl animate-in fade-in duration-300">
+          <div className="bg-white dark:bg-zinc-900 shadow-2xl w-full h-[92vh] lg:h-auto lg:max-h-[85vh] lg:max-w-5xl rounded-t-[2rem] lg:rounded-3xl overflow-hidden flex flex-col lg:flex-row animate-in slide-in-from-bottom-5 lg:slide-in-from-bottom-0 lg:zoom-in-95 duration-300 border-t border-white/10 lg:border relative">
             
             {/* Image Preview Area */}
-            <div className="h-[40vh] lg:h-auto lg:flex-1 bg-black/20 dark:bg-black/40 p-4 lg:p-8 flex items-center justify-center relative overflow-hidden group">
+            <div className="h-[45vh] lg:h-auto lg:flex-1 bg-black/20 dark:bg-black/40 p-4 lg:p-8 flex items-center justify-center relative shadow-inner">
               <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 opacity-30" />
               <Image 
                 src={selectedProof.screenshotUrl} 
                 width={1200}
                 height={800}
                 unoptimized
-                className="max-w-full max-h-full object-contain rounded-xl lg:rounded-2xl shadow-2xl relative z-10 hover:scale-[1.02] transition-transform duration-500" 
+                className="max-w-full max-h-full object-contain rounded-xl lg:rounded-2xl shadow-2xl relative z-10" 
                 alt="Payment Screenshot" 
               />
+              {/* Mobile Close Button */}
               <button 
                 onClick={() => setSelectedProof(null)}
-                className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/20 hover:bg-black/40 backdrop-blur-md flex items-center justify-center text-white transition-all lg:hidden"
+                className="absolute top-4 right-4 z-20 w-12 h-12 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md flex items-center justify-center text-white transition-all lg:hidden shadow-xl"
               >
-                <X className="w-5 h-5" />
+                <X className="w-6 h-6" />
               </button>
               <a 
                 href={selectedProof.screenshotUrl} 
-                download={`Proof_${selectedProof.studentFeeAssignment.student.name}_${selectedProof.id}.png`}
-                className="absolute bottom-4 right-4 lg:bottom-10 lg:right-10 z-20 px-3 py-1.5 lg:px-4 lg:py-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md text-white text-[10px] lg:text-xs font-bold flex items-center gap-2 transition-all"
+                target="_blank"
+                rel="noreferrer"
+                className="absolute bottom-4 right-4 lg:bottom-10 lg:right-10 z-20 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md text-white text-[10px] lg:text-xs font-bold flex items-center gap-2 transition-all border border-white/10"
               >
-                <ExternalLink className="w-3 h-3 lg:w-3.5 lg:h-3.5" /> Open Full Image
+                <ExternalLink className="w-3.5 h-3.5" /> Full View
               </a>
             </div>
 
             {/* Review Sidebar */}
-            <div className="flex-1 lg:w-[420px] bg-white dark:bg-zinc-900 p-6 lg:p-8 flex flex-col border-t lg:border-t-0 lg:border-l border-zinc-100 dark:border-zinc-800 h-auto lg:h-full overflow-hidden">
-              <div className="flex items-center justify-between mb-6 lg:mb-8">
+            <div className="flex-1 lg:w-[400px] bg-white dark:bg-zinc-900 p-6 lg:p-8 flex flex-col h-auto lg:h-full overflow-hidden">
+              <div className="flex items-center justify-between mb-6">
                 <h3 className="text-lg lg:text-xl font-black text-zinc-900 dark:text-white uppercase tracking-tight">Review Details</h3>
                 <button 
                   onClick={() => setSelectedProof(null)}
@@ -308,10 +310,10 @@ export default function VerificationsClient() {
                 </button>
               </div>
 
-              <div className="space-y-5 lg:space-y-6 flex-1 overflow-y-auto pr-2 custom-scrollbar min-h-0">
-                <div className="bg-zinc-50 dark:bg-zinc-800/40 p-4 lg:p-5 rounded-2xl space-y-4 border border-zinc-100 dark:border-zinc-800">
+              <div className="space-y-5 lg:space-y-6 flex-1 overflow-y-auto pr-1 custom-scrollbar min-h-0">
+                <div className="bg-zinc-50 dark:bg-zinc-800/40 p-4 rounded-2xl space-y-4 border border-zinc-100 dark:border-zinc-800">
                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-xl lg:rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-black text-xs lg:text-base uppercase">
+                      <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-black text-xs lg:text-base uppercase">
                         {selectedProof.studentFeeAssignment.student.name.charAt(0)}
                       </div>
                       <div className="min-w-0">
@@ -325,13 +327,13 @@ export default function VerificationsClient() {
                         <p className="text-[11px] lg:text-xs font-bold text-zinc-800 dark:text-zinc-200 truncate">{selectedProof.studentFeeAssignment.feePlan.name}</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-tighter">Amount Düe</p>
+                        <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-tighter">Amount Due</p>
                         <p className="text-base lg:text-sm font-black text-emerald-600 dark:text-emerald-400 tabular-nums">${selectedProof.studentFeeAssignment.feePlan.amount.toFixed(2)}</p>
                       </div>
                    </div>
                 </div>
 
-                <div className="space-y-2 lg:space-y-3">
+                <div className="space-y-2">
                   <label className="text-[10px] lg:text-xs font-black text-zinc-500 uppercase tracking-widest pl-1">Decision Note</label>
                   <textarea 
                     value={rejectionReason}
@@ -342,11 +344,11 @@ export default function VerificationsClient() {
                 </div>
               </div>
 
-              <div className="pt-6 lg:pt-8 grid grid-cols-2 gap-4 mt-auto">
+              <div className="pt-6 grid grid-cols-2 gap-3 mt-auto shrink-0">
                 <button 
                   onClick={handleReject}
                   disabled={isSubmitting}
-                  className="flex items-center justify-center gap-2 h-12 lg:h-14 rounded-2xl border-2 border-rose-500/20 text-rose-500 font-black text-xs lg:text-sm hover:bg-rose-500/10 transition-all disabled:opacity-40"
+                  className="flex items-center justify-center gap-2 h-12 lg:h-14 rounded-2xl border border-rose-500/20 text-rose-500 font-bold text-xs lg:text-sm hover:bg-rose-500/10 transition-all disabled:opacity-40"
                 >
                   {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <XCircle className="w-5 h-5" />}
                   Reject
