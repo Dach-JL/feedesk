@@ -19,25 +19,49 @@ type StudentData = {
 };
 
 export default function PaymentsClient() {
-  const [students, setStudents] = useState<StudentData[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [searchResults, setSearchResults] = useState<{ id: string; name: string; class: { name: string } }[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedStudent, setSelectedStudent] = useState<StudentData | null>(null);
   const [selectedStudentId, setSelectedStudentId] = useState<string>("");
+  
+  const [loading, setLoading] = useState(false);
+  const [detailsLoading, setDetailsLoading] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+
   const [selectedAssignmentId, setSelectedAssignmentId] = useState<string>("");
   const [paymentAmount, setPaymentAmount] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const fetchData = async () => {
+  // Debounced Search
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setSearchResults([]);
+      return;
+    }
+    const handler = setTimeout(async () => {
+      setIsSearching(true);
+      try {
+        const res = await fetch(`/api/students/search?q=${encodeURIComponent(searchQuery)}`);
+        const data = await res.json();
+        setSearchResults(data);
+      } catch (err) { console.error(err); } finally { setIsSearching(false); }
+    }, 400);
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
+
+  const fetchStudentDetails = async (id: string) => {
+    setDetailsLoading(true);
+    setSelectedStudentId(id);
+    setSelectedStudent(null);
+    setSelectedAssignmentId("");
+    setPaymentAmount("");
     try {
-      const [stuRes] = await Promise.all([
-        fetch("/api/students"), 
-      ]);
-      setStudents(await stuRes.json());
-    } catch (err) { console.error(err); } finally { setLoading(false); }
+      const res = await fetch(`/api/students/${id}`);
+      const data = await res.json();
+      if (!data.error) setSelectedStudent(data);
+    } catch (err) { console.error(err); } finally { setDetailsLoading(false); }
   };
 
-  useEffect(() => { fetchData(); }, []);
-
-  const selectedStudent = students.find(s => s.id === selectedStudentId);
   const studentPayments = selectedStudent ? selectedStudent.assignments.flatMap(a => a.payments) : [];
   const totalOwed = selectedStudent ? selectedStudent.assignments.reduce((sum, a) => sum + a.feePlan.amount, 0) : 0;
   const totalPaid = studentPayments.reduce((sum, payment) => sum + payment.amount, 0);
@@ -52,7 +76,10 @@ export default function PaymentsClient() {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ studentFeeAssignmentId: selectedAssignmentId, amount: parseFloat(paymentAmount) }),
       });
-      if (res.ok) { setPaymentAmount(""); fetchData(); } else alert("Transaction failed.");
+      if (res.ok) { 
+        setPaymentAmount(""); 
+        fetchStudentDetails(selectedStudentId); // Refresh details
+      } else alert("Transaction failed.");
     } catch (err) { console.error(err); } finally { setIsSubmitting(false); }
   };
 
@@ -62,18 +89,88 @@ export default function PaymentsClient() {
         {/* Left: Cashier Form */}
         <div className="lg:col-span-2 space-y-4 md:space-y-6">
           {/* Step 1 */}
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 p-4 sm:p-6">
+          <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 p-4 sm:p-6 transition-all">
             <h3 className="text-base font-bold mb-4 flex items-center gap-2 text-zinc-900 dark:text-zinc-100">
               <div className="w-6 h-6 rounded-lg bg-amber-50 dark:bg-amber-500/10 flex items-center justify-center text-xs font-black text-amber-600 dark:text-amber-400">1</div>
               Locate Student
             </h3>
-            {loading ? <div className="h-12 bg-zinc-100 dark:bg-zinc-800 animate-pulse rounded-xl" /> : (
-              <select value={selectedStudentId} onChange={(e) => { setSelectedStudentId(e.target.value); setSelectedAssignmentId(""); }}
-                className="flex h-12 w-full rounded-xl border-2 border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all">
-                <option value="">-- Select Student --</option>
-                {students.map(s => <option key={s.id} value={s.id}>{s.name} {s.class ? `(${s.class.name})` : ""}</option>)}
-              </select>
-            )}
+            
+            <div className="space-y-4">
+              <div className="relative">
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+                <input 
+                  type="text" 
+                  placeholder="Search by name or email..." 
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="flex h-11 w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-4 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                />
+                {isSearching && (
+                  <div className="absolute right-3.5 top-1/2 -translate-y-1/2">
+                    <Loader2 className="h-4 w-4 animate-spin text-amber-500" />
+                  </div>
+                )}
+              </div>
+
+              {/* Search Results Dropdown */}
+              {searchResults.length > 0 && !selectedStudentId && (
+                <div className="mt-2 bg-white dark:bg-zinc-950 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="max-h-60 overflow-y-auto divide-y divide-zinc-100 dark:divide-zinc-800">
+                    {searchResults.map((s) => (
+                      <button
+                        key={s.id}
+                        onClick={() => {
+                          fetchStudentDetails(s.id);
+                          setSearchQuery("");
+                          setSearchResults([]);
+                        }}
+                        className="w-full px-4 py-3 text-left hover:bg-zinc-50 dark:hover:bg-zinc-900 flex items-center gap-3 transition-colors"
+                      >
+                        <UserCircle className="w-5 h-5 text-zinc-400" />
+                        <div>
+                          <div className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{s.name}</div>
+                          <div className="text-[11px] text-zinc-500 uppercase font-medium">{s.class.name}</div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Selected Student Display */}
+              {selectedStudent && (
+                <div className="bg-amber-50/50 dark:bg-amber-500/5 rounded-xl border border-amber-200/50 dark:border-amber-500/20 p-4 flex items-center justify-between animate-in zoom-in-95 duration-200">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-amber-500/10 flex items-center justify-center">
+                      <CheckCircle2 className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+                    </div>
+                    <div>
+                      <div className="text-sm font-bold text-zinc-900 dark:text-white">{selectedStudent.name}</div>
+                      <div className="text-xs text-amber-600/80 dark:text-amber-400/80 font-medium">
+                        {selectedStudent.class?.name || "Unassigned"}
+                      </div>
+                    </div>
+                  </div>
+                  <button 
+                    onClick={() => {
+                      setSelectedStudent(null);
+                      setSelectedStudentId("");
+                      setSearchQuery("");
+                    }}
+                    className="text-xs text-zinc-400 hover:text-rose-500 font-medium underline px-2 py-1"
+                  >
+                    Change Student
+                  </button>
+                </div>
+              )}
+
+              {detailsLoading && (
+                <div className="flex items-center justify-center py-4 gap-2 text-sm text-zinc-500">
+                  <Loader2 className="w-4 h-4 animate-spin text-amber-500" />
+                  Loading financial records...
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Step 2 */}
