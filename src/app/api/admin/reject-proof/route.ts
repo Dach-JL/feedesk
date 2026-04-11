@@ -17,9 +17,16 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Proof ID is required" }, { status: 400 });
     }
 
-    // 1. Fetch proof
+    // 1. Fetch proof with assignment details
     const proof = await prisma.paymentProof.findUnique({
       where: { id: proofId },
+      include: {
+        studentFeeAssignment: {
+          include: {
+            feePlan: true,
+          }
+        }
+      }
     });
 
     if (!proof || proof.status !== "PENDING") {
@@ -27,12 +34,25 @@ export async function POST(req: Request) {
     }
 
     // 2. Mark proof as rejected with reason
+    const finalReason = reason || "Proof could not be verified.";
     const updatedProof = await prisma.paymentProof.update({
       where: { id: proofId },
       data: { 
         status: "REJECTED",
-        rejectionReason: reason || "Proof could not be verified.",
+        rejectionReason: finalReason,
         reviewedBy: session.user.name || "System Admin"
+      },
+    });
+
+    // 3. Notify student
+    await prisma.notification.create({
+      data: {
+        userId: `student-${proof.studentFeeAssignment.studentId}`,
+        role: "student",
+        title: "Payment Rejected",
+        message: `Your payment for ${proof.studentFeeAssignment.feePlan.name} was rejected. Reason: ${finalReason}`,
+        type: "ERROR",
+        link: "/dashboard/verifications", // Or wherever they re-upload
       },
     });
 

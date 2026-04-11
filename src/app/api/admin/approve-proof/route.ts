@@ -62,6 +62,18 @@ export async function POST(req: Request) {
       return { payment, updatedAssignment, updatedProof };
     });
 
+    // 3. Notify student
+    await prisma.notification.create({
+      data: {
+        userId: `student-${proof.studentFeeAssignment.studentId}`,
+        role: "student",
+        title: "Payment Approved",
+        message: `Your payment for ${proof.studentFeeAssignment.feePlan.name} has been approved.`,
+        type: "SUCCESS",
+        link: "/dashboard/receipts",
+      },
+    });
+
     return NextResponse.json({ 
       message: "Proof approved, payment recorded, and assignment marked as PAID.",
       ...result 

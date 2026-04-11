@@ -60,6 +60,18 @@ export async function POST(req: Request) {
       },
     });
 
+    // 5. Notify admin
+    await prisma.notification.create({
+      data: {
+        userId: "admin-1",
+        role: "admin",
+        title: "New Payment Proof",
+        message: `${session.user.name} uploaded a payment proof for verification.`,
+        type: "INFO",
+        link: "/dashboard/verifications",
+      },
+    });
+
     return NextResponse.json({ 
       message: "Proof uploaded successfully. Pending verification.",
       proofId: proof.id 
