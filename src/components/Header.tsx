@@ -1,7 +1,8 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import { Bell, Menu } from "lucide-react"
+import { Menu } from "lucide-react"
+import NotificationCenter from "./notifications/NotificationCenter"
 
 const pageTitles: Record<string, { title: string; description: string }> = {
   "/dashboard": { title: "Overview", description: "Your institution at a glance" },
@@ -40,10 +41,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
         </div>
       </div>
       <div className="flex items-center gap-3">
-        <button className="relative text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 transition-colors p-2.5 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800/60 border border-transparent hover:border-zinc-200 dark:hover:border-zinc-700">
-          <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-indigo-500 border-2 border-white dark:border-zinc-950"></span>
-          <Bell className="w-[18px] h-[18px]" />
-        </button>
+        <NotificationCenter />
       </div>
     </header>
   )
