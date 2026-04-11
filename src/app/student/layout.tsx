@@ -3,6 +3,7 @@
 import { signOut } from "next-auth/react"
 import { LogOut, Settings } from "lucide-react"
 import Link from "next/link"
+import NotificationCenter from "@/components/notifications/NotificationCenter"
 
 export default function StudentLayout({
   children,
@@ -26,6 +27,8 @@ export default function StudentLayout({
         </div>
 
         <div className="flex items-center gap-2">
+          <NotificationCenter />
+          
           <Link
             href="/student/settings"
             className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium text-zinc-500 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 transition-colors"
