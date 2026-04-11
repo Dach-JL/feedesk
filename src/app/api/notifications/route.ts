@@ -19,7 +19,16 @@ export async function GET() {
       orderBy: {
         createdAt: "desc",
       },
-      take: 20,
+      take: 10,
+      select: {
+        id: true,
+        title: true,
+        message: true,
+        type: true,
+        link: true,
+        isRead: true,
+        createdAt: true,
+      },
     });
 
     return NextResponse.json(notifications);
