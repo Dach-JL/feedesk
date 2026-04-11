@@ -16,6 +16,9 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "FeeDesk — Modern Fee Management for Institutions",
   description: "Streamline student enrollment, fee collection, and receipt generation with an elegant, powerful dashboard.",
+  icons: {
+    icon: "/icon.png",
+  },
 };
 
 export default function RootLayout({
