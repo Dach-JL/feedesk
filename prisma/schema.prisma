@@ -76,3 +76,15 @@ model Payment {
   createdAt              DateTime             @default(now())
   updatedAt              DateTime             @updatedAt
 }
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String   // Target user ID (admin-1 or student UUID)
+  role      String   // Target role (admin or student)
+  title     String
+  message   String
+  type      String   @default("INFO") // INFO, SUCCESS, WARNING, ERROR
+  link      String?  // Optional navigation link
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
