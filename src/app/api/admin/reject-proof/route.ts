@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
@@ -11,7 +13,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Unauthorized access" }, { status: 401 });
     }
 
-    const { proofId, reason } = await req.json();
+    const body = await req.json();
+    const { proofId, reason } = body;
 
     if (!proofId) {
       return NextResponse.json({ error: "Proof ID is required" }, { status: 400 });
@@ -47,12 +50,12 @@ export async function POST(req: Request) {
     // 3. Notify student
     await prisma.notification.create({
       data: {
-        userId: `student-${proof.studentFeeAssignment.studentId}`,
+        userId: proof.studentFeeAssignment.studentId,
         role: "student",
         title: "Payment Rejected",
         message: `Your payment for ${proof.studentFeeAssignment.feePlan.name} was rejected. Reason: ${finalReason}`,
         type: "ERROR",
-        link: "/dashboard/verifications", // Or wherever they re-upload
+        link: "/student", // Point back to student portal
       },
     });
 
@@ -66,3 +69,4 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
+
