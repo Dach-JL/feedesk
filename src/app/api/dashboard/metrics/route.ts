@@ -10,60 +10,65 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // 1. Total Revenue
-    const aggregations = await prisma.payment.aggregate({
-      _sum: {
-        amount: true,
-      },
-    });
-    const totalRevenue = aggregations._sum.amount || 0;
-
-    // 2. Today's Collections
     const startOfDay = new Date();
     startOfDay.setHours(0, 0, 0, 0);
 
-    const todayAggregations = await prisma.payment.aggregate({
-      where: {
-        paymentDate: {
-          gte: startOfDay,
+    // 1. Parallelize Independent Aggregations
+    const [
+      aggregations,
+      todayAggregations,
+      activeStudents,
+      activeClasses,
+      studentsWithPending,
+    ] = await Promise.all([
+      // Total Revenue
+      prisma.payment.aggregate({
+        _sum: { amount: true },
+      }),
+      // Today's Collections
+      prisma.payment.aggregate({
+        where: { paymentDate: { gte: startOfDay } },
+        _sum: { amount: true },
+        _count: { id: true },
+      }),
+      // System Counters
+      prisma.student.count(),
+      prisma.class.count(),
+      // Optimized Unpaid Students fetch (Top 10 only)
+      prisma.student.findMany({
+        where: {
+          assignments: {
+            some: { status: "PENDING" }
+          }
         },
-      },
-      _sum: {
-        amount: true,
-      },
-      _count: {
-        id: true,
-      }
-    });
+        include: {
+          class: true,
+          assignments: {
+            include: {
+              feePlan: true,
+              payments: true
+            }
+          }
+        },
+        take: 10,
+        orderBy: {
+          createdAt: 'desc'
+        }
+      })
+    ]);
+
+    const totalRevenue = aggregations._sum.amount || 0;
     const todayRevenue = todayAggregations._sum.amount || 0;
     const todayTransactions = todayAggregations._count.id || 0;
 
-    // 3. System Counters
-    const activeStudents = await prisma.student.count();
-    const activeClasses = await prisma.class.count();
-
-    // 4. Unpaid Students Report Calculation
-    const allStudents = await prisma.student.findMany({
-      include: {
-        class: true,
-        assignments: {
-          include: {
-            payments: true,
-          }
-        },
-      },
-    });
-
-    const feePlans = await prisma.feePlan.findMany();
-
-    const unpaidStudentsList = allStudents.map((student) => {
-      // Find fee plans applicable to this student (mapped to their class or global)
-      const applicablePlans = feePlans.filter((p) => !p.classId || p.classId === student.classId);
-      const totalOwed = applicablePlans.reduce((sum: number, p) => sum + p.amount, 0);
+    // 2. Optimized Unpaid Calculation (Calculated based on fetched assignments)
+    const unpaidStudentsList = studentsWithPending.map((student) => {
+      // Calculate owed amount from assignments
+      const totalOwed = student.assignments.reduce((sum, a) => sum + a.feePlan.amount, 0);
       
       // Calculate total paid across all assignments
-      const totalPaid = student.assignments.reduce((sum: number, assignment) => {
-        const assignmentPayments = assignment.payments.reduce((pSum: number, p) => pSum + p.amount, 0);
+      const totalPaid = student.assignments.reduce((sum, assignment) => {
+        const assignmentPayments = assignment.payments.reduce((pSum, p) => pSum + p.amount, 0);
         return sum + assignmentPayments;
       }, 0);
       
@@ -77,8 +82,8 @@ export async function GET() {
         totalPaid,
         outstandingDues
       };
-    }).filter((s: { outstandingDues: number }) => s.outstandingDues > 0)
-      .sort((a: { outstandingDues: number }, b: { outstandingDues: number }) => b.outstandingDues - a.outstandingDues);
+    }).filter(s => s.outstandingDues > 0)
+      .sort((a, b) => b.outstandingDues - a.outstandingDues);
 
     return NextResponse.json({
       revenue: {
@@ -93,7 +98,8 @@ export async function GET() {
       unpaidStudents: unpaidStudentsList
     });
 
-  } catch {
+  } catch (error) {
+    console.error("[DASHBOARD_METRICS_ERROR]", error);
     return NextResponse.json({ error: "Failed to load dashboard metrics" }, { status: 500 });
   }
 }
