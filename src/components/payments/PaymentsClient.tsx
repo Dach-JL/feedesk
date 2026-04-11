@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { DollarSign, Calculator, Loader2, ArrowRight, CheckCircle2, Wallet } from "lucide-react";
+import { DollarSign, Calculator, Loader2, ArrowRight, CheckCircle2, Wallet, Search, UserCircle } from "lucide-react";
 
 type FeePlanData = { id: string; name: string; amount: number; classId: string | null; };
 type PaymentData = { id: string; amount: number; paymentDate: string; feePlanId: string; studentId: string; };
