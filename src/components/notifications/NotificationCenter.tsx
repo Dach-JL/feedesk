@@ -259,6 +259,3 @@ export default function NotificationCenter() {
     </div>
   );
 }
-    </div>
-  );
-}
