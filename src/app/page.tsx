@@ -3,6 +3,7 @@ import {
   Users, GraduationCap, Receipt, BarChart3, Shield, 
   ArrowRight, CheckCircle2, Zap, Globe, Clock, Lock 
 } from "lucide-react"
+import { ThemeToggle } from "@/components/ThemeToggle"
 
 const features = [
   {
@@ -101,12 +102,15 @@ export default function Home() {
             <a href="#stats" className="hover:text-zinc-900 dark:hover:text-white transition-colors">Why FeeDesk</a>
             <a href="#security" className="hover:text-zinc-900 dark:hover:text-white transition-colors">Security</a>
           </div>
-          <Link
-            href="/login"
-            className="px-5 py-2.5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 text-sm font-semibold rounded-xl hover:opacity-90 transition-opacity"
-          >
-            Sign In
-          </Link>
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <Link
+              href="/login"
+              className="px-5 py-2.5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 text-sm font-semibold rounded-xl hover:opacity-90 transition-opacity"
+            >
+              Sign In
+            </Link>
+          </div>
         </div>
       </nav>
 
