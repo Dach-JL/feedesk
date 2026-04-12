@@ -15,23 +15,13 @@ const pageTitles: Record<string, { title: string; description: string }> = {
   "/dashboard/receipts": { title: "Receipts & History", description: "Transaction logs & PDF exports" },
 }
 
-interface HeaderProps {
-  onMenuClick: () => void
-}
-
-export default function Header({ onMenuClick }: HeaderProps) {
+export default function Header() {
   const pathname = usePathname()
   const pageInfo = pageTitles[pathname] || { title: "Dashboard", description: "" }
 
   return (
     <header className="h-16 bg-background/80 backdrop-blur-xl border-b border-border flex items-center justify-between px-6 md:px-8 z-10 w-full relative shrink-0">
       <div className="flex items-center gap-4">
-        <button 
-          onClick={onMenuClick}
-          className="md:hidden p-2 -ml-2 text-muted-foreground hover:text-foreground transition-colors"
-        >
-          <Menu className="w-6 h-6" />
-        </button>
         <div>
           <h2 className="text-lg font-bold tracking-tight text-foreground leading-none">
             {pageInfo.title}
