@@ -4,6 +4,7 @@ import { signOut } from "next-auth/react"
 import { LogOut, Settings } from "lucide-react"
 import Link from "next/link"
 import NotificationCenter from "@/components/notifications/NotificationCenter"
+import { ThemeToggle } from "@/components/ThemeToggle"
 
 export default function StudentLayout({
   children,
@@ -27,6 +28,7 @@ export default function StudentLayout({
         </div>
 
         <div className="flex items-center gap-2">
+          <ThemeToggle />
           <NotificationCenter />
           
           <Link

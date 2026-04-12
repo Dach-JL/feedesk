@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation"
 import { Menu } from "lucide-react"
 import NotificationCenter from "./notifications/NotificationCenter"
+import { ThemeToggle } from "./ThemeToggle"
 
 const pageTitles: Record<string, { title: string; description: string }> = {
   "/dashboard": { title: "Overview", description: "Your institution at a glance" },
@@ -41,6 +42,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
         </div>
       </div>
       <div className="flex items-center gap-3">
+        <ThemeToggle />
         <NotificationCenter />
       </div>
     </header>
