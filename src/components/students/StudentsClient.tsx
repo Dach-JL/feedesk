@@ -120,12 +120,12 @@ export default function StudentsClient() {
         </StarButton>
       </div>
 
-      <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 overflow-hidden">
-        <div className="p-4 border-b border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/50 dark:bg-zinc-900/50">
+      <div className="bg-card rounded-2xl border border-border overflow-hidden">
+        <div className="p-4 border-b border-border bg-muted/30">
           <div className="relative w-full max-w-sm">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <input type="text" placeholder="Search by name, email, or class..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
-              className="flex h-10 w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-3 py-1 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors" />
+              className="flex h-10 w-full rounded-xl border border-input bg-background px-3 py-1 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-ring transition-colors" />
           </div>
         </div>
 
@@ -140,8 +140,8 @@ export default function StudentsClient() {
             ))
           ) : students.length === 0 ? (
             <div className="text-center py-8">
-              <UserCircle className="w-10 h-10 text-zinc-300 dark:text-zinc-700 mx-auto mb-3" />
-              <p className="text-sm text-zinc-500">No students found.</p>
+              <UserCircle className="w-10 h-10 text-muted/60 mx-auto mb-3" />
+              <p className="text-sm text-muted-foreground">No students found.</p>
             </div>
           ) : (
             students.map((s) => (
@@ -157,11 +157,11 @@ export default function StudentsClient() {
                     </div>
                   </div>
                   <div className="flex gap-1">
-                    <button onClick={() => handleOpenModal(s)} className="p-2 text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400"><Edit className="h-4 w-4" /></button>
-                    <button onClick={() => handleDelete(s.id)} className="p-2 text-zinc-400 hover:text-rose-600 dark:hover:text-rose-400"><Trash2 className="h-4 w-4" /></button>
+                    <button onClick={() => handleOpenModal(s)} className="p-2 text-muted-foreground hover:text-primary"><Edit className="h-4 w-4" /></button>
+                    <button onClick={() => handleDelete(s.id)} className="p-2 text-muted-foreground hover:text-destructive"><Trash2 className="h-4 w-4" /></button>
                   </div>
                 </div>
-                <div className="flex items-center justify-between text-[11px] text-zinc-500 pt-2 border-t border-zinc-200/40 dark:border-zinc-800/40">
+                <div className="flex items-center justify-between text-[11px] text-muted-foreground pt-2 border-t border-border">
                   <span className="flex items-center gap-1"><Mail className="w-3 h-3" /> {s.email || "No email"}</span>
                   <span>Joined {new Date(s.createdAt).toLocaleDateString()}</span>
                 </div>
@@ -174,12 +174,12 @@ export default function StudentsClient() {
         <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-zinc-200/60 dark:border-zinc-800/60">
-                <th className="h-11 px-6 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider">Student</th>
-                <th className="h-11 px-6 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider">Email</th>
-                <th className="h-11 px-6 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider">Class</th>
-                <th className="h-11 px-6 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider">Enrolled</th>
-                <th className="h-11 px-6 text-right text-xs font-semibold text-zinc-500 uppercase tracking-wider">Actions</th>
+              <tr className="border-b border-border">
+                <th className="h-11 px-6 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Student</th>
+                <th className="h-11 px-6 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Email</th>
+                <th className="h-11 px-6 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Class</th>
+                <th className="h-11 px-6 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Enrolled</th>
+                <th className="h-11 px-6 text-right text-xs font-semibold text-muted-foreground uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -208,24 +208,24 @@ export default function StudentsClient() {
                         <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center flex-shrink-0">
                           <span className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase">{s.name.charAt(0)}</span>
                         </div>
-                        <span className="font-medium text-zinc-900 dark:text-zinc-100">{s.name}</span>
+                        <span className="font-medium text-foreground">{s.name}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-zinc-500">
+                    <td className="px-6 py-4 text-muted-foreground">
                       {s.email ? (
                         <span className="flex items-center gap-1.5"><Mail className="w-3.5 h-3.5 opacity-50" />{s.email}</span>
-                      ) : <span className="text-zinc-400 italic text-xs">Not provided</span>}
+                      ) : <span className="text-muted-foreground/60 italic text-xs">Not provided</span>}
                     </td>
                     <td className="px-6 py-4">
                       <span className="inline-flex px-2.5 py-1 rounded-lg text-xs font-semibold bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300">
                         {s.class?.name || "Unassigned"}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-zinc-500">{new Date(s.createdAt).toLocaleDateString()}</td>
+                    <td className="px-6 py-4 text-muted-foreground">{new Date(s.createdAt).toLocaleDateString()}</td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button onClick={() => handleOpenModal(s)} className="p-2 text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-500/10 transition-colors"><Edit className="h-4 w-4" /></button>
-                        <button onClick={() => handleDelete(s.id)} className="p-2 text-zinc-400 hover:text-rose-600 dark:hover:text-rose-400 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors"><Trash2 className="h-4 w-4" /></button>
+                        <button onClick={() => handleOpenModal(s)} className="p-2 text-muted-foreground hover:text-primary rounded-lg hover:bg-primary/10 transition-colors"><Edit className="h-4 w-4" /></button>
+                        <button onClick={() => handleDelete(s.id)} className="p-2 text-muted-foreground hover:text-destructive rounded-lg hover:bg-destructive/10 transition-colors"><Trash2 className="h-4 w-4" /></button>
                       </div>
                     </td>
                   </tr>
@@ -236,16 +236,16 @@ export default function StudentsClient() {
         </div>
 
         {/* Pagination Footer */}
-        <div className="px-6 py-4 border-t border-zinc-200/60 dark:border-zinc-800/60 flex flex-col sm:flex-row items-center justify-between gap-4 bg-zinc-50/30 dark:bg-zinc-900/30">
-          <div className="text-xs text-zinc-500 font-medium">
-            Showing <span className="text-zinc-900 dark:text-zinc-200">{students.length > 0 ? (page - 1) * limit + 1 : 0}</span> to <span className="text-zinc-900 dark:text-zinc-200">{(page - 1) * limit + students.length}</span> of <span className="text-zinc-900 dark:text-zinc-200">{totalCount}</span> students
+        <div className="px-6 py-4 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4 bg-muted/20">
+          <div className="text-xs text-muted-foreground font-medium">
+            Showing <span className="text-foreground">{students.length > 0 ? (page - 1) * limit + 1 : 0}</span> to <span className="text-foreground">{(page - 1) * limit + students.length}</span> of <span className="text-foreground">{totalCount}</span> students
           </div>
           
           <div className="flex items-center gap-2">
             <button
               onClick={() => setPage(p => Math.max(1, p - 1))}
               disabled={page === 1 || loading}
-              className="p-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-white dark:hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="p-1.5 rounded-lg border border-input hover:bg-background disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
@@ -265,8 +265,8 @@ export default function StudentsClient() {
                     onClick={() => setPage(pageNum)}
                     className={`min-w-[32px] h-8 px-2 rounded-lg text-xs font-semibold transition-colors ${
                       page === pageNum
-                        ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
-                        : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                        ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
+                        : "text-muted-foreground hover:bg-muted"
                     }`}
                   >
                     {pageNum}
@@ -278,7 +278,7 @@ export default function StudentsClient() {
             <button
               onClick={() => setPage(p => Math.min(totalPages, p + 1))}
               disabled={page === totalPages || loading}
-              className="p-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-white dark:hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="p-1.5 rounded-lg border border-input hover:bg-background disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
@@ -288,43 +288,43 @@ export default function StudentsClient() {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl w-full max-w-md border border-zinc-200/60 dark:border-zinc-800/60 animate-in zoom-in-95 duration-200">
-            <div className="flex items-center justify-between p-6 border-b border-zinc-200/60 dark:border-zinc-800/60">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-card rounded-2xl shadow-2xl w-full max-w-md border border-border animate-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between p-6 border-b border-border">
               <div>
-                <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">{editingId ? "Edit Student" : "Enroll New Student"}</h3>
-                <p className="text-xs text-zinc-500 mt-0.5">{editingId ? "Update student details" : "Add a student to your institution"}</p>
+                <h3 className="text-lg font-bold text-foreground">{editingId ? "Edit Student" : "Enroll New Student"}</h3>
+                <p className="text-xs text-muted-foreground mt-0.5">{editingId ? "Update student details" : "Add a student to your institution"}</p>
               </div>
-              <button onClick={handleCloseModal} className="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 p-1 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"><X className="h-5 w-5" /></button>
+              <button onClick={handleCloseModal} className="text-muted-foreground hover:text-foreground p-1 rounded-lg hover:bg-muted transition-colors"><X className="h-5 w-5" /></button>
             </div>
             <form onSubmit={handleSubmit} className="p-6 space-y-4 overflow-y-auto max-h-[60vh] md:max-h-none custom-scrollbar pb-10 md:pb-6">
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Full Name <span className="text-rose-500">*</span></label>
+                <label className="text-sm font-semibold text-foreground">Full Name <span className="text-destructive">*</span></label>
                 <input type="text" required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} placeholder="e.g. Jane Doe"
-                  className="flex h-12 w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+                  className="flex h-12 w-full rounded-xl border border-input bg-background px-4 text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Email <span className="text-zinc-400 font-normal">(Optional)</span></label>
+                <label className="text-sm font-semibold text-foreground">Email <span className="text-muted-foreground font-normal">(Optional)</span></label>
                 <input type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} placeholder="student@example.com"
-                  className="flex h-12 w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+                  className="flex h-12 w-full rounded-xl border border-input bg-background px-4 text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Assign Class <span className="text-rose-500">*</span></label>
+                <label className="text-sm font-semibold text-foreground">Assign Class <span className="text-destructive">*</span></label>
                 <select required value={formData.classId} onChange={(e) => setFormData({ ...formData, classId: e.target.value })}
-                  className="flex h-12 w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                  className="flex h-12 w-full rounded-xl border border-input bg-background px-4 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
                   <option value="" disabled>Select class</option>
                   {classes.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                 </select>
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Password {editingId && <span className="text-zinc-400 font-normal">(Leave blank to keep unchanged)</span>} {!editingId && <span className="text-rose-500">*</span>}</label>
+                <label className="text-sm font-semibold text-foreground">Password {editingId && <span className="text-muted-foreground font-normal">(Leave blank to keep unchanged)</span>} {!editingId && <span className="text-destructive">*</span>}</label>
                 <input type="text" required={!editingId} value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })} placeholder="student123"
-                  className="flex h-12 w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+                  className="flex h-12 w-full rounded-xl border border-input bg-background px-4 text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
               </div>
-              <div className="pt-6 flex flex-col md:flex-row justify-end gap-3 sticky bottom-0 bg-white dark:bg-zinc-900 mt-auto">
-                <button type="button" onClick={handleCloseModal} className="px-4 py-3 text-sm font-medium text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-800 rounded-xl hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">Cancel</button>
+              <div className="pt-6 flex flex-col md:flex-row justify-end gap-3 sticky bottom-0 bg-card mt-auto">
+                <button type="button" onClick={handleCloseModal} className="px-4 py-3 text-sm font-medium text-muted-foreground border border-input rounded-xl hover:bg-muted transition-colors">Cancel</button>
                 <button type="submit" disabled={isSubmitting || !formData.name || !formData.classId}
-                  className="px-5 py-3 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20">
+                  className="px-5 py-3 text-sm font-semibold text-primary-foreground bg-primary rounded-xl hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-primary/20">
                   {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
                   {editingId ? "Update Student" : "Enroll Student"}
                 </button>

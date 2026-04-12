@@ -108,7 +108,7 @@ export default function ClassesClient() {
         <div />
         <button 
           onClick={() => handleOpenModal()}
-          className="inline-flex items-center justify-center gap-2 rounded-xl text-sm font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/30 h-10 px-5 hover:scale-[1.02] active:scale-[0.98] transition-all"
+          className="inline-flex items-center justify-center gap-2 rounded-xl text-sm font-semibold bg-primary text-primary-foreground shadow-lg shadow-primary/20 hover:shadow-primary/30 h-10 px-5 hover:scale-[1.02] active:scale-[0.98] transition-all"
         >
           <Plus className="h-4 w-4" />
           Add Class
@@ -116,16 +116,16 @@ export default function ClassesClient() {
       </div>
 
       {/* Table */}
-      <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 overflow-hidden">
-        <div className="p-4 border-b border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/50 dark:bg-zinc-900/50">
+      <div className="bg-card rounded-2xl border border-border overflow-hidden">
+        <div className="p-4 border-b border-border bg-muted/30">
           <div className="relative w-full max-w-sm">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <input
               type="text"
               placeholder="Search classes..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="flex h-10 w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-3 py-1 pl-10 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="flex h-10 w-full rounded-xl border border-input bg-background px-3 py-1 pl-10 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-ring"
             />
           </div>
         </div>
@@ -141,8 +141,8 @@ export default function ClassesClient() {
             ))
           ) : filteredClasses.length === 0 ? (
             <div className="text-center py-8">
-              <GraduationCap className="w-10 h-10 text-zinc-300 dark:text-zinc-700 mx-auto mb-3" />
-              <p className="text-sm text-zinc-500">No classes found.</p>
+              <GraduationCap className="w-10 h-10 text-muted/60 mx-auto mb-3" />
+              <p className="text-sm text-muted-foreground">No classes found.</p>
             </div>
           ) : (
             filteredClasses.map((c) => (
@@ -153,17 +153,17 @@ export default function ClassesClient() {
                       <GraduationCap className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
                     </div>
                     <div>
-                      <div className="font-bold text-zinc-900 dark:text-zinc-100">{c.name}</div>
-                      <div className="text-xs text-zinc-500">Created {new Date(c.createdAt).toLocaleDateString()}</div>
+                      <div className="font-bold text-foreground">{c.name}</div>
+                      <div className="text-xs text-muted-foreground">Created {new Date(c.createdAt).toLocaleDateString()}</div>
                     </div>
                   </div>
                   <div className="flex gap-1">
-                    <button onClick={() => handleOpenModal(c)} className="p-2 text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400"><Edit className="h-4 w-4" /></button>
-                    <button onClick={() => handleDelete(c.id)} className="p-2 text-zinc-400 hover:text-rose-600 dark:hover:text-rose-400"><Trash2 className="h-4 w-4" /></button>
+                    <button onClick={() => handleOpenModal(c)} className="p-2 text-muted-foreground hover:text-primary"><Edit className="h-4 w-4" /></button>
+                    <button onClick={() => handleDelete(c.id)} className="p-2 text-muted-foreground hover:text-destructive"><Trash2 className="h-4 w-4" /></button>
                   </div>
                 </div>
-                <div className="flex items-center justify-between pt-2 border-t border-zinc-200/40 dark:border-zinc-800/40">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">
+                <div className="flex items-center justify-between pt-2 border-t border-border">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-muted text-muted-foreground">
                     <Users className="w-3 h-3" />
                     {c._count.students} Students
                   </span>
@@ -177,11 +177,11 @@ export default function ClassesClient() {
         <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-zinc-200/60 dark:border-zinc-800/60">
-                <th className="h-11 px-6 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider">Class Name</th>
-                <th className="h-11 px-6 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider">Enrolled</th>
-                <th className="h-11 px-6 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider">Created</th>
-                <th className="h-11 px-6 text-right text-xs font-semibold text-zinc-500 uppercase tracking-wider">Actions</th>
+              <tr className="border-b border-border">
+                <th className="h-11 px-6 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Class Name</th>
+                <th className="h-11 px-6 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Enrolled</th>
+                <th className="h-11 px-6 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Created</th>
+                <th className="h-11 px-6 text-right text-xs font-semibold text-muted-foreground uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -197,8 +197,8 @@ export default function ClassesClient() {
               ) : filteredClasses.length === 0 ? (
                 <tr>
                   <td colSpan={4} className="p-12 text-center">
-                    <GraduationCap className="w-10 h-10 text-zinc-300 dark:text-zinc-700 mx-auto mb-3" />
-                    <p className="text-sm text-zinc-500">No classes found. {searchTerm && "Try adjusting your search."}</p>
+                    <GraduationCap className="w-10 h-10 text-muted/60 mx-auto mb-3" />
+                    <p className="text-sm text-muted-foreground">No classes found. {searchTerm && "Try adjusting your search."}</p>
                   </td>
                 </tr>
               ) : (
@@ -209,22 +209,22 @@ export default function ClassesClient() {
                         <div className="w-8 h-8 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center flex-shrink-0">
                           <GraduationCap className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
                         </div>
-                        <span className="font-medium text-zinc-900 dark:text-zinc-100">{c.name}</span>
+                        <span className="font-medium text-foreground">{c.name}</span>
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-muted text-muted-foreground">
                         <Users className="w-3 h-3" />
                         {c._count.students}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-zinc-500">{new Date(c.createdAt).toLocaleDateString()}</td>
+                    <td className="px-6 py-4 text-muted-foreground">{new Date(c.createdAt).toLocaleDateString()}</td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button onClick={() => handleOpenModal(c)} className="p-2 text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-500/10 transition-colors">
+                        <button onClick={() => handleOpenModal(c)} className="p-2 text-muted-foreground hover:text-primary rounded-lg hover:bg-primary/10 transition-colors">
                           <Edit className="h-4 w-4" />
                         </button>
-                        <button onClick={() => handleDelete(c.id)} className="p-2 text-zinc-400 hover:text-rose-600 dark:hover:text-rose-400 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors">
+                        <button onClick={() => handleDelete(c.id)} className="p-2 text-muted-foreground hover:text-destructive rounded-lg hover:bg-destructive/10 transition-colors">
                           <Trash2 className="h-4 w-4" />
                         </button>
                       </div>
@@ -239,26 +239,26 @@ export default function ClassesClient() {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl w-full max-w-md border border-zinc-200/60 dark:border-zinc-800/60 animate-in zoom-in-95 duration-200">
-            <div className="flex items-center justify-between p-6 border-b border-zinc-200/60 dark:border-zinc-800/60">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-card rounded-2xl shadow-2xl w-full max-w-md border border-border animate-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between p-6 border-b border-border">
               <div>
-                <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+                <h3 className="text-lg font-bold text-foreground">
                   {editingId ? "Edit Class" : "Create New Class"}
                 </h3>
-                <p className="text-xs text-zinc-500 mt-0.5">
+                <p className="text-xs text-muted-foreground mt-0.5">
                   {editingId ? "Update the class details below" : "Add a new class to your institution"}
                 </p>
               </div>
-              <button onClick={handleCloseModal} className="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors p-1 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800">
+              <button onClick={handleCloseModal} className="text-muted-foreground hover:text-foreground transition-colors p-1 rounded-lg hover:bg-muted">
                 <X className="h-5 w-5" />
               </button>
             </div>
             
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
-                  Class Name <span className="text-rose-500">*</span>
+                <label className="text-sm font-semibold text-foreground">
+                  Class Name <span className="text-destructive">*</span>
                 </label>
                 <input
                   type="text"
@@ -266,7 +266,7 @@ export default function ClassesClient() {
                   value={formData.name}
                   onChange={(e) => setFormData({ name: e.target.value })}
                   placeholder="e.g. Grade 10 Science"
-                  className="flex h-12 w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                  className="flex h-12 w-full rounded-xl border border-input bg-background px-4 text-sm focus:outline-none focus:ring-2 focus:ring-ring transition-all"
                 />
               </div>
               
@@ -274,14 +274,14 @@ export default function ClassesClient() {
                 <button
                   type="button"
                   onClick={handleCloseModal}
-                  className="px-4 py-3 text-sm font-medium text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-800 rounded-xl hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
+                  className="px-4 py-3 text-sm font-medium text-muted-foreground border border-input rounded-xl hover:bg-muted transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting || !formData.name.trim()}
-                  className="px-5 py-3 text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/20"
+                  className="px-5 py-3 text-sm font-semibold text-primary-foreground bg-primary rounded-xl hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-primary/20"
                 >
                   {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
                   {editingId ? "Save Changes" : "Create Class"}
