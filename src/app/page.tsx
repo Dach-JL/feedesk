@@ -4,6 +4,7 @@ import {
   ArrowRight, CheckCircle2, Zap, Globe, Clock, Lock 
 } from "lucide-react"
 import { ThemeToggle } from "@/components/ThemeToggle"
+import { LandingHeroScroll } from "@/components/landing/LandingHeroScroll"
 
 const features = [
   {
@@ -163,95 +164,9 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Floating UI Preview Cards */}
-        <div className="animate-slide-up-delay-4 max-w-4xl mx-auto mt-20 relative">
-          <div className="bg-zinc-900 dark:bg-zinc-900 rounded-3xl shadow-2xl shadow-zinc-900/20 dark:shadow-black/50 border border-zinc-800 overflow-hidden">
-            {/* Window Chrome */}
-            <div className="flex items-center gap-2 px-5 py-4 border-b border-zinc-800">
-              <div className="w-3 h-3 rounded-full bg-red-500/80" />
-              <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-              <div className="w-3 h-3 rounded-full bg-green-500/80" />
-              <div className="ml-4 flex-1 h-7 bg-zinc-800 rounded-lg flex items-center px-4">
-                <span className="text-xs text-zinc-500 font-mono">feedesk.app/dashboard</span>
-              </div>
-            </div>
-            {/* Dashboard Preview */}
-            <div className="p-6 flex gap-4">
-              {/* Mini Sidebar */}
-              <div className="hidden md:flex flex-col w-44 gap-2 flex-shrink-0">
-                <div className="text-lg font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500 mb-4">FeeDesk</div>
-                {["Overview", "Classes", "Students", "Verifications", "Payments", "Receipts"].map((item, i) => (
-                  <div key={item} className={`px-3 py-2 rounded-lg text-xs font-medium ${i === 3 ? 'bg-indigo-500/10 text-indigo-400' : i === 0 ? 'bg-zinc-800 text-white' : 'text-zinc-500 hover:text-zinc-300 transition-colors cursor-default'}`}>
-                    {item}
-                  </div>
-                ))}
-              </div>
-              {/* Content */}
-              <div className="flex-1 space-y-4">
-                <div className="grid grid-cols-3 gap-3">
-                  <div className="animate-float bg-zinc-800 rounded-xl p-4 border border-zinc-700/50">
-                    <div className="text-[10px] text-zinc-500 uppercase tracking-widest mb-1">Revenue</div>
-                    <div className="text-xl font-bold text-white">$24,500</div>
-                    <div className="text-[10px] text-emerald-500 mt-1">+12.5% today</div>
-                  </div>
-                  <div className="animate-float-delayed bg-zinc-800 rounded-xl p-4 border border-zinc-700/50">
-                    <div className="text-[10px] text-zinc-500 uppercase tracking-widest mb-1">Students</div>
-                    <div className="text-xl font-bold text-white">1,204</div>
-                    <div className="text-[10px] text-zinc-400 mt-1">12 classes</div>
-                  </div>
-                  <div className="animate-float bg-zinc-800 rounded-xl p-4 border border-zinc-700/50" style={{ animationDelay: '2s' }}>
-                    <div className="text-[10px] text-zinc-500 uppercase tracking-widest mb-1">Pending</div>
-                    <div className="text-xl font-bold text-amber-500">$3,200</div>
-                    <div className="text-[10px] text-rose-500 mt-1">Action needed</div>
-                  </div>
-                </div>
-                <div className="bg-zinc-800/60 rounded-xl p-4 border border-zinc-700/30 space-y-2">
-                  <div className="text-xs font-semibold text-zinc-300">Recent Transactions</div>
-                  {[
-                    { name: "Jane Cooper", amount: "$850.00", status: "Completed" },
-                    { name: "Floyd Miles", amount: "$420.00", status: "Completed" },
-                    { name: "Devon Webb", amount: "$1,200.00", status: "Completed" },
-                  ].map((tx) => (
-                    <div key={tx.name} className="flex items-center justify-between py-1.5 border-t border-zinc-700/40">
-                      <span className="text-xs text-zinc-400">{tx.name}</span>
-                      <div className="flex items-center gap-3">
-                        <span className="text-xs font-semibold text-emerald-400">{tx.amount}</span>
-                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-900/30 text-emerald-400 border border-emerald-800/40">{tx.status}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* Floating UI Element - Mobile Verification Notification */}
-          <div className="absolute -top-12 -right-12 hidden lg:block animate-float-delayed">
-            <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl p-4 border border-zinc-200 dark:border-zinc-800 flex items-center gap-4 max-w-[240px]">
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
-                <Receipt className="w-5 h-5 text-emerald-500" />
-              </div>
-              <div>
-                <div className="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Payment Verified</div>
-                <div className="text-xs font-bold text-zinc-900 dark:text-white">Receipt unlocked for #Student_01</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Floating UI Element - Student Upload */}
-          <div className="absolute top-1/2 -left-20 hidden lg:block animate-float">
-            <div className="bg-card rounded-2xl shadow-2xl p-4 border border-border flex items-center gap-4 max-w-[240px]">
-              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <Shield className="w-5 h-5 text-primary" />
-              </div>
-              <div>
-                <div className="text-[10px] font-black text-primary uppercase tracking-widest">Student Portal</div>
-                <div className="text-xs font-bold text-foreground">New Telebirr proof uploaded</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Glow underneath */}
-          <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-3/4 h-20 bg-gradient-to-r from-indigo-500/20 via-purple-500/20 to-pink-500/20 blur-3xl rounded-full" />
+        {/* Hero Scroll Animation Showcase */}
+        <div className="mt-[-100px] md:mt-[-150px]">
+          <LandingHeroScroll />
         </div>
       </section>
 
