@@ -10,7 +10,10 @@ import {
   Menu as MenuIcon, 
   X,
   ShieldCheck,
-  Landmark
+  Landmark,
+  GraduationCap,
+  CreditCard,
+  History
 } from "lucide-react"
 import { MenuContainer, MenuItem } from "@/components/ui/fluid-menu"
 
@@ -42,12 +45,36 @@ export function AdminQuickMenu() {
           Overview
         </MenuItem>
 
+        {/* Classes */}
+        <MenuItem 
+          onClick={() => router.push("/dashboard/classes")}
+          icon={<GraduationCap className="w-6 h-6 text-foreground" />}
+        >
+          Classes
+        </MenuItem>
+
         {/* Student Directory */}
         <MenuItem 
           onClick={() => router.push("/dashboard/students")}
           icon={<Users className="w-6 h-6 text-foreground" />}
         >
           Students
+        </MenuItem>
+
+        {/* Fee Plans */}
+        <MenuItem 
+          onClick={() => router.push("/dashboard/fee-plans")}
+          icon={<CreditCard className="w-6 h-6 text-foreground" />}
+        >
+          Fee Plans
+        </MenuItem>
+
+        {/* Payment Processing */}
+        <MenuItem 
+          onClick={() => router.push("/dashboard/payments")}
+          icon={<Landmark className="w-6 h-6 text-foreground" />}
+        >
+          Payments
         </MenuItem>
 
         {/* Payment Verifications */}
@@ -58,12 +85,12 @@ export function AdminQuickMenu() {
           Verifications
         </MenuItem>
 
-        {/* Payment Processing */}
+        {/* Receipts Archive */}
         <MenuItem 
-          onClick={() => router.push("/dashboard/payments")}
-          icon={<Landmark className="w-6 h-6 text-foreground" />}
+          onClick={() => router.push("/dashboard/receipts")}
+          icon={<History className="w-6 h-6 text-foreground" />}
         >
-          Payments
+          Receipts
         </MenuItem>
 
         {/* Logout */}
