@@ -3,12 +3,9 @@
 import { useState, useEffect, useRef } from "react";
 import { Bell, Check, ExternalLink, Info, CheckCircle2, AlertCircle, AlertTriangle, X } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
-
-function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
+import { useTheme } from "next-themes";
+import { StarButton } from "@/components/ui/star-button";
+import { cn } from "@/lib/utils";
 
 interface Notification {
   id: string;
@@ -34,6 +31,12 @@ export default function NotificationCenter() {
   const [isLoading, setIsLoading] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const { theme } = useTheme();
+  const [btnLightColor, setBtnLightColor] = useState("#FAFAFA");
+
+  useEffect(() => {
+    setBtnLightColor(theme === "dark" ? "#FAFAFA" : "#6366f1"); // Indigo-500 for notifications
+  }, [theme]);
 
   const fetchNotifications = async () => {
     try {
@@ -127,20 +130,23 @@ export default function NotificationCenter() {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      <button
+      <StarButton
         onClick={() => setIsOpen(!isOpen)}
+        lightColor={btnLightColor}
         className={cn(
-          "relative text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 transition-colors p-2.5 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800/60 border border-transparent hover:border-zinc-200 dark:hover:border-zinc-700",
+          "h-10 w-10 p-0 flex items-center justify-center rounded-xl border border-transparent hover:border-zinc-200 dark:hover:border-zinc-700 transition-all",
           isOpen && "bg-zinc-100 dark:bg-zinc-800/60 text-indigo-500"
         )}
       >
-        {unreadCount > 0 && (
-          <span className="absolute top-2 right-2 w-4 h-4 flex items-center justify-center rounded-full bg-indigo-500 text-[10px] font-bold text-white border-2 border-white dark:border-zinc-950">
-            {unreadCount > 9 ? "9+" : unreadCount}
-          </span>
-        )}
-        <Bell className="w-[18px] h-[18px]" />
-      </button>
+        <div className="relative flex items-center justify-center h-full w-full">
+          {unreadCount > 0 && (
+            <span className="absolute -top-1 -right-1 w-4 h-4 flex items-center justify-center rounded-full bg-indigo-500 text-[10px] font-bold text-white border-2 border-white dark:border-zinc-950 z-20">
+              {unreadCount > 9 ? "9+" : unreadCount}
+            </span>
+          )}
+          <Bell className="w-[18px] h-[18px]" />
+        </div>
+      </StarButton>
 
       {isOpen && (
         <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200">
