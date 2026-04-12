@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Plus, Search, Edit, Trash2, X, Loader2, Mail, UserCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { useTheme } from "next-themes";
 
 type ClassData = { id: string; name: string; };
 type StudentData = {
@@ -9,7 +10,16 @@ type StudentData = {
   class?: ClassData;
 };
 
+import { StarButton } from "@/components/ui/star-button";
+
 export default function StudentsClient() {
+  const { theme } = useTheme();
+  const [lightColor, setLightColor] = useState("#FAFAFA");
+
+  useEffect(() => {
+    setLightColor(theme === "dark" ? "#FAFAFA" : "#3b82f6");
+  }, [theme]);
+
   const [students, setStudents] = useState<StudentData[]>([]);
   const [classes, setClasses] = useState<ClassData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -101,9 +111,13 @@ export default function StudentsClient() {
     <div className="space-y-6 animate-slide-up">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div />
-        <button onClick={() => handleOpenModal()} className="inline-flex items-center justify-center gap-2 rounded-xl text-sm font-semibold bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 h-10 px-5 hover:scale-[1.02] active:scale-[0.98] transition-all">
+        <StarButton 
+          onClick={() => handleOpenModal()} 
+          lightColor={lightColor}
+          className="rounded-xl h-10 px-5"
+        >
           <Plus className="h-4 w-4" /> Add Student
-        </button>
+        </StarButton>
       </div>
 
       <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 overflow-hidden">
