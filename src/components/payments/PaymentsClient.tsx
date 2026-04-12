@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { DollarSign, Calculator, Loader2, ArrowRight, CheckCircle2, Wallet, Search, UserCircle } from "lucide-react";
+import { StarButton } from "@/components/ui/star-button";
+import { useTheme } from "next-themes";
 
 type FeePlanData = { id: string; name: string; amount: number; classId: string | null; };
 type PaymentData = { id: string; amount: number; paymentDate: string; feePlanId: string; studentId: string; };
@@ -23,6 +25,12 @@ export default function PaymentsClient() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedStudent, setSelectedStudent] = useState<StudentData | null>(null);
   const [selectedStudentId, setSelectedStudentId] = useState<string>("");
+  const { theme } = useTheme();
+  const [btnLightColor, setBtnLightColor] = useState("#FAFAFA");
+
+  useEffect(() => {
+    setBtnLightColor(theme === "dark" ? "#FAFAFA" : "#f59e0b"); // Amber-500 in light mode
+  }, [theme]);
   
   const [loading, setLoading] = useState(false);
   const [detailsLoading, setDetailsLoading] = useState(false);
@@ -202,10 +210,14 @@ export default function PaymentsClient() {
                     className="flex h-12 w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 px-4 pl-11 text-lg font-bold focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
                 </div>
               </div>
-              <button type="submit" disabled={isSubmitting || !selectedStudentId || !selectedAssignmentId || !paymentAmount}
-                className="w-full h-12 inline-flex items-center justify-center gap-2 rounded-xl text-base font-bold bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg shadow-amber-500/20 hover:shadow-amber-500/30 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.01] active:scale-[0.99] transition-all">
+              <StarButton 
+                type="submit" 
+                disabled={isSubmitting || !selectedStudentId || !selectedAssignmentId || !paymentAmount}
+                lightColor={btnLightColor}
+                className="w-full h-12 rounded-xl text-base font-bold"
+              >
                 {isSubmitting ? <Loader2 className="h-5 w-5 animate-spin" /> : <><CheckCircle2 className="h-5 w-5" /> Process Payment <ArrowRight className="h-5 w-5" /></>}
-              </button>
+              </StarButton>
             </form>
           </div>
         </div>
