@@ -23,7 +23,7 @@ export function AdminQuickMenu() {
         {/* Toggle Trigger */}
         <MenuItem 
           icon={
-            <div className="relative w-6 h-6">
+            <div className="relative w-6 min-w-[24px] h-6">
               <div className="absolute inset-0 transition-all duration-300 ease-in-out origin-center opacity-100 scale-100 rotate-0 [div[data-expanded=true]_&]:opacity-0 [div[data-expanded=true]_&]:scale-0 [div[data-expanded=true]_&]:rotate-180 flex items-center justify-center">
                 <MenuIcon className="w-6 h-6 text-primary" />
               </div>
@@ -38,31 +38,41 @@ export function AdminQuickMenu() {
         <MenuItem 
           onClick={() => router.push("/dashboard")}
           icon={<LayoutDashboard className="w-6 h-6 text-foreground" />}
-        />
+        >
+          Overview
+        </MenuItem>
 
         {/* Student Directory */}
         <MenuItem 
           onClick={() => router.push("/dashboard/students")}
           icon={<Users className="w-6 h-6 text-foreground" />}
-        />
+        >
+          Students
+        </MenuItem>
 
         {/* Payment Verifications */}
         <MenuItem 
           onClick={() => router.push("/dashboard/verifications")}
           icon={<ShieldCheck className="w-6 h-6 text-foreground" />}
-        />
+        >
+          Verifications
+        </MenuItem>
 
         {/* Payment Processing */}
         <MenuItem 
           onClick={() => router.push("/dashboard/payments")}
           icon={<Landmark className="w-6 h-6 text-foreground" />}
-        />
+        >
+          Payments
+        </MenuItem>
 
         {/* Logout */}
         <MenuItem 
           onClick={() => signOut({ callbackUrl: "/login" })}
           icon={<LogOut className="w-6 h-6 text-destructive" />}
-        />
+        >
+          Sign Out
+        </MenuItem>
       </MenuContainer>
     </div>
   )

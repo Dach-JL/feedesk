@@ -70,13 +70,17 @@ export function MenuItem({ children, onClick, disabled = false, icon, isActive =
       onClick={onClick}
       disabled={disabled}
     >
-      <span className="flex items-center justify-center h-full">
+      <span className="flex items-center justify-end px-4 h-full">
+        {children && (
+          <span className="mr-3 text-xs font-bold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity hidden md:block whitespace-nowrap">
+            {children}
+          </span>
+        )}
         {icon && (
-          <span className="h-6 w-6 transition-all duration-200 group-hover:[&_svg]:stroke-[2.5] flex items-center justify-center">
+          <span className="h-6 w-6 transition-all duration-200 group-hover:[&_svg]:stroke-[2.5] flex items-center justify-center flex-shrink-0">
             {icon}
           </span>
         )}
-        {children && <span className="ml-2">{children}</span>}
       </span>
     </button>
   )
