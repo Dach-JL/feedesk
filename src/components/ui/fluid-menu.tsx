@@ -124,10 +124,11 @@ export function MenuContainer({ children }: { children: React.ReactNode }) {
               key={index} 
               className="absolute top-0 left-0 w-16 h-16 bg-card border border-border flex items-center justify-center will-change-transform rounded-full shadow-md"
               style={{
-                transform: `translateY(${isExpanded ? -(index + 1) * 76 : 0}px)`,
+                transform: `translateY(${isExpanded ? -(index + 1) * 64 : 0}px)`,
                 opacity: isExpanded ? 1 : 0,
                 zIndex: 80 - index,
-                transition: `transform ${isExpanded ? '400ms' : '300ms'} cubic-bezier(0.34, 1.56, 0.64, 1), opacity ${isExpanded ? '200ms' : '200ms'}`,
+                transition: `transform ${isExpanded ? '500ms' : '300ms'} cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity ${isExpanded ? '300ms' : '200ms'}`,
+                transitionDelay: isExpanded ? `${index * 40}ms` : '0ms',
                 backfaceVisibility: 'hidden',
                 perspective: 1000,
               }}
