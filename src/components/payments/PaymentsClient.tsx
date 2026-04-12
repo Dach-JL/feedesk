@@ -97,33 +97,33 @@ export default function PaymentsClient() {
         {/* Left: Cashier Form */}
         <div className="lg:col-span-2 space-y-4 md:space-y-6">
           {/* Step 1 */}
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 p-4 sm:p-6 transition-all">
-            <h3 className="text-base font-bold mb-4 flex items-center gap-2 text-zinc-900 dark:text-zinc-100">
-              <div className="w-6 h-6 rounded-lg bg-amber-50 dark:bg-amber-500/10 flex items-center justify-center text-xs font-black text-amber-600 dark:text-amber-400">1</div>
+          <div className="bg-card rounded-2xl border border-border p-4 sm:p-6 transition-all">
+            <h3 className="text-base font-bold mb-4 flex items-center gap-2 text-foreground">
+              <div className="w-6 h-6 rounded-lg bg-primary/10 flex items-center justify-center text-xs font-black text-primary">1</div>
               Locate Student
             </h3>
             
             <div className="space-y-4">
               <div className="relative">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <input 
                   type="text" 
                   placeholder="Search by name or email..." 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="flex h-11 w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-4 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                  className="flex h-11 w-full rounded-xl border border-input bg-background px-4 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-ring transition-all"
                 />
                 {isSearching && (
                   <div className="absolute right-3.5 top-1/2 -translate-y-1/2">
-                    <Loader2 className="h-4 w-4 animate-spin text-amber-500" />
+                    <Loader2 className="h-4 w-4 animate-spin text-primary" />
                   </div>
                 )}
               </div>
 
               {/* Search Results Dropdown */}
               {searchResults.length > 0 && !selectedStudentId && (
-                <div className="mt-2 bg-white dark:bg-zinc-950 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
-                  <div className="max-h-60 overflow-y-auto divide-y divide-zinc-100 dark:divide-zinc-800">
+                <div className="mt-2 bg-popover rounded-xl border border-border shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="max-h-60 overflow-y-auto divide-y divide-border">
                     {searchResults.map((s) => (
                       <button
                         key={s.id}
@@ -132,12 +132,12 @@ export default function PaymentsClient() {
                           setSearchQuery("");
                           setSearchResults([]);
                         }}
-                        className="w-full px-4 py-3 text-left hover:bg-zinc-50 dark:hover:bg-zinc-900 flex items-center gap-3 transition-colors"
+                        className="w-full px-4 py-3 text-left hover:bg-muted/50 flex items-center gap-3 transition-colors"
                       >
-                        <UserCircle className="w-5 h-5 text-zinc-400" />
+                        <UserCircle className="w-5 h-5 text-muted-foreground" />
                         <div>
-                          <div className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{s.name}</div>
-                          <div className="text-[11px] text-zinc-500 uppercase font-medium">{s.class.name}</div>
+                          <div className="text-sm font-semibold text-foreground">{s.name}</div>
+                          <div className="text-[11px] text-muted-foreground uppercase font-medium">{s.class.name}</div>
                         </div>
                       </button>
                     ))}
@@ -147,14 +147,14 @@ export default function PaymentsClient() {
 
               {/* Selected Student Display */}
               {selectedStudent && (
-                <div className="bg-amber-50/50 dark:bg-amber-500/5 rounded-xl border border-amber-200/50 dark:border-amber-500/20 p-4 flex items-center justify-between animate-in zoom-in-95 duration-200">
+                <div className="bg-primary/5 rounded-xl border border-primary/20 p-4 flex items-center justify-between animate-in zoom-in-95 duration-200">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-amber-500/10 flex items-center justify-center">
-                      <CheckCircle2 className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <CheckCircle2 className="w-5 h-5 text-primary" />
                     </div>
                     <div>
-                      <div className="text-sm font-bold text-zinc-900 dark:text-white">{selectedStudent.name}</div>
-                      <div className="text-xs text-amber-600/80 dark:text-amber-400/80 font-medium">
+                      <div className="text-sm font-bold text-foreground">{selectedStudent.name}</div>
+                      <div className="text-xs text-primary font-medium">
                         {selectedStudent.class?.name || "Unassigned"}
                       </div>
                     </div>
@@ -165,7 +165,7 @@ export default function PaymentsClient() {
                       setSelectedStudentId("");
                       setSearchQuery("");
                     }}
-                    className="text-xs text-zinc-400 hover:text-rose-500 font-medium underline px-2 py-1"
+                    className="text-xs text-muted-foreground hover:text-destructive font-medium underline px-2 py-1"
                   >
                     Change Student
                   </button>
@@ -173,8 +173,8 @@ export default function PaymentsClient() {
               )}
 
               {detailsLoading && (
-                <div className="flex items-center justify-center py-4 gap-2 text-sm text-zinc-500">
-                  <Loader2 className="w-4 h-4 animate-spin text-amber-500" />
+                <div className="flex items-center justify-center py-4 gap-2 text-sm text-muted-foreground">
+                  <Loader2 className="w-4 h-4 animate-spin text-primary" />
                   Loading financial records...
                 </div>
               )}
@@ -182,19 +182,19 @@ export default function PaymentsClient() {
           </div>
 
           {/* Step 2 */}
-          <div className={`bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 p-6 transition-all duration-300 ${!selectedStudentId ? 'opacity-40 pointer-events-none' : ''}`}>
-            <h3 className="text-base font-bold mb-4 flex items-center gap-2 text-zinc-900 dark:text-zinc-100">
-              <div className="w-6 h-6 rounded-lg bg-amber-50 dark:bg-amber-500/10 flex items-center justify-center text-xs font-black text-amber-600 dark:text-amber-400">2</div>
+          <div className={`bg-card rounded-2xl border border-border p-6 transition-all duration-300 ${!selectedStudentId ? 'opacity-40 pointer-events-none' : ''}`}>
+            <h3 className="text-base font-bold mb-4 flex items-center gap-2 text-foreground">
+              <div className="w-6 h-6 rounded-lg bg-primary/10 flex items-center justify-center text-xs font-black text-primary">2</div>
               Transaction Details
             </h3>
             <form onSubmit={handleTransaction} className="space-y-5">
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Fee Plan</label>
+                <label className="text-sm font-semibold text-foreground">Fee Plan</label>
                 <select required value={selectedAssignmentId} onChange={(e) => {
                   setSelectedAssignmentId(e.target.value);
                   const assignment = selectedStudent?.assignments.find(a => a.id === e.target.value);
                   if (assignment) setPaymentAmount(assignment.feePlan.amount.toString());
-                }} className="flex h-11 w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent">
+                }} className="flex h-11 w-full rounded-xl border border-input bg-background px-4 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
                   <option value="" disabled>Select assigned fee</option>
                   {selectedStudent?.assignments.map(assignment => {
                     const paid = assignment.payments.reduce((s, p) => s + p.amount, 0);
@@ -203,11 +203,11 @@ export default function PaymentsClient() {
                 </select>
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Payment Amount ($)</label>
+                <label className="text-sm font-semibold text-foreground">Payment Amount ($)</label>
                 <div className="relative">
-                  <DollarSign className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-400" />
+                  <DollarSign className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                   <input type="number" step="0.01" min="0.01" required value={paymentAmount} onChange={(e) => setPaymentAmount(e.target.value)} placeholder="0.00"
-                    className="flex h-12 w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 px-4 pl-11 text-lg font-bold focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                    className="flex h-12 w-full rounded-xl border border-input bg-background px-4 pl-11 text-lg font-bold focus:outline-none focus:ring-2 focus:ring-ring" />
                 </div>
               </div>
               <StarButton 
@@ -224,47 +224,47 @@ export default function PaymentsClient() {
 
         {/* Right: Financial Breakdown */}
         <div className="lg:col-span-1">
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 p-6 sticky top-6">
-            <h3 className="text-base font-bold mb-6 flex items-center gap-2 text-zinc-900 dark:text-zinc-100">
-              <div className="w-8 h-8 rounded-xl bg-amber-50 dark:bg-amber-500/10 flex items-center justify-center"><Calculator className="w-4 h-4 text-amber-600 dark:text-amber-400" /></div>
+          <div className="bg-card rounded-2xl border border-border p-6 sticky top-6">
+            <h3 className="text-base font-bold mb-6 flex items-center gap-2 text-foreground">
+              <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center"><Calculator className="w-4 h-4 text-primary" /></div>
               Financial Summary
             </h3>
 
             {!selectedStudentId ? (
-              <div className="flex flex-col items-center justify-center py-10 text-center text-zinc-400">
+              <div className="flex flex-col items-center justify-center py-10 text-center text-muted-foreground">
                 <Wallet className="h-10 w-10 mb-3 opacity-20" />
                 <p className="text-sm">Select a student to view their financial breakdown.</p>
               </div>
             ) : (
               <div className="space-y-5 animate-slide-up">
-                <div className="flex justify-between items-center pb-4 border-b border-zinc-200 dark:border-zinc-800">
-                  <span className="text-sm text-zinc-500">Total Owed</span>
-                  <span className="text-lg font-bold text-zinc-900 dark:text-white tabular-nums">${totalOwed.toFixed(2)}</span>
+                <div className="flex justify-between items-center pb-4 border-b border-border">
+                  <span className="text-sm text-muted-foreground">Total Owed</span>
+                  <span className="text-lg font-bold text-foreground tabular-nums">${totalOwed.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between items-center pb-4 border-b border-zinc-200 dark:border-zinc-800">
-                  <span className="text-sm text-zinc-500">Total Paid</span>
-                  <span className="text-lg font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">-${totalPaid.toFixed(2)}</span>
+                <div className="flex justify-between items-center pb-4 border-b border-border">
+                  <span className="text-sm text-muted-foreground">Total Paid</span>
+                  <span className="text-lg font-bold text-emerald-600 tabular-nums">-${totalPaid.toFixed(2)}</span>
                 </div>
-                <div className="bg-zinc-50 dark:bg-zinc-950 p-4 rounded-xl border border-zinc-200/60 dark:border-zinc-800/60">
-                  <span className="block text-xs font-semibold text-zinc-500 mb-1 uppercase tracking-wider">Outstanding Balance</span>
-                  <span className={`text-3xl font-black tracking-tight tabular-nums ${outstandingDues > 0 ? 'text-rose-500' : 'text-emerald-500'}`}>
+                <div className="bg-muted/50 p-4 rounded-xl border border-border">
+                  <span className="block text-xs font-semibold text-muted-foreground mb-1 uppercase tracking-wider">Outstanding Balance</span>
+                  <span className={`text-3xl font-black tracking-tight tabular-nums ${outstandingDues > 0 ? 'text-destructive' : 'text-emerald-500'}`}>
                     ${Math.max(0, outstandingDues).toFixed(2)}
                   </span>
                   {outstandingDues <= 0 && totalOwed > 0 && (
-                    <span className="inline-flex items-center gap-1 mt-2 text-xs font-semibold px-2.5 py-1 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 rounded-lg">
+                    <span className="inline-flex items-center gap-1 mt-2 text-xs font-semibold px-2.5 py-1 bg-emerald-500/10 text-emerald-600 rounded-lg">
                       <CheckCircle2 className="w-3 h-3" /> Fully Cleared
                     </span>
                   )}
                 </div>
 
                 {studentPayments.length > 0 && (
-                  <div className="pt-4 border-t border-zinc-200 dark:border-zinc-800">
-                    <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-3">Recent</h4>
+                  <div className="pt-4 border-t border-border">
+                    <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-3">Recent</h4>
                     <div className="space-y-2 max-h-40 overflow-y-auto">
                       {studentPayments.slice(0, 5).map(p => (
-                        <div key={p.id} className="flex justify-between text-sm bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-lg">
-                          <span className="text-zinc-500 text-xs">{new Date(p.paymentDate).toLocaleDateString()}</span>
-                          <span className="font-semibold text-emerald-600 dark:text-emerald-400 text-xs">+${p.amount.toFixed(2)}</span>
+                        <div key={p.id} className="flex justify-between text-sm bg-muted/50 p-2.5 rounded-lg">
+                          <span className="text-muted-foreground text-xs">{new Date(p.paymentDate).toLocaleDateString()}</span>
+                          <span className="font-semibold text-emerald-600 text-xs">+${p.amount.toFixed(2)}</span>
                         </div>
                       ))}
                     </div>

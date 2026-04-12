@@ -65,25 +65,25 @@ export default function ReceiptsClient() {
 
   return (
     <div className="space-y-6 animate-slide-up">
-      <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 overflow-hidden">
-        <div className="p-4 border-b border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/50 dark:bg-zinc-900/50">
+      <div className="bg-card rounded-2xl border border-border overflow-hidden">
+        <div className="p-4 border-b border-border bg-muted/30">
           <div className="relative w-full max-w-sm">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <input type="text" placeholder="Search by student, ID, or fee plan..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
-              className="flex h-10 w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-3 py-1 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-500 focus:border-transparent transition-colors" />
+              className="flex h-10 w-full rounded-xl border border-input bg-background px-3 py-1 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-ring transition-colors" />
           </div>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-zinc-200/60 dark:border-zinc-800/60">
-                <th className="h-11 px-6 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider">Date</th>
-                <th className="h-11 px-6 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider">Student</th>
-                <th className="h-11 px-6 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider">Fee Plan</th>
-                <th className="h-11 px-6 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider">Amount</th>
-                <th className="h-11 px-6 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider">Status</th>
-                <th className="h-11 px-6 text-right text-xs font-semibold text-zinc-500 uppercase tracking-wider">Receipt</th>
+              <tr className="border-b border-border">
+                <th className="h-11 px-6 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Date</th>
+                <th className="h-11 px-6 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Student</th>
+                <th className="h-11 px-6 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Fee Plan</th>
+                <th className="h-11 px-6 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Amount</th>
+                <th className="h-11 px-6 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Status</th>
+                <th className="h-11 px-6 text-right text-xs font-semibold text-muted-foreground uppercase tracking-wider">Receipt</th>
               </tr>
             </thead>
             <tbody>
@@ -97,24 +97,24 @@ export default function ReceiptsClient() {
                 ))
               ) : filteredPayments.length === 0 ? (
                 <tr><td colSpan={6} className="p-12 text-center">
-                  <Receipt className="w-10 h-10 text-zinc-300 dark:text-zinc-700 mx-auto mb-3" />
-                  <p className="text-sm text-zinc-500">No transactions found.</p>
+                  <Receipt className="w-10 h-10 text-muted/60 mx-auto mb-3" />
+                  <p className="text-sm text-muted-foreground">No transactions found.</p>
                 </td></tr>
               ) : (
                 filteredPayments.map((p) => (
-                  <tr key={p.id} className="border-b border-zinc-100 dark:border-zinc-800/40 hover:bg-zinc-50/50 dark:hover:bg-zinc-800/20 transition-colors">
-                    <td className="px-6 py-4 text-zinc-500">
+                  <tr key={p.id} className="border-b border-border/40 hover:bg-muted/50 transition-colors">
+                    <td className="px-6 py-4 text-muted-foreground">
                       {new Date(p.paymentDate).toLocaleString(undefined, { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })}
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-7 h-7 rounded-lg bg-fuchsia-50 dark:bg-fuchsia-500/10 flex items-center justify-center flex-shrink-0">
-                          <span className="text-[10px] font-bold text-fuchsia-600 dark:text-fuchsia-400 uppercase">{p.studentFeeAssignment.student.name.charAt(0)}</span>
+                        <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <span className="text-[10px] font-bold text-primary uppercase">{p.studentFeeAssignment.student.name.charAt(0)}</span>
                         </div>
-                        <span className="font-medium text-zinc-900 dark:text-zinc-100">{p.studentFeeAssignment.student.name}</span>
+                        <span className="font-medium text-foreground">{p.studentFeeAssignment.student.name}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-zinc-500">
+                    <td className="px-6 py-4 text-muted-foreground">
                       <span className="flex items-center gap-1.5"><FileText className="w-3.5 h-3.5 opacity-50" />{p.studentFeeAssignment.feePlan.name}</span>
                     </td>
                     <td className="px-6 py-4 font-bold tabular-nums text-emerald-600 dark:text-emerald-400">${p.amount.toFixed(2)}</td>
@@ -125,7 +125,7 @@ export default function ReceiptsClient() {
                     </td>
                     <td className="px-6 py-4 text-right">
                       <button onClick={() => handleDownloadReceipt(p)}
-                        className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold text-fuchsia-600 dark:text-fuchsia-400 bg-fuchsia-50 dark:bg-fuchsia-500/10 hover:bg-fuchsia-100 dark:hover:bg-fuchsia-500/20 transition-colors">
+                        className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold text-primary bg-primary/10 hover:bg-primary/20 transition-colors">
                         <Download className="h-3.5 w-3.5" /> PDF
                       </button>
                     </td>
