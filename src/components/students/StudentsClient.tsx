@@ -17,7 +17,7 @@ export default function StudentsClient() {
   const [lightColor, setLightColor] = useState("#FAFAFA");
 
   useEffect(() => {
-    setLightColor(theme === "dark" ? "#FAFAFA" : "#3b82f6");
+    setLightColor(theme === "dark" ? "#FAFAFA" : "#6366f1"); // Indigo primary
   }, [theme]);
 
   const [students, setStudents] = useState<StudentData[]>([]);
@@ -133,9 +133,9 @@ export default function StudentsClient() {
         <div className="grid grid-cols-1 gap-4 p-4 md:hidden">
           {loading ? (
             Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl p-4 animate-pulse border border-zinc-100 dark:border-zinc-800/40">
-                <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-1/2 mb-3" />
-                <div className="h-3 bg-zinc-100 dark:bg-zinc-900 rounded w-3/4" />
+              <div key={i} className="bg-muted/30 rounded-2xl p-4 animate-pulse border border-border">
+                <div className="h-4 bg-muted rounded w-1/2 mb-3" />
+                <div className="h-3 bg-muted/50 rounded w-3/4" />
               </div>
             ))
           ) : students.length === 0 ? (
@@ -145,15 +145,15 @@ export default function StudentsClient() {
             </div>
           ) : (
             students.map((s) => (
-              <div key={s.id} className="bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl p-4 border border-zinc-100 dark:border-zinc-800/40 space-y-3">
+              <div key={s.id} className="bg-muted/30 rounded-2xl p-4 border border-border space-y-3">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center">
-                      <span className="text-sm font-bold text-blue-600 dark:text-blue-400 uppercase">{s.name.charAt(0)}</span>
+                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                      <span className="text-sm font-bold text-primary uppercase">{s.name.charAt(0)}</span>
                     </div>
                     <div>
-                      <div className="font-bold text-zinc-900 dark:text-zinc-100">{s.name}</div>
-                      <div className="text-xs text-zinc-500">{s.class?.name || "Unassigned"}</div>
+                      <div className="font-bold text-foreground">{s.name}</div>
+                      <div className="text-xs text-muted-foreground">{s.class?.name || "Unassigned"}</div>
                     </div>
                   </div>
                   <div className="flex gap-1">
@@ -185,28 +185,28 @@ export default function StudentsClient() {
             <tbody>
               {loading ? (
                 Array.from({ length: 3 }).map((_, i) => (
-                  <tr key={i} className="border-b border-zinc-100 dark:border-zinc-800/40 animate-pulse">
-                    <td className="p-4 px-6"><div className="h-4 bg-zinc-100 dark:bg-zinc-800 rounded-lg w-32" /></td>
-                    <td className="p-4 px-6"><div className="h-4 bg-zinc-100 dark:bg-zinc-800 rounded-lg w-28" /></td>
-                    <td className="p-4 px-6"><div className="h-4 bg-zinc-100 dark:bg-zinc-800 rounded-lg w-20" /></td>
-                    <td className="p-4 px-6"><div className="h-4 bg-zinc-100 dark:bg-zinc-800 rounded-lg w-24" /></td>
-                    <td className="p-4 px-6"><div className="h-4 bg-zinc-100 dark:bg-zinc-800 rounded-lg w-16 ml-auto" /></td>
+                  <tr key={i} className="border-b border-border animate-pulse">
+                    <td className="p-4 px-6"><div className="h-4 bg-muted rounded-lg w-32" /></td>
+                    <td className="p-4 px-6"><div className="h-4 bg-muted rounded-lg w-28" /></td>
+                    <td className="p-4 px-6"><div className="h-4 bg-muted rounded-lg w-20" /></td>
+                    <td className="p-4 px-6"><div className="h-4 bg-muted rounded-lg w-24" /></td>
+                    <td className="p-4 px-6"><div className="h-4 bg-muted rounded-lg w-16 ml-auto" /></td>
                   </tr>
                 ))
               ) : students.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="p-12 text-center">
-                    <UserCircle className="w-10 h-10 text-zinc-300 dark:text-zinc-700 mx-auto mb-3" />
-                    <p className="text-sm text-zinc-500">No students found.</p>
+                    <UserCircle className="w-10 h-10 text-muted/60 mx-auto mb-3" />
+                    <p className="text-sm text-muted-foreground">No students found.</p>
                   </td>
                 </tr>
               ) : (
                 students.map((s) => (
-                  <tr key={s.id} className="border-b border-zinc-100 dark:border-zinc-800/40 hover:bg-zinc-50/50 dark:hover:bg-zinc-800/20 transition-colors group">
+                  <tr key={s.id} className="border-b border-border hover:bg-muted/20 transition-colors group">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center flex-shrink-0">
-                          <span className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase">{s.name.charAt(0)}</span>
+                        <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <span className="text-xs font-bold text-primary uppercase">{s.name.charAt(0)}</span>
                         </div>
                         <span className="font-medium text-foreground">{s.name}</span>
                       </div>
@@ -217,7 +217,7 @@ export default function StudentsClient() {
                       ) : <span className="text-muted-foreground/60 italic text-xs">Not provided</span>}
                     </td>
                     <td className="px-6 py-4">
-                      <span className="inline-flex px-2.5 py-1 rounded-lg text-xs font-semibold bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300">
+                      <span className="inline-flex px-2.5 py-1 rounded-lg text-xs font-semibold bg-primary/10 text-primary">
                         {s.class?.name || "Unassigned"}
                       </span>
                     </td>

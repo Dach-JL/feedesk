@@ -147,7 +147,7 @@ export default function StudentPortal() {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 text-indigo-500">
+      <div className="flex flex-col items-center justify-center py-20 text-primary">
         <Loader2 className="w-10 h-10 animate-spin mb-4" />
         <p className="text-sm font-medium animate-pulse">Loading securely...</p>
       </div>
@@ -156,10 +156,10 @@ export default function StudentPortal() {
 
   if (error || !data) {
     return (
-      <div className="bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 p-6 rounded-2xl text-center max-w-lg mx-auto mt-10">
-        <AlertCircle className="w-10 h-10 text-rose-500 mx-auto mb-3" />
-        <h3 className="text-lg font-bold text-rose-700 dark:text-rose-400">Unable to load portal</h3>
-        <p className="text-sm text-rose-600 dark:text-rose-500 mt-2">{error || "An unknown error occurred"}</p>
+      <div className="bg-destructive/10 border border-destructive/20 p-6 rounded-2xl text-center max-w-lg mx-auto mt-10">
+        <AlertCircle className="w-10 h-10 text-destructive mx-auto mb-3" />
+        <h3 className="text-lg font-bold text-destructive">Unable to load portal</h3>
+        <p className="text-sm text-destructive mt-2">{error || "An unknown error occurred"}</p>
       </div>
     )
   }
@@ -168,72 +168,72 @@ export default function StudentPortal() {
     <div className="space-y-8 animate-slide-up">
       
       {/* Welcome Banner */}
-      <div className="relative overflow-hidden bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 p-8 shadow-sm">
+      <div className="relative overflow-hidden bg-card rounded-2xl border border-border p-8 shadow-sm">
         <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
           <BookOpen className="w-48 h-48" />
         </div>
         <div className="relative z-10">
-          <h1 className="text-3xl font-black tracking-tight text-zinc-900 dark:text-white mb-2">
+          <h1 className="text-3xl font-black tracking-tight text-foreground mb-2">
             Welcome back, {data.profile.name.split(" ")[0]}! 👋
           </h1>
-          <p className="text-zinc-500 dark:text-zinc-400 text-lg flex items-center gap-2">
-            You are enrolled in <span className="font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 px-2.5 py-0.5 rounded-md">{data.profile.class.name}</span>
+          <p className="text-muted-foreground text-lg flex items-center gap-2">
+            You are enrolled in <span className="font-bold text-primary bg-primary/10 px-2.5 py-0.5 rounded-md">{data.profile.class.name}</span>
           </p>
         </div>
       </div>
 
       {/* Financial Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 p-6 relative overflow-hidden group">
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-zinc-400 to-zinc-600 opacity-60" />
-          <div className="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center mb-4">
-            <DollarSign className="w-5 h-5 text-zinc-600 dark:text-zinc-400" />
+        <div className="bg-card rounded-2xl border border-border p-6 relative overflow-hidden group">
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-muted-foreground/40 to-muted-foreground/60 opacity-60" />
+          <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center mb-4">
+            <DollarSign className="w-5 h-5 text-muted-foreground" />
           </div>
-          <div className="text-sm font-medium text-zinc-500 dark:text-zinc-400 mb-1">Total Fee Amount</div>
-          <div className="text-3xl font-black tracking-tight text-zinc-900 dark:text-white tabular-nums">${data.metrics.totalOwed.toFixed(2)}</div>
+          <div className="text-sm font-medium text-muted-foreground mb-1">Total Fee Amount</div>
+          <div className="text-3xl font-black tracking-tight text-foreground tabular-nums">${data.metrics.totalOwed.toFixed(2)}</div>
         </div>
 
-        <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 p-6 relative overflow-hidden group">
+        <div className="bg-card rounded-2xl border border-border p-6 relative overflow-hidden group">
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-emerald-500 to-teal-600 opacity-60" />
-          <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center mb-4">
-            <Wallet className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+          <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center mb-4">
+            <Wallet className="w-5 h-5 text-emerald-600" />
           </div>
-          <div className="text-sm font-medium text-zinc-500 dark:text-zinc-400 mb-1">Total Paid</div>
-          <div className="text-3xl font-black tracking-tight text-emerald-600 dark:text-emerald-400 tabular-nums">${data.metrics.totalPaid.toFixed(2)}</div>
+          <div className="text-sm font-medium text-muted-foreground mb-1">Total Paid</div>
+          <div className="text-3xl font-black tracking-tight text-emerald-600 tabular-nums">${data.metrics.totalPaid.toFixed(2)}</div>
         </div>
 
-        <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-rose-200 dark:border-rose-500/20 shadow-sm shadow-rose-500/5 p-6 relative overflow-hidden group hover:border-rose-300 dark:hover:border-rose-500/40 transition-colors">
-          <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-rose-500 to-orange-500" />
-          <div className="w-10 h-10 rounded-xl bg-rose-50 dark:bg-rose-500/10 flex items-center justify-center mb-4">
+        <div className="bg-card rounded-2xl border border-destructive/20 shadow-sm shadow-destructive/5 p-6 relative overflow-hidden group hover:border-destructive transition-colors">
+          <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-destructive to-orange-500" />
+          <div className="w-10 h-10 rounded-xl bg-destructive/10 flex items-center justify-center mb-4">
             {data.metrics.outstandingDues > 0 ? (
-              <AlertCircle className="w-5 h-5 text-rose-600 dark:text-rose-400" />
+              <AlertCircle className="w-5 h-5 text-destructive" />
             ) : (
-              <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+              <CheckCircle2 className="w-5 h-5 text-emerald-600" />
             )}
           </div>
-          <div className="text-sm font-bold text-rose-600 dark:text-rose-400 mb-1 uppercase tracking-wider">Outstanding Balance</div>
-          <div className={`text-4xl font-black tracking-tight tabular-nums ${data.metrics.outstandingDues > 0 ? "text-rose-600 dark:text-rose-400" : "text-emerald-600 dark:text-emerald-400"}`}>
+          <div className="text-sm font-bold text-destructive mb-1 uppercase tracking-wider">Outstanding Balance</div>
+          <div className={`text-4xl font-black tracking-tight tabular-nums ${data.metrics.outstandingDues > 0 ? "text-destructive" : "text-emerald-600"}`}>
             ${data.metrics.outstandingDues.toFixed(2)}
           </div>
         </div>
       </div>
 
       {/* My Assigned Fees */}
-      <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 overflow-hidden">
-        <div className="p-6 border-b border-zinc-200/60 dark:border-zinc-800/60 flex items-center justify-between">
+      <div className="bg-card rounded-2xl border border-border overflow-hidden">
+        <div className="p-6 border-b border-border flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-bold text-zinc-900 dark:text-white flex items-center gap-2">
-              <FileText className="w-5 h-5 text-indigo-500" />
+            <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
+              <FileText className="w-5 h-5 text-primary" />
               My Assigned Fees
             </h3>
-            <p className="text-sm text-zinc-500 mt-1">Status of your current academic fees and requirements.</p>
+            <p className="text-sm text-muted-foreground mt-1">Status of your current academic fees and requirements.</p>
           </div>
         </div>
 
         {/* Mobile View: Assigned Fees Cards */}
         <div className="grid grid-cols-1 gap-4 p-4 md:hidden">
           {data.assignments.length === 0 ? (
-            <div className="text-center py-8 text-zinc-500 italic">No assigned fees found.</div>
+            <div className="text-center py-8 text-muted-foreground italic">No assigned fees found.</div>
           ) : (
             data.assignments.map((assignment) => {
               const latestProof = assignment.proofs[0]
@@ -242,34 +242,34 @@ export default function StudentPortal() {
               const isRejected = latestProof?.status === "REJECTED"
 
               return (
-                <div key={assignment.id} className="bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl p-4 border border-zinc-100 dark:border-zinc-800/40 space-y-4">
+                <div key={assignment.id} className="bg-muted/30 rounded-2xl p-4 border border-border/40 space-y-4">
                   <div className="flex items-start justify-between">
                     <div>
-                      <div className="font-bold text-zinc-900 dark:text-zinc-100 text-base">{assignment.feePlan.name}</div>
-                      <div className="text-xs text-zinc-500 mt-0.5">Due {new Date(assignment.feePlan.dueDate).toLocaleDateString()}</div>
+                      <div className="font-bold text-foreground text-base">{assignment.feePlan.name}</div>
+                      <div className="text-xs text-muted-foreground mt-0.5">Due {new Date(assignment.feePlan.dueDate).toLocaleDateString()}</div>
                     </div>
                     <div className="text-right">
-                      <div className="text-lg font-black text-zinc-900 dark:text-white tabular-nums">${assignment.feePlan.amount.toFixed(2)}</div>
+                      <div className="text-lg font-black text-foreground tabular-nums">${assignment.feePlan.amount.toFixed(2)}</div>
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between pt-3 border-t border-zinc-200/40 dark:border-zinc-800/40">
+                  <div className="flex items-center justify-between pt-3 border-t border-border">
                     <div>
                       {isPaid ? (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-[10px] font-bold uppercase">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-600 text-[10px] font-bold uppercase">
                           <CheckCircle2 className="w-3 h-3" /> Paid
                         </span>
                       ) : hasPendingProof ? (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 text-[10px] font-bold uppercase">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-600 text-[10px] font-bold uppercase">
                           <Loader2 className="w-3 h-3 animate-spin" /> Pending
                         </span>
                       ) : isRejected ? (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-rose-50 dark:bg-rose-500/10 text-rose-700 dark:text-rose-400 text-[10px] font-bold uppercase">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-destructive/10 text-destructive text-[10px] font-bold uppercase">
                           <AlertCircle className="w-3 h-3" /> Rejected
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 text-[10px] font-bold uppercase">
-                          Payment Düe
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-muted text-muted-foreground text-[10px] font-bold uppercase">
+                          Payment Due
                         </span>
                       )}
                     </div>
@@ -280,7 +280,7 @@ export default function StudentPortal() {
                           setUploadingAssignmentId(assignment.id)
                           setIsUploadModalOpen(true)
                         }}
-                        className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-lg shadow-indigo-500/10"
+                        className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold bg-primary text-primary-foreground shadow-lg shadow-primary/10"
                       >
                         <Download className="w-3 h-3 rotate-180" /> Upload Proof
                       </button>
@@ -288,8 +288,8 @@ export default function StudentPortal() {
                   </div>
                   
                   {isRejected && latestProof.rejectionReason && (
-                    <div className="mt-2 p-3 bg-rose-50 dark:bg-rose-500/5 rounded-xl border border-rose-100 dark:border-rose-500/10">
-                      <p className="text-[10px] text-rose-600 dark:text-rose-400 leading-tight">
+                    <div className="mt-2 p-3 bg-destructive/5 rounded-xl border border-destructive/10">
+                      <p className="text-[10px] text-destructive leading-tight">
                         <span className="font-bold uppercase tracking-tighter mr-1">Reason:</span>
                         {latestProof.rejectionReason}
                       </p>
@@ -305,18 +305,18 @@ export default function StudentPortal() {
         <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/50 dark:bg-zinc-900/50">
-                <th className="h-11 px-6 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider">Fee Plan</th>
-                <th className="h-11 px-6 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider">Amount</th>
-                <th className="h-11 px-6 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider">Due Date</th>
-                <th className="h-11 px-6 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider">Status</th>
-                <th className="h-11 px-6 text-right text-xs font-semibold text-zinc-500 uppercase tracking-wider">Action</th>
+              <tr className="border-b border-border bg-muted/30">
+                <th className="h-11 px-6 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Fee Plan</th>
+                <th className="h-11 px-6 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Amount</th>
+                <th className="h-11 px-6 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Due Date</th>
+                <th className="h-11 px-6 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Status</th>
+                <th className="h-11 px-6 text-right text-xs font-semibold text-muted-foreground uppercase tracking-wider">Action</th>
               </tr>
             </thead>
             <tbody>
               {data.assignments.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="p-12 text-center text-zinc-500 italic">No assigned fees found.</td>
+                  <td colSpan={5} className="p-12 text-center text-muted-foreground italic">No assigned fees found.</td>
                 </tr>
               ) : (
                 data.assignments.map((assignment) => {
@@ -326,32 +326,32 @@ export default function StudentPortal() {
                   const isRejected = latestProof?.status === "REJECTED"
 
                   return (
-                    <tr key={assignment.id} className="border-b border-zinc-100 dark:border-zinc-800/40 hover:bg-zinc-50/50 dark:hover:bg-zinc-800/20 transition-colors">
+                    <tr key={assignment.id} className="border-b border-border/40 hover:bg-muted/50 transition-colors">
                       <td className="px-6 py-4">
-                        <span className="font-semibold text-zinc-900 dark:text-zinc-100">{assignment.feePlan.name}</span>
+                        <span className="font-semibold text-foreground">{assignment.feePlan.name}</span>
                       </td>
                       <td className="px-6 py-4 font-bold tabular-nums">${assignment.feePlan.amount.toFixed(2)}</td>
-                      <td className="px-6 py-4 text-zinc-500">{new Date(assignment.feePlan.dueDate).toLocaleDateString()}</td>
+                      <td className="px-6 py-4 text-muted-foreground">{new Date(assignment.feePlan.dueDate).toLocaleDateString()}</td>
                       <td className="px-6 py-4">
                         {isPaid ? (
-                          <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider">
+                          <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-emerald-500/10 text-emerald-600 text-xs font-bold uppercase tracking-wider">
                             <CheckCircle2 className="w-3 h-3" /> Paid
                           </span>
                         ) : hasPendingProof ? (
-                          <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 text-xs font-bold uppercase tracking-wider">
+                          <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-amber-500/10 text-amber-600 text-xs font-bold uppercase tracking-wider">
                             <Loader2 className="w-3 h-3 animate-spin" /> Pending Verification
                           </span>
                         ) : isRejected ? (
                           <div className="flex flex-col gap-1">
-                            <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-rose-50 dark:bg-rose-500/10 text-rose-700 dark:text-rose-400 text-xs font-bold uppercase tracking-wider w-fit">
+                            <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-destructive/10 text-destructive text-xs font-bold uppercase tracking-wider w-fit">
                               <AlertCircle className="w-3 h-3" /> Rejected
                             </span>
                             {latestProof.rejectionReason && (
-                              <p className="text-[10px] text-rose-500 italic max-w-[150px] leading-tight">{latestProof.rejectionReason}</p>
+                              <p className="text-[10px] text-destructive italic max-w-[150px] leading-tight">{latestProof.rejectionReason}</p>
                             )}
                           </div>
                         ) : (
-                          <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 text-xs font-bold uppercase tracking-wider">
+                          <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-muted text-muted-foreground text-xs font-bold uppercase tracking-wider">
                             Pending Payment
                           </span>
                         )}
@@ -363,7 +363,7 @@ export default function StudentPortal() {
                               setUploadingAssignmentId(assignment.id)
                               setIsUploadModalOpen(true)
                             }}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white transition-colors"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-primary text-primary-foreground hover:opacity-90 transition-all"
                           >
                             <Download className="w-3.5 h-3.5 rotate-180" /> {isRejected ? "Re-upload Proof" : "Upload Proof"}
                           </button>
@@ -383,33 +383,33 @@ export default function StudentPortal() {
 
       {/* Upload Modal */}
       {isUploadModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-zinc-950/80 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white dark:bg-zinc-900 rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden border border-zinc-200/60 dark:border-zinc-800/60 animate-in zoom-in-95 duration-300 max-h-[85vh] flex flex-col">
-            <div className="p-8 border-b border-zinc-100 dark:border-zinc-800/60">
-              <h2 className="text-2xl font-black text-zinc-900 dark:text-white">Upload Payment Proof</h2>
-              <p className="text-zinc-500 mt-2">Submit a screenshot of your Telebirr or CBE receipt for verification.</p>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/80 backdrop-blur-md animate-in fade-in duration-300">
+          <div className="bg-card rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden border border-border animate-in zoom-in-95 duration-300 max-h-[85vh] flex flex-col">
+            <div className="p-8 border-b border-border">
+              <h2 className="text-2xl font-black text-foreground">Upload Payment Proof</h2>
+              <p className="text-muted-foreground mt-2">Submit a screenshot of your Telebirr or CBE receipt for verification.</p>
             </div>
             
             <form onSubmit={handleUpload} className="p-6 lg:p-8 space-y-6 overflow-y-auto flex-1 custom-scrollbar min-h-0">
               {uploadError && (
-                <div className="bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 p-4 rounded-xl text-rose-600 dark:text-rose-400 text-sm font-medium flex gap-2 items-center">
+                <div className="bg-destructive/10 border border-destructive/20 p-4 rounded-xl text-destructive text-sm font-medium flex gap-2 items-center">
                   <AlertCircle className="w-4 h-4 shrink-0" /> {uploadError}
                 </div>
               )}
 
               <div className="space-y-2">
-                <label className="text-sm font-bold text-zinc-700 dark:text-zinc-300">Screenshot / Receipt Image</label>
+                <label className="text-sm font-bold text-foreground">Screenshot / Receipt Image</label>
                 <div 
-                  className={`mt-1 flex justify-center px-6 pt-10 pb-10 border-2 border-dashed rounded-2xl transition-all ${screenshot ? "border-emerald-500 bg-emerald-50/30 dark:bg-emerald-500/5" : "border-zinc-300 dark:border-zinc-800 hover:border-indigo-400"}`}
+                  className={`mt-1 flex justify-center px-6 pt-10 pb-10 border-2 border-dashed rounded-2xl transition-all ${screenshot ? "border-emerald-500 bg-emerald-500/5" : "border-muted-foreground/30 hover:border-primary"}`}
                 >
                   <div className="space-y-4 text-center">
                     {!screenshot ? (
                       <>
-                        <div className="w-16 h-16 rounded-full bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center mx-auto ring-4 ring-zinc-50 dark:ring-zinc-800/50">
-                          <FileText className="h-8 w-8 text-zinc-400" />
+                        <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mx-auto ring-4 ring-muted">
+                          <FileText className="h-8 w-8 text-muted-foreground" />
                         </div>
-                        <div className="flex flex-col items-center text-sm text-zinc-600 dark:text-zinc-400">
-                          <label className="relative cursor-pointer bg-black dark:bg-white px-4 py-2 rounded-xl font-bold text-white dark:text-black hover:opacity-90 transition-all focus-within:outline-none">
+                        <div className="flex flex-col items-center text-sm text-muted-foreground">
+                          <label className="relative cursor-pointer bg-primary text-primary-foreground px-4 py-2 rounded-xl font-bold hover:opacity-90 transition-all focus-within:outline-none">
                             <span>Browse Device</span>
                             <input 
                               type="file" 
@@ -440,11 +440,11 @@ export default function StudentPortal() {
                           width={240}
                           height={240}
                           unoptimized
-                          className="max-h-56 rounded-xl shadow-xl object-contain border-4 border-white dark:border-zinc-800" 
+                          className="max-h-56 rounded-xl shadow-xl object-contain border-4 border-card" 
                         />
                         <button 
                           onClick={() => setScreenshot(null)}
-                          className="absolute -top-3 -right-3 bg-rose-500 text-white rounded-full p-2 shadow-xl hover:scale-110 active:scale-95 transition-all"
+                          className="absolute -top-3 -right-3 bg-destructive text-destructive-foreground rounded-full p-2 shadow-xl hover:scale-110 active:scale-95 transition-all"
                         >
                           <X className="w-4 h-4" />
                         </button>
@@ -455,12 +455,12 @@ export default function StudentPortal() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-bold text-zinc-700 dark:text-zinc-300">Notes (Optional)</label>
+                <label className="text-sm font-bold text-foreground">Notes (Optional)</label>
                 <textarea 
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
                   placeholder="e.g. Reference number or transaction time..."
-                  className="w-full bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-all h-28 resize-none"
+                  className="w-full bg-muted/50 border border-border rounded-2xl p-4 text-sm focus:ring-2 focus:ring-ring outline-none transition-all h-28 resize-none"
                 />
               </div>
 
@@ -468,14 +468,14 @@ export default function StudentPortal() {
                 <button 
                   type="button"
                   onClick={() => setIsUploadModalOpen(false)}
-                  className="flex-1 px-6 py-4 rounded-2xl text-sm font-bold text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors order-2 sm:order-1"
+                  className="flex-1 px-6 py-4 rounded-2xl text-sm font-bold text-muted-foreground hover:bg-muted transition-colors order-2 sm:order-1"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit"
                   disabled={isSubmitting || !screenshot}
-                  className="flex-[2] bg-indigo-600 text-white rounded-2xl px-6 py-4 text-sm font-black hover:bg-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/20 order-1 sm:order-2"
+                  className="flex-[2] bg-primary text-primary-foreground rounded-2xl px-6 py-4 text-sm font-black hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-primary/10 order-1 sm:order-2"
                 >
                   {isSubmitting ? (
                     <><Loader2 className="w-5 h-5 animate-spin" /> Uploading...</>
@@ -490,44 +490,44 @@ export default function StudentPortal() {
       )}
 
       {/* Transaction History */}
-      <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 overflow-hidden">
-        <div className="p-6 border-b border-zinc-200/60 dark:border-zinc-800/60">
-          <h3 className="text-lg font-bold text-zinc-900 dark:text-white flex items-center gap-2">
-            <Receipt className="w-5 h-5 text-indigo-500" />
+      <div className="bg-card rounded-2xl border border-border overflow-hidden">
+        <div className="p-6 border-b border-border">
+          <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
+            <Receipt className="w-5 h-5 text-primary" />
             Payment History & Receipts
           </h3>
-          <p className="text-sm text-zinc-500 mt-1">Review your past transactions and download official receipts for your records.</p>
+          <p className="text-sm text-muted-foreground mt-1">Review your past transactions and download official receipts for your records.</p>
         </div>
 
         {/* Mobile View: History Cards */}
         <div className="grid grid-cols-1 gap-4 p-4 md:hidden">
           {data.assignments.flatMap(a => a.payments).length === 0 ? (
             <div className="text-center py-8">
-              <Receipt className="w-10 h-10 text-zinc-300 dark:text-zinc-700 mx-auto mb-3" />
-              <p className="text-sm text-zinc-500">No payment history found.</p>
+              <Receipt className="w-10 h-10 text-muted/60 mx-auto mb-3" />
+              <p className="text-sm text-muted-foreground">No payment history found.</p>
             </div>
           ) : (
             data.assignments.flatMap(a => a.payments.map(p => ({ ...p, feePlan: a.feePlan }))).map((p) => (
-              <div key={p.id} className="bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl p-4 border border-zinc-100 dark:border-zinc-800/40 space-y-3">
+              <div key={p.id} className="bg-muted/30 rounded-2xl p-4 border border-border/40 space-y-3">
                 <div className="flex items-start justify-between">
                   <div>
-                    <div className="flex items-center gap-1.5 font-bold text-zinc-900 dark:text-zinc-100">
-                      <FileText className="w-3.5 h-3.5 text-indigo-400" />
+                    <div className="flex items-center gap-1.5 font-bold text-foreground">
+                      <FileText className="w-3.5 h-3.5 text-primary" />
                       {p.feePlan.name}
                     </div>
-                    <div className="text-[11px] text-zinc-500 mt-0.5">{new Date(p.paymentDate).toLocaleDateString()}</div>
+                    <div className="text-[11px] text-muted-foreground mt-0.5">{new Date(p.paymentDate).toLocaleDateString()}</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-base font-black text-emerald-600 dark:text-emerald-400 tabular-nums">${p.amount.toFixed(2)}</div>
+                    <div className="text-base font-black text-emerald-600 tabular-nums">${p.amount.toFixed(2)}</div>
                   </div>
                 </div>
-                <div className="flex items-center justify-between pt-2 border-t border-zinc-200/40 dark:border-zinc-800/40">
-                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 uppercase tracking-tighter">
+                <div className="flex items-center justify-between pt-2 border-t border-border">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-emerald-500/10 text-emerald-600 uppercase tracking-tighter">
                     <CheckCircle2 className="w-3 h-3" />{p.status}
                   </span>
                   <button 
                     onClick={() => handleDownloadReceipt(p)}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-primary bg-primary/10"
                   >
                     <Download className="h-3 w-3" /> Receipt
                   </button>
@@ -541,44 +541,44 @@ export default function StudentPortal() {
         <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/50 dark:bg-zinc-900/50">
-                <th className="h-11 px-6 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider">Date</th>
-                <th className="h-11 px-6 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider">Fee Plan</th>
-                <th className="h-11 px-6 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider">Amount</th>
-                <th className="h-11 px-6 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider">Status</th>
-                <th className="h-11 px-6 text-right text-xs font-semibold text-zinc-500 uppercase tracking-wider">Action</th>
+              <tr className="border-b border-border bg-muted/30">
+                <th className="h-11 px-6 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Date</th>
+                <th className="h-11 px-6 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Fee Plan</th>
+                <th className="h-11 px-6 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Amount</th>
+                <th className="h-11 px-6 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Status</th>
+                <th className="h-11 px-6 text-right text-xs font-semibold text-muted-foreground uppercase tracking-wider">Action</th>
               </tr>
             </thead>
             <tbody>
               {data.assignments.flatMap(a => a.payments).length === 0 ? (
                 <tr>
                   <td colSpan={5} className="p-12 text-center">
-                    <Receipt className="w-10 h-10 text-zinc-300 dark:text-zinc-700 mx-auto mb-3" />
-                    <p className="text-sm text-zinc-500">No payment history found.</p>
+                    <Receipt className="w-10 h-10 text-muted/60 mx-auto mb-3" />
+                    <p className="text-sm text-muted-foreground">No payment history found.</p>
                   </td>
                 </tr>
               ) : (
                 data.assignments.flatMap(a => a.payments.map(p => ({ ...p, feePlan: a.feePlan }))).map((p) => (
-                  <tr key={p.id} className="border-b border-zinc-100 dark:border-zinc-800/40 hover:bg-zinc-50/50 dark:hover:bg-zinc-800/20 transition-colors">
-                    <td className="px-6 py-4 text-zinc-500">
+                  <tr key={p.id} className="border-b border-border/40 hover:bg-muted/50 transition-colors">
+                    <td className="px-6 py-4 text-muted-foreground">
                       {new Date(p.paymentDate).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
                     </td>
                     <td className="px-6 py-4">
-                      <span className="flex items-center gap-1.5 font-medium text-zinc-900 dark:text-zinc-100">
-                        <FileText className="w-3.5 h-3.5 text-indigo-400" />
+                      <span className="flex items-center gap-1.5 font-medium text-foreground">
+                        <FileText className="w-3.5 h-3.5 text-primary" />
                         {p.feePlan.name}
                       </span>
                     </td>
-                    <td className="px-6 py-4 font-bold tabular-nums text-emerald-600 dark:text-emerald-400">${p.amount.toFixed(2)}</td>
+                    <td className="px-6 py-4 font-bold tabular-nums text-emerald-600">${p.amount.toFixed(2)}</td>
                     <td className="px-6 py-4">
-                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-500/10 text-emerald-600">
                         <CheckCircle2 className="w-3 h-3" />{p.status}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right">
                       <button 
                         onClick={() => handleDownloadReceipt(p)}
-                        className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-colors"
+                        className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold text-primary bg-primary/10 hover:bg-primary/20 transition-colors"
                       >
                         <Download className="h-3.5 w-3.5" /> Receipt
                       </button>

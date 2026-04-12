@@ -134,9 +134,9 @@ export default function ClassesClient() {
         <div className="grid grid-cols-1 gap-4 p-4 md:hidden">
           {loading ? (
             Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl p-4 animate-pulse border border-zinc-100 dark:border-zinc-800/40">
-                <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-1/2 mb-3" />
-                <div className="h-3 bg-zinc-100 dark:bg-zinc-900 rounded w-1/4" />
+              <div key={i} className="bg-muted/30 rounded-2xl p-4 animate-pulse border border-border">
+                <div className="h-4 bg-muted rounded w-1/2 mb-3" />
+                <div className="h-3 bg-muted/50 rounded w-1/4" />
               </div>
             ))
           ) : filteredClasses.length === 0 ? (
@@ -146,11 +146,11 @@ export default function ClassesClient() {
             </div>
           ) : (
             filteredClasses.map((c) => (
-              <div key={c.id} className="bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl p-4 border border-zinc-100 dark:border-zinc-800/40 space-y-3">
+              <div key={c.id} className="bg-muted/30 rounded-2xl p-4 border border-border space-y-3">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center">
-                      <GraduationCap className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                      <GraduationCap className="w-5 h-5 text-primary" />
                     </div>
                     <div>
                       <div className="font-bold text-foreground">{c.name}</div>
@@ -187,11 +187,11 @@ export default function ClassesClient() {
             <tbody>
               {loading ? (
                 Array.from({ length: 3 }).map((_, i) => (
-                  <tr key={i} className="border-b border-zinc-100 dark:border-zinc-800/40 animate-pulse">
-                    <td className="p-4 px-6"><div className="h-4 bg-zinc-100 dark:bg-zinc-800 rounded-lg w-32" /></td>
-                    <td className="p-4 px-6"><div className="h-4 bg-zinc-100 dark:bg-zinc-800 rounded-lg w-16" /></td>
-                    <td className="p-4 px-6"><div className="h-4 bg-zinc-100 dark:bg-zinc-800 rounded-lg w-24" /></td>
-                    <td className="p-4 px-6"><div className="h-4 bg-zinc-100 dark:bg-zinc-800 rounded-lg w-16 ml-auto" /></td>
+                  <tr key={i} className="border-b border-border animate-pulse">
+                    <td className="p-4 px-6"><div className="h-4 bg-muted rounded-lg w-32" /></td>
+                    <td className="p-4 px-6"><div className="h-4 bg-muted rounded-lg w-16" /></td>
+                    <td className="p-4 px-6"><div className="h-4 bg-muted rounded-lg w-24" /></td>
+                    <td className="p-4 px-6"><div className="h-4 bg-muted rounded-lg w-16 ml-auto" /></td>
                   </tr>
                 ))
               ) : filteredClasses.length === 0 ? (
@@ -203,11 +203,11 @@ export default function ClassesClient() {
                 </tr>
               ) : (
                 filteredClasses.map((c) => (
-                  <tr key={c.id} className="border-b border-zinc-100 dark:border-zinc-800/40 hover:bg-zinc-50/50 dark:hover:bg-zinc-800/20 transition-colors group">
+                  <tr key={c.id} className="border-b border-border hover:bg-muted/20 transition-colors group">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center flex-shrink-0">
-                          <GraduationCap className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                        <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <GraduationCap className="w-4 h-4 text-primary" />
                         </div>
                         <span className="font-medium text-foreground">{c.name}</span>
                       </div>

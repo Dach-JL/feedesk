@@ -41,7 +41,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-zinc-50 dark:bg-zinc-950">
+    <div className="flex min-h-screen bg-background">
       {/* Left Panel — Branding */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-zinc-950 items-center justify-center">
         {/* Background glow effects */}
@@ -82,40 +82,40 @@ export default function LoginPage() {
         <div className="w-full max-w-md">
           {/* Mobile brand */}
           <div className="flex items-center gap-2.5 mb-10 lg:hidden">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
-              <span className="text-white font-black text-sm">F</span>
+            <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center">
+              <span className="text-primary-foreground font-black text-sm">F</span>
             </div>
-            <span className="text-xl font-black tracking-tight text-zinc-900 dark:text-white">
+            <span className="text-xl font-black tracking-tight text-foreground">
               FeeDesk
             </span>
           </div>
 
           <div className="mb-8">
-            <h1 className="text-3xl font-black tracking-tight text-zinc-900 dark:text-white">
+            <h1 className="text-3xl font-black tracking-tight text-foreground">
               Welcome back
             </h1>
-            <p className="mt-2 text-zinc-500 dark:text-zinc-400">
+            <p className="mt-2 text-muted-foreground">
               Enter your credentials to access the management portal.
             </p>
           </div>
 
           <form className="space-y-5" onSubmit={handleLogin}>
             {error && (
-              <div className="p-3.5 text-sm text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 rounded-xl text-center font-medium animate-slide-up">
+              <div className="p-3.5 text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-xl text-center font-medium animate-slide-up">
                 {error}
               </div>
             )}
             
             <div className="space-y-2">
-              <label className="block text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+              <label className="block text-sm font-semibold text-foreground">
                 Email Address
               </label>
               <div className="relative">
-                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input
                   type="email"
                   required
-                  className="w-full h-12 px-4 pl-11 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all hover:border-zinc-300 dark:hover:border-zinc-700"
+                  className="w-full h-12 px-4 pl-11 bg-card border border-border rounded-xl text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-ring transition-all hover:border-accent"
                   placeholder="admin@feedesk.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -124,15 +124,15 @@ export default function LoginPage() {
             </div>
 
             <div className="space-y-2">
-              <label className="block text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+              <label className="block text-sm font-semibold text-foreground">
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input
                   type="password"
                   required
-                  className="w-full h-12 px-4 pl-11 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all hover:border-zinc-300 dark:hover:border-zinc-700"
+                  className="w-full h-12 px-4 pl-11 bg-card border border-border rounded-xl text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-ring transition-all hover:border-accent"
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -143,7 +143,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="group w-full h-12 flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-bold rounded-xl shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+              className="group w-full h-12 flex items-center justify-center gap-2 bg-primary text-primary-foreground text-sm font-bold rounded-xl shadow-lg shadow-primary/20 hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <>
@@ -159,14 +159,14 @@ export default function LoginPage() {
             </button>
           </form>
           
-          <div className="mt-8 p-4 rounded-xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 text-center">
-              Demo credentials: <span className="font-semibold text-zinc-700 dark:text-zinc-300">admin@feedesk.com</span> / <span className="font-semibold text-zinc-700 dark:text-zinc-300">admin</span>
+          <div className="mt-8 p-4 rounded-xl bg-muted border border-border">
+            <p className="text-xs text-muted-foreground text-center">
+              Demo credentials: <span className="font-semibold text-foreground">admin@feedesk.com</span> / <span className="font-semibold text-foreground">admin</span>
             </p>
           </div>
 
           <div className="mt-6 text-center">
-            <Link href="/" className="text-xs text-zinc-400 hover:text-indigo-500 transition-colors">
+            <Link href="/" className="text-xs text-muted-foreground hover:text-primary transition-colors">
               &larr; Back to homepage
             </Link>
           </div>

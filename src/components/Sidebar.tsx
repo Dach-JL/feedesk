@@ -30,7 +30,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     <>
       {/* Backdrop for Mobile */}
       <div 
-        className={`fixed inset-0 z-[60] bg-zinc-950/60 backdrop-blur-sm transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-0 z-[60] bg-background/80 backdrop-blur-sm transition-opacity duration-300 md:hidden ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         onClick={onClose}
@@ -42,8 +42,8 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         {/* Brand */}
         <div className="h-16 flex items-center justify-between px-6 border-b border-border">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
-              <span className="text-white font-black text-sm">F</span>
+            <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
+              <span className="text-primary-foreground font-black text-sm">F</span>
             </div>
             <span className="text-xl font-black tracking-tight text-foreground">
               Fee<span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Desk</span>

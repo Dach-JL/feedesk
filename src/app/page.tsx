@@ -84,10 +84,10 @@ const benefits = [
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white dark:bg-zinc-950 overflow-hidden">
+    <main className="min-h-screen bg-background overflow-hidden">
       
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-zinc-200/50 dark:border-zinc-800/50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl">
+      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
@@ -97,16 +97,16 @@ export default function Home() {
               Fee<span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-600">Desk</span>
             </span>
           </div>
-          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-600 dark:text-zinc-400">
-            <a href="#features" className="hover:text-zinc-900 dark:hover:text-white transition-colors">Features</a>
-            <a href="#stats" className="hover:text-zinc-900 dark:hover:text-white transition-colors">Why FeeDesk</a>
-            <a href="#security" className="hover:text-zinc-900 dark:hover:text-white transition-colors">Security</a>
+          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
+            <a href="#features" className="hover:text-foreground transition-colors">Features</a>
+            <a href="#stats" className="hover:text-foreground transition-colors">Why FeeDesk</a>
+            <a href="#security" className="hover:text-foreground transition-colors">Security</a>
           </div>
           <div className="flex items-center gap-3">
             <ThemeToggle />
             <Link
               href="/login"
-              className="px-5 py-2.5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 text-sm font-semibold rounded-xl hover:opacity-90 transition-opacity"
+              className="px-5 py-2.5 bg-foreground text-background text-sm font-semibold rounded-xl hover:opacity-90 transition-opacity"
             >
               Sign In
             </Link>
@@ -125,22 +125,22 @@ export default function Home() {
 
         <div className="max-w-5xl mx-auto text-center relative z-10">
           {/* Badge */}
-          <div className="animate-slide-up inline-flex items-center gap-2 px-4 py-2 rounded-full border border-indigo-200 dark:border-indigo-800/50 bg-indigo-50/80 dark:bg-indigo-950/30 text-indigo-700 dark:text-indigo-300 text-sm font-medium mb-8 backdrop-blur-sm">
+          <div className="animate-slide-up inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/10 text-primary text-sm font-medium mb-8 backdrop-blur-sm">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             Built for schools & training institutes
           </div>
 
           {/* Headline */}
-          <h1 className="animate-slide-up-delay-1 text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-zinc-900 dark:text-white leading-[1.1]">
+          <h1 className="animate-slide-up-delay-1 text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-foreground leading-[1.1]">
             Fee management
             <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 animate-gradient">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-pink-500 animate-gradient">
               made effortless
             </span>
           </h1>
 
           {/* Subheadline */}
-          <p className="animate-slide-up-delay-2 mt-6 text-lg md:text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed text-balance">
+          <p className="animate-slide-up-delay-2 mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed text-balance">
             A powerful, elegant platform to manage student enrollment, collect fees, 
             track outstanding dues, and generate professional receipts — all from one dashboard.
           </p>
@@ -149,14 +149,14 @@ export default function Home() {
           <div className="animate-slide-up-delay-3 mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/login"
-              className="group relative inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-2xl shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all text-lg"
+              className="group relative inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-bold rounded-2xl shadow-lg shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all text-lg"
             >
               Launch Dashboard
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
             <a
               href="#features"
-              className="inline-flex items-center gap-2 px-8 py-4 text-zinc-700 dark:text-zinc-300 font-semibold rounded-2xl border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all text-lg"
+              className="inline-flex items-center gap-2 px-8 py-4 text-foreground font-semibold rounded-2xl border border-border hover:bg-muted transition-all text-lg"
             >
               Explore Features
             </a>
@@ -239,13 +239,13 @@ export default function Home() {
 
           {/* Floating UI Element - Student Upload */}
           <div className="absolute top-1/2 -left-20 hidden lg:block animate-float">
-            <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl p-4 border border-zinc-200 dark:border-zinc-800 flex items-center gap-4 max-w-[240px]">
-              <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center flex-shrink-0">
-                <Shield className="w-5 h-5 text-indigo-500" />
+            <div className="bg-card rounded-2xl shadow-2xl p-4 border border-border flex items-center gap-4 max-w-[240px]">
+              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <Shield className="w-5 h-5 text-primary" />
               </div>
               <div>
-                <div className="text-[10px] font-black text-indigo-500 uppercase tracking-widest">Student Portal</div>
-                <div className="text-xs font-bold text-zinc-900 dark:text-white">New Telebirr proof uploaded</div>
+                <div className="text-[10px] font-black text-primary uppercase tracking-widest">Student Portal</div>
+                <div className="text-xs font-bold text-foreground">New Telebirr proof uploaded</div>
               </div>
             </div>
           </div>
@@ -256,14 +256,14 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section id="stats" className="py-20 px-6 border-y border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/50 dark:bg-zinc-900/30">
+      <section id="stats" className="py-20 px-6 border-y border-border/60 bg-muted/30">
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {stats.map((stat) => (
             <div key={stat.label} className="text-center">
-              <div className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-indigo-500 to-purple-600">
+              <div className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-primary to-purple-600">
                 {stat.value}
               </div>
-              <div className="mt-2 text-sm font-medium text-zinc-600 dark:text-zinc-400">
+              <div className="mt-2 text-sm font-medium text-muted-foreground">
                 {stat.label}
               </div>
             </div>
@@ -275,10 +275,10 @@ export default function Home() {
       <section id="features" className="py-24 md:py-32 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black tracking-tight text-zinc-900 dark:text-white">
-              Every tool you need, <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-600">one platform</span>
+            <h2 className="text-3xl md:text-5xl font-black tracking-tight text-foreground">
+              Every tool you need, <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">one platform</span>
             </h2>
-            <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto">
+            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
               From enrollment to receipts — FeeDesk handles the entire financial lifecycle of your institution with precision.
             </p>
           </div>
@@ -289,15 +289,15 @@ export default function Home() {
               return (
                 <div
                   key={feature.title}
-                  className={`group relative p-8 rounded-3xl border ${feature.borderColor} ${feature.bgLight} ${feature.bgDark} hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-default`}
+                  className={`group relative p-8 rounded-3xl border border-border bg-card hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-default`}
                 >
                   <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-5 shadow-lg group-hover:scale-110 transition-transform`}>
                     <Icon className="w-6 h-6 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-2">
+                  <h3 className="text-xl font-bold text-foreground mb-2">
                     {feature.title}
                   </h3>
-                  <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                  <p className="text-sm leading-relaxed text-muted-foreground">
                     {feature.description}
                   </p>
                 </div>
@@ -308,14 +308,14 @@ export default function Home() {
       </section>
 
       {/* Security / Trust Section */}
-      <section id="security" className="py-24 px-6 bg-zinc-50/50 dark:bg-zinc-900/30 border-y border-zinc-200/60 dark:border-zinc-800/60">
+      <section id="security" className="py-24 px-6 bg-muted/30 border-y border-border/60">
         <div className="max-w-5xl mx-auto flex flex-col lg:flex-row items-center gap-16">
           <div className="flex-1">
-            <h2 className="text-3xl md:text-4xl font-black tracking-tight text-zinc-900 dark:text-white">
+            <h2 className="text-3xl md:text-4xl font-black tracking-tight text-foreground">
               Built for trust.<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-600">Designed for scale.</span>
             </h2>
-            <p className="mt-4 text-zinc-600 dark:text-zinc-400 leading-relaxed">
+            <p className="mt-4 text-muted-foreground leading-relaxed">
               FeeDesk is engineered with enterprise-grade security patterns. Every API route is protected by session-based authentication, and your financial data is stored securely on Neon&apos;s serverless PostgreSQL with encrypted connections.
             </p>
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -326,7 +326,7 @@ export default function Home() {
                     <div className="w-9 h-9 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center flex-shrink-0">
                       <Icon className="w-4.5 h-4.5 text-emerald-600 dark:text-emerald-400" />
                     </div>
-                    <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">{b.text}</span>
+                    <span className="text-sm font-medium text-foreground">{b.text}</span>
                   </div>
                 )
               })}
@@ -347,10 +347,10 @@ export default function Home() {
       <section className="py-24 md:py-32 px-6">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black tracking-tight text-zinc-900 dark:text-white">
+            <h2 className="text-3xl md:text-5xl font-black tracking-tight text-foreground">
               Up and running in <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-600">minutes</span>
             </h2>
-            <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
+            <p className="mt-4 text-lg text-muted-foreground">
               Three simple steps — that&apos;s all it takes to transform your fee management workflow.
             </p>
           </div>
@@ -362,13 +362,13 @@ export default function Home() {
               { step: "03", title: "Verify, track & unlock", desc: "Admins review proofs in a single click. Verified payments automatically update balances and unlock professional PDF receipts." },
             ].map((item, i) => (
               <div key={item.step} className="flex items-start gap-6 md:gap-8 group">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-black text-lg flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform">
+                <div className="w-14 h-14 rounded-2xl bg-primary text-primary-foreground flex items-center justify-center font-black text-lg flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform">
                   {item.step}
                 </div>
                 <div className="pt-1">
-                  <h3 className="text-xl font-bold text-zinc-900 dark:text-white">{item.title}</h3>
-                  <p className="mt-1 text-zinc-600 dark:text-zinc-400">{item.desc}</p>
-                  {i < 2 && <div className="w-px h-8 bg-zinc-200 dark:bg-zinc-800 ml-0 mt-6" />}
+                  <h3 className="text-xl font-bold text-foreground">{item.title}</h3>
+                  <p className="mt-1 text-muted-foreground">{item.desc}</p>
+                  {i < 2 && <div className="w-px h-8 bg-border ml-0 mt-6" />}
                 </div>
               </div>
             ))}
@@ -382,22 +382,22 @@ export default function Home() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-full blur-3xl" />
         
         <div className="max-w-3xl mx-auto text-center relative z-10">
-          <h2 className="text-3xl md:text-5xl font-black tracking-tight text-zinc-900 dark:text-white leading-tight">
+          <h2 className="text-3xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
             Ready to modernize <br />your fee management?
           </h2>
-          <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400 max-w-xl mx-auto">
+          <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">
             Join institutions that have simplified their financial workflow with FeeDesk. Start collecting, tracking, and reporting in minutes.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/login"
-              className="group inline-flex items-center gap-2 px-10 py-5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-2xl shadow-xl shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.03] active:scale-[0.97] transition-all text-lg"
+              className="group inline-flex items-center gap-2 px-10 py-5 bg-primary text-primary-foreground font-bold rounded-2xl shadow-xl shadow-primary/25 hover:scale-[1.03] active:scale-[0.97] transition-all text-lg"
             >
               Get Started Free
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
-          <div className="mt-6 flex items-center justify-center gap-6 text-sm text-zinc-500 dark:text-zinc-400">
+          <div className="mt-6 flex items-center justify-center gap-6 text-sm text-muted-foreground">
             <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-500" /> No credit card</span>
             <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-500" /> Instant setup</span>
             <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-500" /> Full access</span>
@@ -406,15 +406,15 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-zinc-200 dark:border-zinc-800 py-10 px-6 bg-zinc-50/50 dark:bg-zinc-900/20">
+      <footer className="border-t border-border py-10 px-6 bg-muted/20">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
-              <span className="text-white font-black text-xs">F</span>
+            <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center">
+              <span className="text-primary-foreground font-black text-xs">F</span>
             </div>
-            <span className="text-sm font-bold text-zinc-700 dark:text-zinc-300">FeeDesk</span>
+            <span className="text-sm font-bold text-foreground">FeeDesk</span>
           </div>
-          <p className="text-xs text-zinc-500 dark:text-zinc-500">
+          <p className="text-xs text-muted-foreground">
             &copy; {new Date().getFullYear()} FeeDesk. Crafted with precision for education.
           </p>
         </div>
