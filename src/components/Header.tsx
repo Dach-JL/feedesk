@@ -5,6 +5,8 @@ import { Menu } from "lucide-react"
 import NotificationCenter from "./notifications/NotificationCenter"
 import { ThemeToggle } from "./ThemeToggle"
 
+import { AdminQuickMenu } from "./dashboard/AdminQuickMenu"
+
 const pageTitles: Record<string, { title: string; description: string }> = {
   "/dashboard": { title: "Overview", description: "Your institution at a glance" },
   "/dashboard/classes": { title: "Classes & Courses", description: "Manage academic structures" },
@@ -20,8 +22,11 @@ export default function Header() {
   const pageInfo = pageTitles[pathname] || { title: "Dashboard", description: "" }
 
   return (
-    <header className="h-16 bg-background/80 backdrop-blur-xl border-b border-border flex items-center justify-between px-6 md:px-8 z-10 w-full relative shrink-0">
+    <header className="h-16 bg-background/80 backdrop-blur-xl border-b border-border flex items-center justify-between px-6 md:px-8 z-[100] w-full relative shrink-0">
       <div className="flex items-center gap-4">
+        <div className="-ml-4 scale-75 origin-center">
+          <AdminQuickMenu />
+        </div>
         <div>
           <h2 className="text-lg font-bold tracking-tight text-foreground leading-none">
             {pageInfo.title}

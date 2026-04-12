@@ -21,12 +21,12 @@ export function AdminQuickMenu() {
   const router = useRouter()
 
   return (
-    <div className="fixed bottom-8 right-8 z-[100] md:bottom-12 md:right-12">
-      <MenuContainer>
+    <div className="relative">
+      <MenuContainer expansionDirection="down">
         {/* Toggle Trigger */}
         <MenuItem 
           icon={
-            <div className="relative w-6 min-w-[24px] h-6">
+            <div className="relative w-6 min-w-[24px] h-6 flex items-center justify-center">
               <div className="absolute inset-0 transition-all duration-300 ease-in-out origin-center opacity-100 scale-100 rotate-0 [div[data-expanded=true]_&]:opacity-0 [div[data-expanded=true]_&]:scale-0 [div[data-expanded=true]_&]:rotate-180 flex items-center justify-center">
                 <MenuIcon className="w-6 h-6 text-primary" />
               </div>
@@ -41,6 +41,7 @@ export function AdminQuickMenu() {
         <MenuItem 
           onClick={() => router.push("/dashboard")}
           icon={<LayoutDashboard className="w-6 h-6 text-foreground" />}
+          labelPosition="right"
         >
           Overview
         </MenuItem>
@@ -49,6 +50,7 @@ export function AdminQuickMenu() {
         <MenuItem 
           onClick={() => router.push("/dashboard/classes")}
           icon={<GraduationCap className="w-6 h-6 text-foreground" />}
+          labelPosition="right"
         >
           Classes
         </MenuItem>
@@ -57,6 +59,7 @@ export function AdminQuickMenu() {
         <MenuItem 
           onClick={() => router.push("/dashboard/students")}
           icon={<Users className="w-6 h-6 text-foreground" />}
+          labelPosition="right"
         >
           Students
         </MenuItem>
@@ -65,6 +68,7 @@ export function AdminQuickMenu() {
         <MenuItem 
           onClick={() => router.push("/dashboard/fee-plans")}
           icon={<CreditCard className="w-6 h-6 text-foreground" />}
+          labelPosition="right"
         >
           Fee Plans
         </MenuItem>
@@ -73,6 +77,7 @@ export function AdminQuickMenu() {
         <MenuItem 
           onClick={() => router.push("/dashboard/payments")}
           icon={<Landmark className="w-6 h-6 text-foreground" />}
+          labelPosition="right"
         >
           Payments
         </MenuItem>
@@ -81,6 +86,7 @@ export function AdminQuickMenu() {
         <MenuItem 
           onClick={() => router.push("/dashboard/verifications")}
           icon={<ShieldCheck className="w-6 h-6 text-foreground" />}
+          labelPosition="right"
         >
           Verifications
         </MenuItem>
@@ -89,6 +95,7 @@ export function AdminQuickMenu() {
         <MenuItem 
           onClick={() => router.push("/dashboard/receipts")}
           icon={<History className="w-6 h-6 text-foreground" />}
+          labelPosition="right"
         >
           Receipts
         </MenuItem>
@@ -97,6 +104,7 @@ export function AdminQuickMenu() {
         <MenuItem 
           onClick={() => signOut({ callbackUrl: "/login" })}
           icon={<LogOut className="w-6 h-6 text-destructive" />}
+          labelPosition="right"
         >
           Sign Out
         </MenuItem>
