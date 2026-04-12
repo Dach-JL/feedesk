@@ -4,7 +4,6 @@ import { signOut } from "next-auth/react"
 import { LogOut, Settings } from "lucide-react"
 import Link from "next/link"
 import NotificationCenter from "@/components/notifications/NotificationCenter"
-import { QuickActionMenu } from "@/components/student/QuickActionMenu"
 
 export default function StudentLayout({
   children,
@@ -51,7 +50,6 @@ export default function StudentLayout({
       {/* Main Content Area */}
       <main className="flex-1 overflow-x-hidden relative">
         {children}
-        <QuickActionMenu />
       </main>
     </div>
   )
