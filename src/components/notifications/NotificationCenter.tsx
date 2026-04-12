@@ -134,7 +134,7 @@ export default function NotificationCenter() {
         onClick={() => setIsOpen(!isOpen)}
         lightColor={btnLightColor}
         className={cn(
-          "h-10 w-10 p-0 flex items-center justify-center rounded-xl border border-transparent hover:border-zinc-200 dark:hover:border-zinc-700 transition-all",
+          "h-10 w-10 p-0 flex items-center justify-center rounded-xl border border-transparent hover:border-zinc-200 dark:hover:border-zinc-700 transition-all text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200",
           isOpen && "bg-zinc-100 dark:bg-zinc-800/60 text-indigo-500"
         )}
       >
