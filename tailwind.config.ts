@@ -12,8 +12,17 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      animation: {
+        "star-btn": "star-btn calc(var(--duration)*1s) linear infinite",
+      },
+      keyframes: {
+        "star-btn": {
+          "0%": { offsetDistance: "0%" },
+          "100%": { offsetDistance: "100%" },
+        },
+      },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 };
 export default config;
