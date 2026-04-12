@@ -36,22 +36,22 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         onClick={onClose}
       />
 
-      <aside className={`fixed md:relative inset-y-0 left-0 z-[70] w-[280px] bg-zinc-950 border-r border-zinc-800/60 flex-shrink-0 flex flex-col transition-transform duration-300 ease-in-out md:translate-x-0 ${
+      <aside className={`fixed md:relative inset-y-0 left-0 z-[70] w-[280px] bg-card border-r border-border flex-shrink-0 flex flex-col transition-transform duration-300 ease-in-out md:translate-x-0 ${
         isOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full"
       }`}>
         {/* Brand */}
-        <div className="h-16 flex items-center justify-between px-6 border-b border-zinc-800/60">
+        <div className="h-16 flex items-center justify-between px-6 border-b border-border">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
               <span className="text-white font-black text-sm">F</span>
             </div>
-            <span className="text-xl font-black tracking-tight text-white">
+            <span className="text-xl font-black tracking-tight text-foreground">
               Fee<span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Desk</span>
             </span>
           </div>
           <button 
             onClick={onClose}
-            className="md:hidden p-2 text-zinc-500 hover:text-white transition-colors"
+            className="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -59,7 +59,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
         {/* Navigation */}
         <nav className="flex-1 px-3 py-6 space-y-1 overflow-y-auto">
-          <div className="px-3 mb-4 text-[10px] font-bold uppercase tracking-[0.15em] text-zinc-600">
+          <div className="px-3 mb-4 text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground/60">
             Menu
           </div>
           {navItems.map((item) => {
@@ -72,29 +72,29 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                 onClick={onClose}
                 className={`group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
                   isActive
-                    ? "bg-gradient-to-r from-indigo-600/20 to-purple-600/10 text-white border border-indigo-500/20 shadow-sm"
-                    : "text-zinc-500 hover:text-zinc-200 hover:bg-zinc-800/50"
+                    ? "bg-primary/10 text-primary border border-primary/20 shadow-sm"
+                    : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
                 }`}
               >
-                <Icon className={`h-[18px] w-[18px] flex-shrink-0 ${isActive ? "text-indigo-400" : "text-zinc-600 group-hover:text-zinc-400"}`} />
+                <Icon className={`h-[18px] w-[18px] flex-shrink-0 ${isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground"}`} />
                 <span className="flex-1">{item.label}</span>
-                {isActive && <ChevronRight className="w-4 h-4 text-indigo-400/60" />}
+                {isActive && <ChevronRight className="w-4 h-4 text-primary/60" />}
               </Link>
             )
           })}
         </nav>
 
         {/* User Section */}
-        <div className="p-3 border-t border-zinc-800/60">
-          <div className="flex items-center gap-3 px-3 py-3 rounded-xl bg-zinc-900/50 border border-zinc-800/40">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-inner flex items-center justify-center text-sm font-bold text-white uppercase flex-shrink-0">
+        <div className="p-3 border-t border-border">
+          <div className="flex items-center gap-3 px-3 py-3 rounded-xl bg-muted/50 border border-border/40">
+            <div className="w-9 h-9 rounded-xl bg-primary shadow-inner flex items-center justify-center text-sm font-bold text-primary-foreground uppercase flex-shrink-0">
               AD
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-zinc-200 truncate">System Admin</p>
+              <p className="text-sm font-semibold text-foreground truncate">System Admin</p>
               <button
                 onClick={() => signOut({ callbackUrl: "/login" })}
-                className="flex items-center gap-1.5 text-xs text-zinc-500 hover:text-rose-400 transition-colors mt-0.5 group"
+                className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-destructive transition-colors mt-0.5 group"
               >
                 <LogOut className="w-3 h-3 group-hover:translate-x-[-1px] transition-transform" />
                 Sign out

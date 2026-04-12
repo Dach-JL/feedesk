@@ -24,20 +24,20 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const pageInfo = pageTitles[pathname] || { title: "Dashboard", description: "" }
 
   return (
-    <header className="h-16 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-200/60 dark:border-zinc-800/60 flex items-center justify-between px-6 md:px-8 z-10 w-full relative shrink-0">
+    <header className="h-16 bg-background/80 backdrop-blur-xl border-b border-border flex items-center justify-between px-6 md:px-8 z-10 w-full relative shrink-0">
       <div className="flex items-center gap-4">
         <button 
           onClick={onMenuClick}
-          className="md:hidden p-2 -ml-2 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
+          className="md:hidden p-2 -ml-2 text-muted-foreground hover:text-foreground transition-colors"
         >
           <Menu className="w-6 h-6" />
         </button>
         <div>
-          <h2 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-white leading-none">
+          <h2 className="text-lg font-bold tracking-tight text-foreground leading-none">
             {pageInfo.title}
           </h2>
           {pageInfo.description && (
-            <p className="text-xs text-zinc-500 dark:text-zinc-500 mt-0.5 hidden sm:block">{pageInfo.description}</p>
+            <p className="text-xs text-muted-foreground mt-0.5 hidden sm:block">{pageInfo.description}</p>
           )}
         </div>
       </div>
