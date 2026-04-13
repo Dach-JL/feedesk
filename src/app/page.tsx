@@ -1,72 +1,12 @@
 import Link from "next/link"
 import { 
-  Users, GraduationCap, Receipt, BarChart3, Shield, 
-  ArrowRight, CheckCircle2, Zap, Globe, Clock, Lock 
+  Receipt, Shield, 
+  ArrowRight, CheckCircle2, Globe, Clock, Lock,
+  MousePointer2
 } from "lucide-react"
+import { features } from "@/lib/constants/landing-features"
 import { ThemeToggle } from "@/components/ThemeToggle"
-
-const features = [
-  {
-    icon: Shield,
-    title: "Student Portal",
-    description: "Secure, role-based access for students to check balances, view payment history, and report digital transactions.",
-    color: "from-indigo-500 to-purple-600",
-    bgLight: "bg-indigo-50",
-    bgDark: "dark:bg-indigo-950/30",
-    borderColor: "border-indigo-200 dark:border-indigo-800/50",
-    iconColor: "text-indigo-600 dark:text-indigo-400",
-  },
-  {
-    icon: Zap,
-    title: "Digital Proofs",
-    description: "Support for Telebirr and CBE receipts. Students upload screenshots that admins can verify with a single click.",
-    color: "from-emerald-500 to-teal-600",
-    bgLight: "bg-emerald-50",
-    bgDark: "dark:bg-emerald-950/30",
-    borderColor: "border-emerald-200 dark:border-emerald-800/50",
-    iconColor: "text-emerald-600 dark:text-emerald-400",
-  },
-  {
-    icon: Lock,
-    title: "Verified Receipts",
-    description: "Receipts are automatically unlocked and ready for download only after admin verification, ensuring financial integrity.",
-    color: "from-amber-500 to-orange-600",
-    bgLight: "bg-amber-50",
-    bgDark: "dark:bg-amber-950/30",
-    borderColor: "border-amber-200 dark:border-amber-800/50",
-    iconColor: "text-amber-600 dark:text-amber-400",
-  },
-  {
-    icon: GraduationCap,
-    title: "Class Management",
-    description: "Organize classes and courses effortlessly. Track enrollment counts and manage academic structures from one central hub.",
-    color: "from-violet-500 to-indigo-600",
-    bgLight: "bg-violet-50",
-    bgDark: "dark:bg-violet-950/30",
-    borderColor: "border-violet-200 dark:border-violet-800/50",
-    iconColor: "text-violet-600 dark:text-violet-400",
-  },
-  {
-    icon: Users,
-    title: "Student Directory",
-    description: "Maintain a comprehensive student registry. Enroll, search, and manage student profiles with class assignments in seconds.",
-    color: "from-blue-500 to-cyan-600",
-    bgLight: "bg-blue-50",
-    bgDark: "dark:bg-blue-950/30",
-    borderColor: "border-blue-200 dark:border-blue-800/50",
-    iconColor: "text-blue-600 dark:text-blue-400",
-  },
-  {
-    icon: BarChart3,
-    title: "Analytics Dashboard",
-    description: "Get an executive snapshot of total revenue, today's collections, and a live report of students with outstanding balances.",
-    color: "from-rose-500 to-red-600",
-    bgLight: "bg-rose-50",
-    bgDark: "dark:bg-rose-950/30",
-    borderColor: "border-rose-200 dark:border-rose-800/50",
-    iconColor: "text-rose-600 dark:text-rose-400",
-  },
-]
+import RadialOrbitalTimeline from "@/components/ui/radial-orbital-timeline"
 
 const stats = [
   { label: "Faster enrollment", value: "10x" },
@@ -271,8 +211,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section id="features" className="py-24 md:py-32 px-6">
+      {/* Standard Features Section - Mobile Only */}
+      <section id="features" className="block lg:hidden py-24 md:py-32 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-black tracking-tight text-foreground">
@@ -303,6 +243,50 @@ export default function Home() {
                 </div>
               )
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* Interactive Feature Explorer - Desktop Only */}
+      <section className="hidden lg:block py-24 bg-zinc-950 border-y border-white/5 relative overflow-hidden">
+        {/* Ambient background effects */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+          <div className="absolute top-1/2 left-1/4 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[120px] animate-pulse-glow" />
+          <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[100px]" />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="flex flex-col lg:flex-row items-center gap-16">
+            <div className="lg:w-1/3">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-black tracking-widest uppercase mb-6">
+                <MousePointer2 className="w-3 h-3" />
+                Interactive Explorer
+              </div>
+              <h2 className="text-4xl font-black text-white leading-[1.1] mb-6 tracking-tight">
+                Explore the <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">
+                  FeeDesk Ecosystem
+                </span>
+              </h2>
+              <p className="text-zinc-400 leading-relaxed mb-8">
+                Click on the floating nodes to dive deep into our core features. 
+                Experience the interconnected nature of our institution management system 
+                through this orbital visualization.
+              </p>
+              <div className="flex items-center gap-4 py-6 border-t border-white/5">
+                <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center font-black text-white italic">
+                  f
+                </div>
+                <div>
+                  <div className="text-xs font-black text-white uppercase tracking-widest">FeeDesk Core</div>
+                  <div className="text-[10px] text-zinc-500">v1.2.0 • Orbital System</div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="lg:w-2/3 w-full">
+              <RadialOrbitalTimeline />
+            </div>
           </div>
         </div>
       </section>
