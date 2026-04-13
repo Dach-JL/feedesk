@@ -1,36 +1,110 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FeeDesk 🎓💳
 
-## Getting Started
+![FeeDesk Platform](public/icon.png)
 
-First, run the development server:
+**FeeDesk** is a modern, enterprise-grade Student Fee Management and Verification system designed specifically for schools and training institutes. It bridges the gap between administrators and students by offering a unified platform to track enrollment, automate receipt unlocking, and verify digital payments natively.
 
+Built with performance and scalability in mind, FeeDesk leverages a cutting-edge serverless Next.js architecture alongside secure PostgreSQL databases.
+
+---
+
+## ✨ Core Features
+
+### 🛡️ For Administrators
+- **Executive Analytics**: Get live, at-a-glance insights into total revenue, today's collections, and outstanding student balances.
+- **Class & Student Directory**: Manage academic structures at scale. Organize students, assign structured fee plans, and track their financial status in seconds.
+- **Digital Payment Verifications**: Review uploaded payment proofs (e.g., Telebirr, CBE) directly from a mobile-responsive dashboard. Approve transactions with a single click to instantly unlock student records.
+- **Secure Architecture**: Enterprise-grade session security combined with serverless database scaling.
+
+### 🎓 For Students
+- **Independent Self-Service Portal**: A secure hub for students to manage their academic finances independently without waiting in lines.
+- **Digital Proof Uploads**: Directly upload screenshots for mobile banking transactions via an intuitive mobile-first interface.
+- **Verified Receipts**: Automated receipt generation and downloading, which becomes available the moment an administrator approves the transaction proof.
+- **Real-time Balance Tracking**: Transparent visibility into assigned fee plans, paid amounts, and remaining balances.
+
+---
+
+## 🛠️ Technology Stack
+
+FeeDesk is implemented utilizing the latest industry standards for the modern web:
+
+- **Framework:** [Next.js 14](https://nextjs.org/) (App Router)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **Database:** [Neon Serverless PostgreSQL](https://neon.tech/)
+- **ORM:** [Prisma](https://www.prisma.io/)
+- **Authentication:** [NextAuth.js](https://next-auth.js.org/) (Credentials Provider)
+- **Object Storage:** [Supabase Storage](https://supabase.com/storage) (Secure receipt/proof hosting)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/) & [shadcn/ui](https://ui.shadcn.com/)
+- **Icons:** [Lucide React](https://lucide.dev/)
+
+---
+
+## 🚀 Getting Started
+
+Follow these steps to set up FeeDesk locally for development.
+
+### 1. Prerequisites
+Ensure you have the following installed on your machine:
+- [Node.js](https://nodejs.org/) (v18.17.0 or higher)
+- [Git](https://git-scm.com/)
+- A PostgreSQL database (e.g., Neon or local pg server)
+- A Supabase account for Storage API keys
+
+### 2. Clone the Repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/Dach-JL/feedesk.git
+cd feedesk
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3. Install Dependencies
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 4. Environment Variables
+Create a `.env` file in the root directory and configure the required keys. 
+*Note: Refer to `.env.example` if available.*
+```env
+# Database configuration
+DATABASE_URL="postgresql://user:password@hostname:5432/feedesk?sslmode=require"
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# NextAuth Configuration
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="your_generated_secret_key"
 
-## Learn More
+# Supabase Storage Configuration
+NEXT_PUBLIC_SUPABASE_URL="https://your-project-id.supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY="your-anon-key"
+SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 5. Database Setup (Prisma Migration)
+Run the Prisma migrations to initialize the database schema.
+```bash
+npx prisma generate
+npx prisma db push
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+*(Optional)* If you have seed data configured, populate the baseline objects:
+```bash
+npx prisma db seed
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 6. Run the Development Server
+```bash
+npm run dev
+```
 
-## Deploy on Vercel
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result. The application supports dual-login for both strictly designated `Admin` roles and generated `Student` accounts.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📱 Mobile-First Ideology
+
+FeeDesk's architecture utilizes a mobile-first Tailwind configuration. Whether an administrator is verifying proofs on their iPhone or a student is uploading a Telebirr screenshot on a mid-range Android device, all dashboards, tables, and modals responsively adapt to provide a native-app-like experience.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
