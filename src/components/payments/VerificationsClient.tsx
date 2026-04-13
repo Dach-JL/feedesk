@@ -271,16 +271,17 @@ export default function VerificationsClient() {
           <div className="bg-card shadow-2xl w-full h-[92vh] lg:h-auto lg:max-h-[85vh] lg:max-w-5xl rounded-t-[2rem] lg:rounded-3xl overflow-hidden flex flex-col lg:flex-row animate-in slide-in-from-bottom-5 lg:slide-in-from-bottom-0 lg:zoom-in-95 duration-300 border-t border-border lg:border relative">
             
             {/* Image Preview Area */}
-            <div className="h-[45vh] lg:h-auto lg:flex-1 bg-black/20 p-4 lg:p-8 flex items-center justify-center relative shadow-inner">
+            <div className="h-[55vh] lg:h-[85vh] lg:flex-1 bg-black/20 p-4 lg:p-8 flex items-center justify-center relative shadow-inner w-full">
               <div className="absolute inset-0 bg-primary/10 opacity-30" />
-              <Image 
-                src={selectedProof.screenshotUrl} 
-                width={1200}
-                height={800}
-                unoptimized
-                className="max-w-full max-h-full object-contain rounded-xl lg:rounded-2xl shadow-2xl relative z-10" 
-                alt="Payment Screenshot" 
-              />
+              <div className="relative w-full h-full z-10">
+                <Image 
+                  src={selectedProof.screenshotUrl} 
+                  fill
+                  unoptimized
+                  className="object-contain drop-shadow-2xl rounded-xl lg:rounded-2xl" 
+                  alt="Payment Screenshot" 
+                />
+              </div>
               {/* Mobile Close Button */}
               <button 
                 onClick={() => setSelectedProof(null)}
