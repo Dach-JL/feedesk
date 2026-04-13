@@ -211,8 +211,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Standard Features Section - Mobile Only */}
-      <section id="features" className="block lg:hidden py-24 md:py-32 px-6">
+      {/* Features Parent Wrapper for Navigation */}
+      <div id="features" className="scroll-mt-16">
+        {/* Standard Features Section - Mobile Only */}
+        <section className="block lg:hidden py-24 md:py-32 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-black tracking-tight text-foreground">
@@ -290,6 +292,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </div>
 
       {/* Security / Trust Section */}
       <section id="security" className="py-24 px-6 bg-muted/30 border-y border-border/60">
