@@ -268,10 +268,10 @@ export default function VerificationsClient() {
       {/* Lightbox / Review Modal */}
       {selectedProof && (
         <div className="fixed inset-0 z-[100] flex items-end lg:items-center justify-center p-0 lg:p-6 bg-background/90 backdrop-blur-xl animate-in fade-in duration-300">
-          <div className="bg-card shadow-2xl w-full h-[92vh] lg:h-auto lg:max-h-[85vh] lg:max-w-5xl rounded-t-[2rem] lg:rounded-3xl overflow-hidden flex flex-col lg:flex-row animate-in slide-in-from-bottom-5 lg:slide-in-from-bottom-0 lg:zoom-in-95 duration-300 border-t border-border lg:border relative">
+          <div className="bg-card shadow-2xl w-full max-h-[92dvh] lg:h-auto lg:max-h-[85vh] lg:max-w-5xl rounded-t-[2rem] lg:rounded-3xl overflow-y-auto overflow-x-hidden flex flex-col lg:flex-row animate-in slide-in-from-bottom-5 lg:slide-in-from-bottom-0 lg:zoom-in-95 duration-300 border-t border-border lg:border relative">
             
             {/* Image Preview Area */}
-            <div className="h-[55vh] lg:h-[85vh] lg:flex-1 bg-black/20 p-4 lg:p-8 flex items-center justify-center relative shadow-inner w-full">
+            <div className="h-[75dvh] lg:h-[85vh] lg:flex-1 bg-[#111] p-1 lg:p-8 relative shadow-inner w-full shrink-0">
               <div className="absolute inset-0 bg-primary/10 opacity-30" />
               <div className="relative w-full h-full z-10">
                 <Image 
