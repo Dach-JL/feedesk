@@ -213,44 +213,8 @@ export default function Home() {
 
       {/* Features Parent Wrapper for Navigation */}
       <div id="features" className="scroll-mt-16">
-        {/* Standard Features Section - Mobile Only */}
-        <section className="block lg:hidden py-24 md:py-32 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black tracking-tight text-foreground">
-              Every tool you need, <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">one platform</span>
-            </h2>
-            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-              From enrollment to receipts — FeeDesk handles the entire financial lifecycle of your institution with precision.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((feature) => {
-              const Icon = feature.icon
-              return (
-                <div
-                  key={feature.title}
-                  className={`group relative p-8 rounded-3xl border border-border bg-card hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-default`}
-                >
-                  <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-5 shadow-lg group-hover:scale-110 transition-transform`}>
-                    <Icon className="w-6 h-6 text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold text-foreground mb-2">
-                    {feature.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed text-muted-foreground">
-                    {feature.description}
-                  </p>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Interactive Feature Explorer - Desktop Only */}
-      <section className="hidden lg:block py-24 bg-zinc-950 border-y border-white/5 relative overflow-hidden">
+        {/* Interactive Feature Explorer - Responsive */}
+        <section className="py-24 bg-zinc-950 border-y border-white/5 relative overflow-hidden">
         {/* Ambient background effects */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
           <div className="absolute top-1/2 left-1/4 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[120px] animate-pulse-glow" />

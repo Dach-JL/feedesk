@@ -36,6 +36,7 @@ export default function RadialOrbitalTimeline({
     y: 0,
   });
   const [activeNodeId, setActiveNodeId] = useState<number | null>(null);
+  const [orbitRadius, setOrbitRadius] = useState<number>(200);
   const containerRef = useRef<HTMLDivElement>(null);
   const orbitRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<Record<number, HTMLDivElement | null>>({});
@@ -101,6 +102,16 @@ export default function RadialOrbitalTimeline({
     };
   }, [autoRotate, viewMode]);
 
+  useEffect(() => {
+    const updateRadius = () => {
+      setOrbitRadius(window.innerWidth < 768 ? 130 : 200);
+    };
+    
+    updateRadius();
+    window.addEventListener("resize", updateRadius);
+    return () => window.removeEventListener("resize", updateRadius);
+  }, []);
+
   const centerViewOnNode = (nodeId: number) => {
     if (viewMode !== "orbital" || !nodeRefs.current[nodeId]) return;
 
@@ -113,11 +124,10 @@ export default function RadialOrbitalTimeline({
 
   const calculateNodePosition = (index: number, total: number) => {
     const angle = ((index / total) * 360 + rotationAngle) % 360;
-    const radius = 200;
     const radian = (angle * Math.PI) / 180;
 
-    const x = radius * Math.cos(radian) + centerOffset.x;
-    const y = radius * Math.sin(radian) + centerOffset.y;
+    const x = orbitRadius * Math.cos(radian) + centerOffset.x;
+    const y = orbitRadius * Math.sin(radian) + centerOffset.y;
 
     const zIndex = Math.round(100 + 50 * Math.cos(radian));
     const opacity = Math.max(
@@ -154,7 +164,7 @@ export default function RadialOrbitalTimeline({
 
   return (
     <div
-      className="w-full h-[600px] flex flex-col items-center justify-center bg-black/5 dark:bg-black/20 rounded-3xl overflow-hidden border border-border/50 relative"
+      className="w-full h-[500px] md:h-[600px] flex flex-col items-center justify-center bg-black/5 dark:bg-black/20 rounded-3xl overflow-hidden border border-border/50 relative"
       ref={containerRef}
       onClick={handleContainerClick}
     >
@@ -178,7 +188,7 @@ export default function RadialOrbitalTimeline({
           </div>
 
           {/* Main Orbit Ring */}
-          <div className="absolute w-96 h-96 rounded-full border border-white/10 shadow-orbital"></div>
+          <div className="absolute w-64 h-64 md:w-96 md:h-96 rounded-full border border-white/10 shadow-orbital"></div>
 
           {timelineData.map((item, index) => {
             const position = calculateNodePosition(index, timelineData.length);
